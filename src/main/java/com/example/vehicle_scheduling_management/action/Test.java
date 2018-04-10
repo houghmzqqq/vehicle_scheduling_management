@@ -23,8 +23,8 @@ public class Test {
         return "sidebar";
     }
 
-    @RequestMapping("/test")
+    @RequestMapping("/index")
     public String myTest04(){
-        return "test";
+        return "index";
     }
 }
