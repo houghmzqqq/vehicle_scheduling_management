@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.vehicle_scheduling_management.mapper.DriverMapper">
+<mapper namespace="com.example.vehicle_scheduling_management.mapper.TruckMapper">
    <!-- <resultMap id="BaseResultMap"
                type="com.example.vehicle_scheduling_management.pojo.DriverPO">
         <id column="id" property="id" jdbcType="INTEGER" />
@@ -22,33 +22,31 @@
     <sql id="Base_Column_List">
         *
     </sql>
-    <select id="queryById" resultType="com.example.vehicle_scheduling_management.pojo.DriverPO"
+    <select id="queryById" resultType="com.example.vehicle_scheduling_management.pojo.TruckPO"
             parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List" />
-        from driver
+        from truck
         where id = #{id}
     </select>
     
-    <select id="queryAll" resultType="DriverPO">
-        select * from driver
+    <select id="queryAll" resultType="TruckPO">
+        select * from truck
     </select>
 
-    <insert id="add" parameterType="DriverPO" useGeneratedKeys="true" keyProperty="id">
-        insert into driver(driverCode,driverName,sex,age,tellphone,email,address,drivingLicenseType,
-        drivingLicense,drivingAge,jobSeniorityNum,getLicenseDate,state)
-        values(#{driverCode},#{driverName},#{sex},#{age},#{tellphone},#{email},#{address},#{drivingLicenseType},
-        #{drivingLicense},#{drivingAge},#{jobSeniorityNum},#{getLicenseDate},#{state})
+    <insert id="add" parameterType="TruckPO" useGeneratedKeys="true" keyProperty="id">
+        insert into truck(plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate)
+        values(#{plateNumber},#{fleetName},#{brand},#{model},#{types},#{loads},#{colour},#{output},#{seat},#{recordDate})
     </insert>
     
-    <update id="update" parameterType="DriverPO">
-        update driver set driverCode=#{driverCode},driverName=#{driverName},sex=#{sex},age=#{age},tellphone=#{tellphone},
-        email=#{email},address=#{address},drivingLicenseType=#{drivingLicenseType},drivingLicense=#{drivingLicense},
-        drivingAge=#{drivingAge},jobSeniorityNum=#{jobSeniorityNum},getLicenseDate=#{getLicenseDate},state=#{state}
+    <update id="update" parameterType="TruckPO">
+        update truck set plateNumber=#{plateNumber},fleetName=#{fleetName},brand=#{brand},
+        model=#{model},types=#{types},loads=#{loads},colour=#{colour},output=#{output},seat=#{seat},
+        recordDate=#{recordDate}
         where id=#{id}
     </update>
     
     <delete id="delete" parameterType="int">
-        delete from driver where id=#{id}
+        delete from truck where id=#{id}
     </delete>
 </mapper>

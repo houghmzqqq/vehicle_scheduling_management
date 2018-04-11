@@ -5,6 +5,8 @@ import com.example.vehicle_scheduling_management.pojo.DriverPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by 叶俊锋 on 2018/4/10.
  */
@@ -16,5 +18,21 @@ public class DriverService {
 
     public DriverPO queryById(int id){
         return driverMapper.queryById(id);
+    }
+
+    public List<DriverPO> queryAll(){
+        return driverMapper.queryAll();
+    }
+
+    public void add(DriverPO driverPO){
+        driverMapper.add(driverPO);
+    }
+
+    public void update(DriverPO driverPO){
+        driverMapper.update(driverPO);
+    }
+
+    public void delete(int id){
+        driverMapper.delete(id);
     }
 }

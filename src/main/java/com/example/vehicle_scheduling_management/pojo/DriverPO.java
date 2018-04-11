@@ -8,12 +8,13 @@ import java.util.Date;
 public class DriverPO {
     private int id;
     private String driverCode;
-    private String name;
+    private String driverName;
     private String sex;
     private int age;
     private String tellphone;
     private String email;
     private String address;
+    private String drivingLicenseType;
     private String drivingLicense;
     private int drivingAge;
     private String jobSeniorityNum;
@@ -23,22 +24,28 @@ public class DriverPO {
     public DriverPO() {
     }
 
-    public DriverPO(String driverCode, String name, String sex, int age,
-                    String tellphone, String email, String address,
-                    String drivingLicense, int drivingAge, String jobSeniorityNum,
-                    Date getLicenseDate, String state) {
+    public DriverPO(String driverCode, String driverName, String sex, int age, String tellphone, String email, String address, String drivingLicenseType, String drivingLicense, int drivingAge, String jobSeniorityNum, Date getLicenseDate, String state) {
         this.driverCode = driverCode;
-        this.name = name;
+        this.driverName = driverName;
         this.sex = sex;
         this.age = age;
         this.tellphone = tellphone;
         this.email = email;
         this.address = address;
+        this.drivingLicenseType = drivingLicenseType;
         this.drivingLicense = drivingLicense;
         this.drivingAge = drivingAge;
         this.jobSeniorityNum = jobSeniorityNum;
         this.getLicenseDate = getLicenseDate;
         this.state = state;
+    }
+
+    public String getDrivingLicenseType() {
+        return drivingLicenseType;
+    }
+
+    public void setDrivingLicenseType(String drivingLicenseType) {
+        this.drivingLicenseType = drivingLicenseType;
     }
 
     public int getId() {
@@ -57,12 +64,12 @@ public class DriverPO {
         this.driverCode = driverCode;
     }
 
-    public String getName() {
-        return name;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
     public String getSex() {
@@ -150,7 +157,7 @@ public class DriverPO {
         return "DriverPO{" +
                 "id=" + id +
                 ", driverCode='" + driverCode + '\'' +
-                ", name='" + name + '\'' +
+                ", driverName='" + driverName + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age=" + age +
                 ", tellphone='" + tellphone + '\'' +

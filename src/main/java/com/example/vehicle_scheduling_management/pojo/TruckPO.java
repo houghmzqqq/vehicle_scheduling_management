@@ -12,16 +12,17 @@ public class TruckPO {
     private String brand;
     private String model;
     private String types;
-    private int loads;
+    private float loads;
     private String colour;
-    private int output;
+    private float output;
     private int seat;
     private Date recordDate;
 
     public TruckPO() {
     }
 
-    public TruckPO(String plateNumber, String fleetName, String brand, String model, String types, int loads, String colour, int output, int seat, Date recordDate) {
+    public TruckPO(String plateNumber, String fleetName, String brand, String model, String types,
+                   float loads, String colour, float output, int seat, Date recordDate) {
         this.plateNumber = plateNumber;
         this.fleetName = fleetName;
         this.brand = brand;
@@ -82,11 +83,11 @@ public class TruckPO {
         this.types = types;
     }
 
-    public int getLoads() {
+    public float getLoads() {
         return loads;
     }
 
-    public void setLoads(int loads) {
+    public void setLoads(float loads) {
         this.loads = loads;
     }
 
@@ -98,11 +99,11 @@ public class TruckPO {
         this.colour = colour;
     }
 
-    public int getOutput() {
+    public float getOutput() {
         return output;
     }
 
-    public void setOutput(int output) {
+    public void setOutput(float output) {
         this.output = output;
     }
 
