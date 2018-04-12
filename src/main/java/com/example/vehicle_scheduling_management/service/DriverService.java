@@ -2,6 +2,7 @@ package com.example.vehicle_scheduling_management.service;
 
 import com.example.vehicle_scheduling_management.mapper.DriverMapper;
 import com.example.vehicle_scheduling_management.pojo.DriverPO;
+import com.github.dozermapper.spring.DozerBeanMapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
