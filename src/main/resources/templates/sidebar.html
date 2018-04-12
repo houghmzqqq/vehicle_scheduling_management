@@ -25,7 +25,7 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a href="form.html"><i class="fa fa-edit"></i> 首页 </a>
+                        <a th:href="@{/index}"><i class="fa fa-edit"></i> 首页 </a>
                     </li>
 
                     <li>
@@ -97,7 +97,7 @@
                         <a href="#"><i class="fa fa-sitemap"></i> 司机管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">司机信息</a>
+                                <a th:href="@{/driver/toList}">司机信息</a>
                             </li>
                             <li>
                                 <a href="#">排班管理<span class="fa arrow"></span></a>

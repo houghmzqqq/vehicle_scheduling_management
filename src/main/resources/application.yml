@@ -31,4 +31,6 @@ mybatis:
   type-aliases-package: com.example.vehicle_scheduling_management.pojo
   config-location: classpath:/mybatis/mybatis-config.xml
   mapper-locations: classpath:/mybatis/mappers/*.xml
+dozer:
+  mapping-files: dozerBeanMapping.xml
 

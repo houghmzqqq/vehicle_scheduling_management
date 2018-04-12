@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>vehicle_scheduling_management</driverName>
+	<name>vehicle_scheduling_management</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -18,7 +18,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<properties>
+    <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -64,6 +64,22 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional><!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖myboot项目的项目如果想要使用devtools，需要重新引入 -->
 		</dependency>
+
+        <!--dozerMapper相关依赖-->
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-spring4</artifactId>
+            <version>6.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-spring-boot-autoconfigure</artifactId>
+            <version>6.2.0</version>
+        </dependency>
 	</dependencies>
 
 	<build>
