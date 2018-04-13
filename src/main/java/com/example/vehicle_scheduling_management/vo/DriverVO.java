@@ -18,13 +18,13 @@ public class DriverVO {
     private String drivingLicense;
     private int drivingAge;
     private String jobSeniorityNum;
-    private Date getLicenseDate;
+    private String getLicenseDate;
     private String state;
 
     public DriverVO() {
     }
 
-    public DriverVO(String driverCode, String driverName, String sex, int age, String tellphone, String email, String address, String drivingLicenseType, String drivingLicense, int drivingAge, String jobSeniorityNum, Date getLicenseDate, String state) {
+    public DriverVO(String driverCode, String driverName, String sex, int age, String tellphone, String email, String address, String drivingLicenseType, String drivingLicense, int drivingAge, String jobSeniorityNum, String getLicenseDate, String state) {
         this.driverCode = driverCode;
         this.driverName = driverName;
         this.sex = sex;
@@ -136,11 +136,11 @@ public class DriverVO {
         this.jobSeniorityNum = jobSeniorityNum;
     }
 
-    public Date getGetLicenseDate() {
+    public String getGetLicenseDate() {
         return getLicenseDate;
     }
 
-    public void setGetLicenseDate(Date getLicenseDate) {
+    public void setGetLicenseDate(String getLicenseDate) {
         this.getLicenseDate = getLicenseDate;
     }
 

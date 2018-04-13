@@ -1,6 +1,7 @@
 package com.example.vehicle_scheduling_management.service;
 
 import com.example.vehicle_scheduling_management.pojo.DriverPO;
+import com.example.vehicle_scheduling_management.vo.DriverVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class DriverServiceTest {
     @Transactional
     @Rollback(false)
     public void queryAllTest(){
-        List<DriverPO> driverPOS = driverService.queryAll();
-        for(DriverPO driverPO : driverPOS){
+        List<DriverVO> driverPOS = driverService.queryAll();
+        for(DriverVO driverPO : driverPOS){
             System.out.println(driverPO);
         }
     }
