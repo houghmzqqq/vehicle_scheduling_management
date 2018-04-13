@@ -6,13 +6,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>cssmoban</title>
     <!-- Bootstrap Styles-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- FontAwesome Styles-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/assets/css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet" />
     <!-- Custom Styles-->
-    <link href="assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="/assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="/assets/css/style-responsive.css" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!--jquery ui css-->
+    <link href="/assets/css/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />
+    <link href="/assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        (function($) {
+
+            $(function() {
+                $.datepicker.regional['zh-CN'] = {
+                    changeMonth: true,
+                    changeYear: true,
+                    clearText: '清除',
+                    clearStatus: '清除已选日期',
+                    closeText: '关闭',
+                    closeStatus: '不改变当前选择',
+                    prevText: '<上月',
+                    prevStatus: '显示上月',
+                    prevBigText: '<<',
+                    prevBigStatus: '显示上一年',
+                    nextText: '下月>',
+                    nextStatus: '显示下月',
+                    nextBigText: '>>',
+                    nextBigStatus: '显示下一年',
+                    currentText: '今天',
+                    currentStatus: '显示本月',
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    monthNamesShort: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    monthStatus: '选择月份',
+                    yearStatus: '选择年份',
+                    weekHeader: '周',
+                    weekStatus: '年内周次',
+                    dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+                    dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                    dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+                    dayStatus: '设置 DD 为一周起始',
+                    dateStatus: '选择 m月 d日, DD',
+                    dateFormat: 'yy-mm-dd',
+                    firstDay: 1,
+                    initStatus: '请选择日期',
+                    isRTL: false
+                };
+
+            });
+
+            $(function() {
+
+                $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+                $("#defult").datetimepicker();
+
+                $('#date').prop("readonly", true).datetimepicker({
+                    timeText: '时间',
+                    hourText: '小时',
+                    minuteText: '分钟',
+                    secondText: '秒',
+                    currentText: '现在',
+                    closeText: '完成',
+                    showSecond: true, //显示秒
+                    timeFormat: 'HH:mm:ss' //格式化时间
+                });
+
+                $("#date_yy-mm-dd").prop("readonly", true).datepicker({
+                    changeMonth: true,
+                    dateFormat: "yy-mm-dd",
+                    onClose: function(selectedDate) {
+
+                    }
+
+                });
+
+                $("#date_start").prop("readonly", true).datepicker({
+                    changeMonth: true,
+                    dateFormat: "yy-mm-dd",
+                    onClose: function(selectedDate) {
+                        $("#date_end").datepicker("option", "minDate", selectedDate);
+                    }
+                });
+
+                $("#date_end").prop("readonly", true).datepicker({
+                    changeMonth: true,
+                    dateFormat: "yy-mm-dd",
+                    onClose: function(selectedDate) {
+                        $("#date_start").datepicker("option", "maxDate", selectedDate);
+                        $("#date_end").val($(this).val());
+                    }
+                });
+
+                $('#date_hhmmss').prop("readonly", true).timepicker({
+                    timeText: '时间',
+                    hourText: '小时',
+                    minuteText: '分钟',
+                    secondText: '秒',
+                    currentText: '现在',
+                    closeText: '完成',
+                    showSecond: true, //显示秒
+                    timeFormat: 'HH:mm:ss' //格式化时间
+                });
+
+                $.timepicker.dateRange(
+                    $("#date_start_1"),
+                    $("#date_end_1"), {
+                        minInterval: (1000 * 60 * 60 * 24 * 1), // 区间时间间隔时间
+                        maxInterval: (1000 * 60 * 60 * 24 * 1), // 1 days 区间时间间隔时间
+                        start: {}, // start picker options
+                        end: {} // end picker options});
+                    }
+                );
+
+
+            });
+
+
+        }(jQuery));
+    </script>
 </head>
 <body>
 <div id="wrapper">
@@ -42,231 +158,83 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6">
-
-                                    <!--<form role="form">-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Text Input</label>-->
-                                            <!--<input class="form-control">-->
-                                            <!--<p class="help-block">Example block-level help text here.</p>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Text Input with Placeholder</label>-->
-                                            <!--<input class="form-control" placeholder="Enter text">-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Static Control</label>-->
-                                            <!--<p class="form-control-static">email@example.com</p>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>File input</label>-->
-                                            <!--<input type="file">-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Text area</label>-->
-                                            <!--<textarea class="form-control" rows="3"></textarea>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Checkboxes</label>-->
-                                            <!--<div class="checkbox">-->
-                                                <!--<label>-->
-                                                    <!--<input type="checkbox" value="">Checkbox 1-->
-                                                <!--</label>-->
-                                            <!--</div>-->
-                                            <!--<div class="checkbox">-->
-                                                <!--<label>-->
-                                                    <!--<input type="checkbox" value="">Checkbox 2-->
-                                                <!--</label>-->
-                                            <!--</div>-->
-                                            <!--<div class="checkbox">-->
-                                                <!--<label>-->
-                                                    <!--<input type="checkbox" value="">Checkbox 3-->
-                                                <!--</label>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Inline Checkboxes</label>-->
-                                            <!--<label class="checkbox-inline">-->
-                                                <!--<input type="checkbox">1-->
-                                            <!--</label>-->
-                                            <!--<label class="checkbox-inline">-->
-                                                <!--<input type="checkbox">2-->
-                                            <!--</label>-->
-                                            <!--<label class="checkbox-inline">-->
-                                                <!--<input type="checkbox">3-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Radio Buttons</label>-->
-                                            <!--<div class="radio">-->
-                                                <!--<label>-->
-                                                    <!--<input type="radio" name="optionsRadios" id="optionsRadios1"-->
-                                                           <!--value="option1" checked="">Radio 1-->
-                                                <!--</label>-->
-                                            <!--</div>-->
-                                            <!--<div class="radio">-->
-                                                <!--<label>-->
-                                                    <!--<input type="radio" name="optionsRadios" id="optionsRadios2"-->
-                                                           <!--value="option2">Radio 2-->
-                                                <!--</label>-->
-                                            <!--</div>-->
-                                            <!--<div class="radio">-->
-                                                <!--<label>-->
-                                                    <!--<input type="radio" name="optionsRadios" id="optionsRadios3"-->
-                                                           <!--value="option3">Radio 3-->
-                                                <!--</label>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Inline Radio Buttons</label>-->
-                                            <!--<label class="radio-inline">-->
-                                                <!--<input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1"-->
-                                                       <!--value="option1" checked="">1-->
-                                            <!--</label>-->
-                                            <!--<label class="radio-inline">-->
-                                                <!--<input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2"-->
-                                                       <!--value="option2">2-->
-                                            <!--</label>-->
-                                            <!--<label class="radio-inline">-->
-                                                <!--<input type="radio" name="optionsRadiosInline" id="optionsRadiosInline3"-->
-                                                       <!--value="option3">3-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Selects</label>-->
-                                            <!--<select class="form-control">-->
-                                                <!--<option>1</option>-->
-                                                <!--<option>2</option>-->
-                                                <!--<option>3</option>-->
-                                                <!--<option>4</option>-->
-                                                <!--<option>5</option>-->
-                                            <!--</select>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label>Multiple Selects</label>-->
-                                            <!--<select multiple="" class="form-control">-->
-                                                <!--<option>1</option>-->
-                                                <!--<option>2</option>-->
-                                                <!--<option>3</option>-->
-                                                <!--<option>4</option>-->
-                                                <!--<option>5</option>-->
-                                            <!--</select>-->
-                                        <!--</div>-->
-                                        <!--<button type="submit" class="btn btn-default">Submit Button</button>-->
-                                        <!--<button type="reset" class="btn btn-default">Reset Button</button>-->
-                                    <!--</form>-->
-                                    <form class="form-validate form-horizontal" id="feedback_form" method="get" action="">
+                                <div class="form">
+                                    <form class="form-validate form-horizontal" id="register_form" method="get" action="">
                                         <div class="form-group ">
-                                            <label for="cname" class="control-label col-lg-2">Full Name <span class="required">*</span></label>
-                                            <div class="col-lg-10">
-                                                <input class="form-control" id="cname" name="fullname" minlength="5" type="text" required />
+                                            <label for="fullname" class="control-label col-lg-2">姓名 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="fullname" name="fullname" type="text" required />
+                                            </div>
+                                            <label for="sex" class="control-label col-lg-2">性别 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <select class="form-control" id="sex" name="sex" type="text" required>
+                                                    <option th:value="男">男</option>
+                                                    <option th:value="女">女</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group ">
-                                            <label for="cemail" class="control-label col-lg-2">E-Mail <span class="required">*</span></label>
-                                            <div class="col-lg-10">
+                                            <label for="url" class="control-label col-lg-2">年龄 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="url" type="url" name="url" required/>
+                                            </div>
+                                            <label for="ctellphone" class="control-label col-lg-2">电话 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="ctellphone" name="Number" minlength="5" type="regex" required />
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cemail" class="control-label col-lg-2">邮箱 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
                                                 <input class="form-control " id="cemail" type="email" name="email" required />
                                             </div>
-                                        </div>
-                                        <div class="form-group ">
-                                            <label for="curl" class="control-label col-lg-2">Website</label>
-                                            <div class="col-lg-10">
-                                                <input class="form-control " id="curl" type="url" name="url" />
+                                            <label for="caddress" class="control-label col-lg-2">地址 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="caddress" type="email" name="email" required />
                                             </div>
                                         </div>
                                         <div class="form-group ">
-                                            <label for="cname" class="control-label col-lg-2">Subject <span class="required">*</span></label>
-                                            <div class="col-lg-10">
-                                                <input class="form-control" id="subject" name="subject" minlength="5" type="text" required />
+                                            <label for="cDriAge" class="control-label col-lg-2">车龄 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cDriAge" type="email" name="email" required />
+                                            </div>
+                                            <label for="cLicType" class="control-label col-lg-2">驾照类型 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cLicType" type="email" name="email" required />
                                             </div>
                                         </div>
                                         <div class="form-group ">
-                                            <label for="ccomment" class="control-label col-lg-2">Feedback</label>
-                                            <div class="col-lg-10">
-                                                <textarea class="form-control " id="ccomment" name="comment" required></textarea>
+                                            <label for="cLicNum" class="control-label col-lg-2">驾驶证号码 <span class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cLicNum" type="email" name="email" required />
+                                            </div>
+                                            <label for="cJobSenNum" class="control-label col-lg-2">从业资格证号</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cJobSenNum" type="email" name="email"  />
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cLicDate" class="control-label col-lg-2">驾驶证初领日期</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cLicDate" name="cLicDate"  />
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="defult2" class="control-label col-lg-2">驾驶证初领日期</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="defult2" name="cLicDate"  />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-offset-2 col-lg-10">
+                                            <div class="col-lg-offset-8 col-lg-10">
                                                 <button class="btn btn-primary" type="submit">Save</button>
                                                 <button class="btn btn-default" type="button">Cancel</button>
                                             </div>
                                         </div>
                                     </form>
-
-                                </div>
-                                <!-- /.col-lg-6 (nested) -->
-                                <div class="col-lg-6">
-                                    <h4>Disabled Form States</h4>
-                                    <form role="form">
-                                        <fieldset disabled="">
-                                            <div class="form-group">
-                                                <label for="disabledSelect">Disabled input</label>
-                                                <input class="form-control" id="disabledInput" type="text"
-                                                       placeholder="Disabled input" disabled="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="disabledSelect">Disabled select menu</label>
-                                                <select id="disabledSelect" class="form-control">
-                                                    <option>Disabled select</option>
-                                                </select>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox">Disabled Checkbox
-                                                </label>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Disabled Button</button>
-                                        </fieldset>
-                                    </form>
-                                    <h4>Form Validation States</h4>
-                                    <form role="form">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess">Input with success</label>
-                                            <input type="text" class="form-control" id="inputSuccess">
-                                        </div>
-                                        <div class="form-group has-warning">
-                                            <label class="control-label" for="inputWarning">Input with warning</label>
-                                            <input type="text" class="form-control" id="inputWarning">
-                                        </div>
-                                        <div class="form-group has-error">
-                                            <label class="control-label" for="inputError">Input with error</label>
-                                            <input type="text" class="form-control" id="inputError">
-                                        </div>
-                                    </form>
-                                    <h4>Input Groups</h4>
-                                    <form role="form">
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">@</span>
-                                            <input type="text" class="form-control" placeholder="Username">
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <input type="text" class="form-control">
-                                            <span class="input-group-addon">.00</span>
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon"><i class="fa fa-eur"></i>
-                                            </span>
-                                            <input type="text" class="form-control" placeholder="Font Awesome Icon">
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">$</span>
-                                            <input type="text" class="form-control">
-                                            <span class="input-group-addon">.00</span>
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <input type="text" class="form-control">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button"><i
-                                                        class="fa fa-search"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
-                            <!-- /.row (nested) -->
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -274,9 +242,6 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <footer><p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a
-                    href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a
-                    href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p></footer>
         </div>
 
         <!-- /. PAGE INNER  -->
@@ -286,17 +251,19 @@
 <!-- /. WRAPPER  -->
 <!-- JS Scripts-->
 <!-- jQuery Js -->
-<script src="assets/js/jquery-1.10.2.js"></script>
+<script src="/assets/js/jquery-1.10.2.js"></script>
 <!-- Bootstrap Js -->
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->
-<script src="assets/js/jquery.metisMenu.js"></script>
+<script src="/assets/js/jquery.metisMenu.js"></script>
 <!-- Custom Js -->
-<script src="assets/js/custom-scripts.js"></script>
+<script src="/assets/js/custom-scripts.js"></script>
+<!--jquery ui js-->
+<script src="/assets/js/jquery-ui-1.10.4.min.js"></script>
+<script src="/assets/js/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery-ui-timepicker-zh-CN.js"></script>
 <!-- jquery validate js -->
-<script type="text/javascript" src="/assets/js/jquery.validate.min.js"></script>
-<!-- custom form validation script for this page-->
-<script src="/assets/js/form-validation-script.js"></script>
+<!--<script src="/assets/js/scripts.js"></script>-->
 
 
 </body>
