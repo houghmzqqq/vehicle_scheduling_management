@@ -9,126 +9,16 @@
     <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- FontAwesome Styles-->
     <link href="/assets/css/font-awesome.css" rel="stylesheet"/>
-    <link href="/assets/css/elegant-icons-style.css" rel="stylesheet" />
-    <link href="/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/assets/css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet"/>
     <!-- Custom Styles-->
     <link href="/assets/css/custom-styles.css" rel="stylesheet"/>
-    <link href="/assets/css/style-responsive.css" rel="stylesheet" />
+    <link href="/assets/css/style-responsive.css" rel="stylesheet"/>
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <!--jquery ui css-->
-    <link href="/assets/css/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />
-    <link href="/assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet" />
-    <script type="text/javascript">
-        (function($) {
-
-            $(function() {
-                $.datepicker.regional['zh-CN'] = {
-                    changeMonth: true,
-                    changeYear: true,
-                    clearText: '清除',
-                    clearStatus: '清除已选日期',
-                    closeText: '关闭',
-                    closeStatus: '不改变当前选择',
-                    prevText: '<上月',
-                    prevStatus: '显示上月',
-                    prevBigText: '<<',
-                    prevBigStatus: '显示上一年',
-                    nextText: '下月>',
-                    nextStatus: '显示下月',
-                    nextBigText: '>>',
-                    nextBigStatus: '显示下一年',
-                    currentText: '今天',
-                    currentStatus: '显示本月',
-                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-                    monthNamesShort: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                    monthStatus: '选择月份',
-                    yearStatus: '选择年份',
-                    weekHeader: '周',
-                    weekStatus: '年内周次',
-                    dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
-                    dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-                    dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
-                    dayStatus: '设置 DD 为一周起始',
-                    dateStatus: '选择 m月 d日, DD',
-                    dateFormat: 'yy-mm-dd',
-                    firstDay: 1,
-                    initStatus: '请选择日期',
-                    isRTL: false
-                };
-
-            });
-
-            $(function() {
-
-                $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
-
-                $("#defult").datetimepicker();
-
-                $('#date').prop("readonly", true).datetimepicker({
-                    timeText: '时间',
-                    hourText: '小时',
-                    minuteText: '分钟',
-                    secondText: '秒',
-                    currentText: '现在',
-                    closeText: '完成',
-                    showSecond: true, //显示秒
-                    timeFormat: 'HH:mm:ss' //格式化时间
-                });
-
-                $("#date_yy-mm-dd").prop("readonly", true).datepicker({
-                    changeMonth: true,
-                    dateFormat: "yy-mm-dd",
-                    onClose: function(selectedDate) {
-
-                    }
-
-                });
-
-                $("#date_start").prop("readonly", true).datepicker({
-                    changeMonth: true,
-                    dateFormat: "yy-mm-dd",
-                    onClose: function(selectedDate) {
-                        $("#date_end").datepicker("option", "minDate", selectedDate);
-                    }
-                });
-
-                $("#date_end").prop("readonly", true).datepicker({
-                    changeMonth: true,
-                    dateFormat: "yy-mm-dd",
-                    onClose: function(selectedDate) {
-                        $("#date_start").datepicker("option", "maxDate", selectedDate);
-                        $("#date_end").val($(this).val());
-                    }
-                });
-
-                $('#date_hhmmss').prop("readonly", true).timepicker({
-                    timeText: '时间',
-                    hourText: '小时',
-                    minuteText: '分钟',
-                    secondText: '秒',
-                    currentText: '现在',
-                    closeText: '完成',
-                    showSecond: true, //显示秒
-                    timeFormat: 'HH:mm:ss' //格式化时间
-                });
-
-                $.timepicker.dateRange(
-                    $("#date_start_1"),
-                    $("#date_end_1"), {
-                        minInterval: (1000 * 60 * 60 * 24 * 1), // 区间时间间隔时间
-                        maxInterval: (1000 * 60 * 60 * 24 * 1), // 1 days 区间时间间隔时间
-                        start: {}, // start picker options
-                        end: {} // end picker options});
-                    }
-                );
-
-
-            });
-
-
-        }(jQuery));
-    </script>
+    <link href="/assets/css/jquery-ui-timepicker-addon.min.css" rel="stylesheet"/>
+    <link href="/assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet"/>
 </head>
 <body>
 <div id="wrapper">
@@ -148,7 +38,6 @@
             </ol>
 
         </div>
-
         <div id="page-inner">
             <div class="row">
                 <div class="col-lg-12">
@@ -159,13 +48,17 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="form">
-                                    <form class="form-validate form-horizontal" id="register_form" method="get" action="">
+                                    <form class="form-validate form-horizontal" id="register_form" method="get"
+                                          th:action="@{/driver/addDriver}">
                                         <div class="form-group ">
-                                            <label for="fullname" class="control-label col-lg-2">姓名 <span class="required">*</span></label>
+                                            <label for="driverName" class="control-label col-lg-2">姓名 <span
+                                                    class="required">*</span></label>
                                             <div class="col-lg-3">
-                                                <input class="form-control" id="fullname" name="fullname" type="text" required />
+                                                <input class="form-control" id="driverName" name="driverName" type="text"
+                                                       required/>
                                             </div>
-                                            <label for="sex" class="control-label col-lg-2">性别 <span class="required">*</span></label>
+                                            <label for="sex" class="control-label col-lg-2">性别 <span
+                                                    class="required">*</span></label>
                                             <div class="col-lg-3">
                                                 <select class="form-control" id="sex" name="sex" type="text" required>
                                                     <option th:value="男">男</option>
@@ -174,61 +67,75 @@
                                             </div>
                                         </div>
                                         <div class="form-group ">
-                                            <label for="url" class="control-label col-lg-2">年龄 <span class="required">*</span></label>
+                                            <label for="age" class="control-label col-lg-2">年龄 <span
+                                                    class="required">*</span></label>
                                             <div class="col-lg-3">
-                                                <input class="form-control " id="url" type="url" name="url" required/>
+                                                <input class="form-control " id="age" type="number" name="age"
+                                                       max="110" min="0" required/>
                                             </div>
-                                            <label for="ctellphone" class="control-label col-lg-2">电话 <span class="required">*</span></label>
+                                            <label for="tellphone" class="control-label col-lg-2">电话 <span
+                                                    class="required">*</span></label>
                                             <div class="col-lg-3">
-                                                <input class="form-control" id="ctellphone" name="Number" minlength="5" type="regex" required />
-                                            </div>
-                                        </div>
-                                        <div class="form-group ">
-                                            <label for="cemail" class="control-label col-lg-2">邮箱 <span class="required">*</span></label>
-                                            <div class="col-lg-3">
-                                                <input class="form-control " id="cemail" type="email" name="email" required />
-                                            </div>
-                                            <label for="caddress" class="control-label col-lg-2">地址 <span class="required">*</span></label>
-                                            <div class="col-lg-3">
-                                                <input class="form-control " id="caddress" type="email" name="email" required />
+                                                <input class="form-control" id="tellphone" name="tellphone" minlength="11"
+                                                       type="text" required/>
                                             </div>
                                         </div>
                                         <div class="form-group ">
-                                            <label for="cDriAge" class="control-label col-lg-2">车龄 <span class="required">*</span></label>
+                                            <label for="email" class="control-label col-lg-2">邮箱 <span
+                                                    class="required">*</span></label>
                                             <div class="col-lg-3">
-                                                <input class="form-control " id="cDriAge" type="email" name="email" required />
+                                                <input class="form-control " id="email" type="email" name="email"
+                                                       required/>
                                             </div>
-                                            <label for="cLicType" class="control-label col-lg-2">驾照类型 <span class="required">*</span></label>
+                                            <label for="address" class="control-label col-lg-2">地址 <span
+                                                    class="required">*</span></label>
                                             <div class="col-lg-3">
-                                                <input class="form-control " id="cLicType" type="email" name="email" required />
+                                                <input class="form-control " id="address" type="text" name="address"
+                                                       required/>
                                             </div>
                                         </div>
                                         <div class="form-group ">
-                                            <label for="cLicNum" class="control-label col-lg-2">驾驶证号码 <span class="required">*</span></label>
+                                            <label for="DriAge" class="control-label col-lg-2">车龄 <span
+                                                    class="required">*</span></label>
                                             <div class="col-lg-3">
-                                                <input class="form-control " id="cLicNum" type="email" name="email" required />
+                                                <input class="form-control " id="DriAge" type="number" name="drivingAge"
+                                                       max="110" min="0" required/>
+                                            </div>
+                                            <label for="cLicType" class="control-label col-lg-2">驾照类型 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <select class="form-control" id="cLicType" name="drivingLicenseType" type="text" required>
+                                                    <option th:value="C1">C1</option> <option th:value="C2">C2</option> <option th:value="C3">C3</option>
+                                                    <option th:value="C4">C4</option> <option th:value="B1">B1</option> <option th:value="B2">B2</option>
+                                                    <option th:value="A1">A1</option> <option th:value="A2">A2</option> <option th:value="A3">A3</option>
+                                                    <option th:value="D">D</option> <option th:value="E">E</option> <option th:value="F">F</option>
+                                                    <option th:value="M">M</option> <option th:value="N">N</option> <option th:value="P">P</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cLicNum" class="control-label col-lg-2">驾驶证号码 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cLicNum" type="text" name="drivingLicense"
+                                                       required/>
                                             </div>
                                             <label for="cJobSenNum" class="control-label col-lg-2">从业资格证号</label>
                                             <div class="col-lg-3">
-                                                <input class="form-control " id="cJobSenNum" type="email" name="email"  />
+                                                <input class="form-control " id="cJobSenNum" type="text" name="jobSeniorityNum"/>
                                             </div>
                                         </div>
                                         <div class="form-group ">
                                             <label for="cLicDate" class="control-label col-lg-2">驾驶证初领日期</label>
                                             <div class="col-lg-3">
-                                                <input class="form-control " id="cLicDate" name="cLicDate"  />
-                                            </div>
-                                        </div>
-                                        <div class="form-group ">
-                                            <label for="defult2" class="control-label col-lg-2">驾驶证初领日期</label>
-                                            <div class="col-lg-3">
-                                                <input class="form-control " id="defult2" name="cLicDate"  />
+                                                <input class="form-control " id="cLicDate" name="getLicenseDate" type="date"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-offset-8 col-lg-10">
-                                                <button class="btn btn-primary" type="submit">Save</button>
-                                                <button class="btn btn-default" type="button">Cancel</button>
+                                                <button class="btn btn-primary" type="submit">保存</button>
+                                                <button class="btn btn-default" type="reset">重置</button>
+                                                <a class="btn btn-default" type="button" th:href="@{/driver/toList}">取消</a>
                                             </div>
                                         </div>
                                     </form>
@@ -261,10 +168,10 @@
 <!--jquery ui js-->
 <script src="/assets/js/jquery-ui-1.10.4.min.js"></script>
 <script src="/assets/js/jquery-ui-timepicker-addon.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery-ui-timepicker-zh-CN.js"></script>
-<!-- jquery validate js -->
-<!--<script src="/assets/js/scripts.js"></script>-->
-
+<script type="text/javascript" src="/assets/js/jquery-ui-timepicker-zh-CN.js"></script>
+<!-- datetime util -->
+<script type="text/javascript">
+</script>
 
 </body>
 </html>
