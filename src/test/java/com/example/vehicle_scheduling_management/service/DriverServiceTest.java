@@ -39,11 +39,11 @@ public class DriverServiceTest {
     @Rollback(false)
     public void addTest(){
         DriverPO driverPO = new DriverPO("20181120141", "Jock", "0", 22,
-        "C1","12345678941", "11152154@163.com", "ShangHai",
+        "12345678941","11152154@163.com", "ShangHai", "C2",
                 "4415221995001", 2, "123456",
                new Date(), "0");
         for (int i=0;i<5;i++){
-            driverPO.setDriverName("Tony" + i+1);
+            driverPO.setDriverName("Horry" + (i+1));
             mapper.add(driverPO);
         }
 //        driverService.add(driverPO);

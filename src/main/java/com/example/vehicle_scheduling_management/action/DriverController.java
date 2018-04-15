@@ -25,7 +25,7 @@ public class DriverController {
     @RequestMapping("/toList")
     public String toDriverList(Model model, @RequestParam(defaultValue = "1") Integer thisPage){
 //        List<DriverVO> driverVOS = driverService.queryAll();
-        DividePageVO dividePage = driverService.divideQuery(thisPage,3);
+        DividePageVO dividePage = driverService.divideQuery(thisPage,10);
         model.addAttribute("dividePage",dividePage);
         System.out.println(dividePage);
         return "/driver/driver-list";
