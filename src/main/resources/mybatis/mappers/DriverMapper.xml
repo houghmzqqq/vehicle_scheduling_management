@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.vehicle_scheduling_management.mapper.DriverMapper">
-    <resultMap id="BaseResultMap"
+   <!-- <resultMap id="BaseResultMap"
                type="com.example.vehicle_scheduling_management.pojo.DriverPO">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="driverCode" property="driverCode" jdbcType="CHAR" />
@@ -18,7 +18,7 @@
         <result column="jobSeniorityNum" property="jobSeniorityNum" jdbcType="CHAR" />
         <result column="getLicenseDate" property="getLicenseDate" />
         <result column="state" property="state" jdbcType="CHAR" />
-    </resultMap>
+    </resultMap>-->
     <sql id="Base_Column_List">
         *
     </sql>
@@ -30,16 +30,8 @@
         where id = #{id}
     </select>
     
-    <select id="queryAll" resultType="com.example.vehicle_scheduling_management.pojo.DriverPO">
+    <select id="queryAll" resultType="DriverPO">
         select * from driver
-    </select>
-
-    <select id="queryByDivide" resultMap="BaseResultMap">
-        select * from driver limit #{firstData},#{rowOfEachPage}
-    </select>
-
-    <select id="driverCount" resultType="java.lang.Integer">
-        select count(*) from driver
     </select>
 
     <insert id="add" parameterType="DriverPO" useGeneratedKeys="true" keyProperty="id">

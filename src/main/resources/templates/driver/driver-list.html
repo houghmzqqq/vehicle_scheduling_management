@@ -65,7 +65,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="odd gradeX" data-th-each="driver : ${dividePage.objList}">
+                                    <tr class="odd gradeX" data-th-each="driver : ${drivers}">
                                         <td data-th-text="${driver.driverName}"></td>
                                         <td data-th-text="${driver.tellphone}"></td>
                                         <td data-th-text="${driver.email}"></td>
@@ -78,18 +78,14 @@
                                     </tbody>
                                 </table>
                                 <ul class="pagination">
-                                    <li><a href="#" th:href="@{/driver/toList(thisPage=${dividePage.prePage})}">&laquo;</a></li>
-
-
-                                    <li th:class="${num eq dividePage.thisPage}?active" th:each="num:${dividePage.startAndEnd}">
-                                        <a href="#" th:text="${numStat.count }"></a>
-                                    </li>
+                                    <li><a href="#">&laquo;</a></li>
+                                    <li class="active"><a href="#">1</a></li>
                                     <!--<li class="disabled"><a href="#">2</a></li>-->
-                                    <!--<li><a href="#">2</a></li>-->
-                                    <!--<li><a href="#">3</a></li>-->
-                                    <!--<li><a href="#">4</a></li>-->
-                                    <!--<li><a href="#">5</a></li>-->
-                                    <li><a href="#" th:href="@{/driver/toList(thisPage=${dividePage.nextPage})}">&raquo;</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">&raquo;</a></li>
                                 </ul>
                             </div>
 
@@ -388,25 +384,16 @@
 <script src="/assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->
 <script src="/assets/js/jquery.metisMenu.js"></script>
-<!-- Custom Js -->
-<script src="/assets/js/custom-scripts.js"></script>
 <!-- DATA TABLE SCRIPTS -->
 <script src="/assets/js/dataTables/jquery.dataTables.js"></script>
 <script src="/assets/js/dataTables/dataTables.bootstrap.js"></script>
-<!-- Morris Chart Js -->
-<script src="/assets/js/morris/raphael-2.1.0.min.js"></script>
-<script src="/assets/js/morris/morris.js"></script>
-
-
-<script src="/assets/js/easypiechart.js"></script>
-<script src="/assets/js/easypiechart-data.js"></script>
-
-<script src="/assets/js/Lightweight-Chart/jquery.chart.js"></script>
 <script>
     $(document).ready(function () {
         $('#dataTables-example').dataTable();
     });
 </script>
+<!-- Custom Js -->
+<script src="/assets/js/custom-scripts.js"></script>
 
 
 </body>
