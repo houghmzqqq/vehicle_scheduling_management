@@ -1,68 +1,67 @@
 package com.example.vehicle_scheduling_management.service;
 
-import com.example.vehicle_scheduling_management.mapper.DriverMapper;
 import com.example.vehicle_scheduling_management.pojo.DriverPO;
+import com.example.vehicle_scheduling_management.vo.DividePageVO;
 import com.example.vehicle_scheduling_management.vo.DriverVO;
-import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.List;
 
-/**
- * Created by 叶俊锋 on 2018/4/10.
- */
 @Service
-public class DriverService {
+public interface DriverService {
 
-    @Autowired
-    private DriverMapper driverMapper;
+    /**
+     * @Author: yjf
+     * @Description: 通过id查找司机信息
+     * @Param: int
+     * @Return: DriverVO
+     * @Date: 20:47 2018/4/14
+     */
+    DriverVO queryById(int id);
 
-    @Autowired
-    private DozerBeanMapper mapper;
+    /**
+     * @Author: yjf
+     * @Description: 查找所有司机
+     * @Param: null
+     * @Return: List<DriverVO>
+     * @Date: 20:49 2018/4/14
+     */
+    List<DriverVO> queryAll();
 
-    public DriverPO queryById(int id){
-        return driverMapper.queryById(id);
-    }
+    /**
+     * @Author: yjf
+     * @Description: 分页查询司机信息
+     * @Param: null
+     * @Return: null
+     * @Date: 11:37 2018/4/15
+     */
+    DividePageVO<DriverVO> divideQuery(Integer thisPage,Integer rowOfEachPage);
 
-    public List<DriverVO> queryAll(){
-        List<DriverPO> driverPOS = driverMapper.queryAll();
-        List<DriverVO> driverVOS = new ArrayList<>();
-        for (DriverPO driverPO : driverPOS){
-            //匹配po和vo
-            DriverVO driverVO = new DriverVO();
-            mapper.map(driverPO,driverVO);
-//            DriverVO driverVO = mapper.map(driverPO,DriverVO.class);
-            if("0".equals(driverPO.getState()) ){
-                driverVO.setState("跑单");
-            }else if("1".equals(driverPO.getState()) ){
-                driverVO.setState("休息");
-            }else if("2".equals(driverPO.getState()) ){
-                driverVO.setState("请假");
-            }else if("3".equals(driverPO.getState()) ){
-                driverVO.setState("离职");
-            }else if("4".equals(driverPO.getState()) ){
-                driverVO.setState("空闲");
-            }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            driverVO.setGetLicenseDate(sdf.format(driverPO.getGetLicenseDate()) );
-            driverVOS.add(driverVO);
-        }
-        return driverVOS;
-    }
+    /**
+     * @Author: yjf
+     * @Description: 向数据库新增司机
+     * @Param: DriverVO
+     * @Return: null
+     * @Date: 20:50 2018/4/14
+     */
+    void add(DriverVO driverVO) throws ParseException;
 
-    public void add(DriverPO driverPO){
-        driverMapper.add(driverPO);
-    }
+    /**
+     * @Author: yjf
+     * @Description: 跟新司机信息
+     * @Param: DriverVO
+     * @Return: null
+     * @Date: 20:50 2018/4/14
+     */
+    void update(DriverVO driverVO);
 
-    public void update(DriverPO driverPO){
-        driverMapper.update(driverPO);
-    }
-
-    public void delete(int id){
-        driverMapper.delete(id);
-    }
+    /**
+     * @Author: yjf
+     * @Description: 删除司机信息
+     * @Param: int
+     * @Return: null
+     * @Date: 20:51 2018/4/14
+     */
+    void delete(int id);
 }
