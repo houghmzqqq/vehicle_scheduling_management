@@ -72,8 +72,8 @@
                                         <td data-th-text="${driver.drivingLicenseType}"></td>
                                         <td data-th-text="${driver.drivingAge}"></td>
                                         <td data-th-text="${driver.state}"></td>
-                                        <td ><a href="#">[编辑]</a>
-                                            <a href="#">[删除]</a></td>
+                                        <td ><a href="#" th:href="@{/driver/toEdit(id=${driver.id})}">[编辑]</a>
+                                            <a href="#" th:href="@{/driver/delete(id=${driver.id})}">[删除]</a></td>
                                     </tr>
                                     </tbody>
                                 </table>

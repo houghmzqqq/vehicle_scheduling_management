@@ -46,5 +46,23 @@ public class DriverController {
         return "redirect:/driver/toList";
     }
 
+    @RequestMapping("/toEdit")
+    public String toEdit(@RequestParam Integer id,Model model){
+        DriverVO driverVO = driverService.queryById(id);
+        model.addAttribute("driver",driverVO);
+        return "/driver/driver-edit";
+    }
 
+    @RequestMapping("/update")
+    public String update(DriverVO driverVO){
+        System.out.println(driverVO);
+        driverService.update(driverVO);
+        return "redirect:/driver/toList";
+    }
+
+    @RequestMapping("/delete")
+    public String delete(@RequestParam Integer id){
+        driverService.delete(id);
+        return "redirect:/driver/toList";
+    }
 }
