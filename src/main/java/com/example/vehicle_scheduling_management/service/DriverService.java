@@ -36,7 +36,7 @@ public interface DriverService {
      * @Return: null
      * @Date: 11:37 2018/4/15
      */
-    DividePageVO<DriverVO> divideQuery(Integer thisPage,Integer rowOfEachPage);
+    DividePageVO<DriverVO> divideQuery(Integer thisPage, Integer rowOfEachPage);
 
     /**
      * @Author: yjf

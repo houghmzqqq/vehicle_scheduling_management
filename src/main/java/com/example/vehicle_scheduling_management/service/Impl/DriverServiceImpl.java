@@ -30,8 +30,8 @@ public class DriverServiceImpl implements DriverService {
     private DozerBeanMapper mapper;
 
     public DriverVO queryById(int id){
-//        return driverMapper.queryById(id);
-        return null;
+        DriverPO driverPO = driverMapper.queryById(id);
+        return turnPoToVo(driverPO);
     }
 
     public List<DriverVO> queryAll(){
@@ -41,25 +41,7 @@ public class DriverServiceImpl implements DriverService {
 
         for (DriverPO driverPO : driverPOS){
             //匹配po和vo
-            DriverVO driverVO = new DriverVO();
-            mapper.map(driverPO,driverVO);
-//            DriverVO driverVO = mapper.map(driverPO,DriverVO.class);
-            if("0".equals(driverPO.getState()) ){
-                driverVO.setState("跑单");
-            }else if("1".equals(driverPO.getState()) ){
-                driverVO.setState("休息");
-            }else if("2".equals(driverPO.getState()) ){
-                driverVO.setState("请假");
-            }else if("3".equals(driverPO.getState()) ){
-                driverVO.setState("离职");
-            }else if("4".equals(driverPO.getState()) ){
-                driverVO.setState("空闲");
-            }
-            if (driverPO.getGetLicenseDate()!=null && !"".equals(driverPO.getGetLicenseDate())){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                driverVO.setGetLicenseDate(sdf.format(driverPO.getGetLicenseDate()) );
-            }
-            driverVOS.add(driverVO);
+            driverVOS.add(turnPoToVo(driverPO));
         }
         return driverVOS;
     }
@@ -103,25 +85,7 @@ public class DriverServiceImpl implements DriverService {
 
         for (DriverPO driverPO : driverPOS){
             //匹配po和vo
-            DriverVO driverVO = new DriverVO();
-            mapper.map(driverPO,driverVO);
-//            DriverVO driverVO = mapper.map(driverPO,DriverVO.class);
-            if("0".equals(driverPO.getState()) ){
-                driverVO.setState("跑单");
-            }else if("1".equals(driverPO.getState()) ){
-                driverVO.setState("休息");
-            }else if("2".equals(driverPO.getState()) ){
-                driverVO.setState("请假");
-            }else if("3".equals(driverPO.getState()) ){
-                driverVO.setState("离职");
-            }else if("4".equals(driverPO.getState()) ){
-                driverVO.setState("空闲");
-            }
-            if (driverPO.getGetLicenseDate()!=null && !"".equals(driverPO.getGetLicenseDate())){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                driverVO.setGetLicenseDate(sdf.format(driverPO.getGetLicenseDate()) );
-            }
-            driverVOS.add(driverVO);
+            driverVOS.add(turnPoToVo(driverPO));
         }
 
         if(maxPage < 5){
@@ -174,10 +138,40 @@ public class DriverServiceImpl implements DriverService {
 
     public void update(DriverVO driverVO){
 //        driverMapper.update(driverPO);
+        DriverPO driverPO = driverMapper.queryById(driverVO.getId());
+        driverPO.setDriverName(driverVO.getDriverName());
+        driverPO.setSex(driverVO.getSex());
+        driverPO.setAge(driverVO.getAge());
+        driverPO.setTellphone(driverVO.getTellphone());
+        driverPO.setAddress(driverVO.getAddress());
+        driverPO.setEmail(driverVO.getEmail());
 
+        driverMapper.update(driverPO);
     }
 
     public void delete(int id){
         driverMapper.delete(id);
+    }
+
+    public DriverVO turnPoToVo(DriverPO driverPO){
+        DriverVO driverVO = new DriverVO();
+        mapper.map(driverPO,driverVO);
+//            DriverVO driverVO = mapper.map(driverPO,DriverVO.class);
+        if("0".equals(driverPO.getState()) ){
+            driverVO.setState("跑单");
+        }else if("1".equals(driverPO.getState()) ){
+            driverVO.setState("休息");
+        }else if("2".equals(driverPO.getState()) ){
+            driverVO.setState("请假");
+        }else if("3".equals(driverPO.getState()) ){
+            driverVO.setState("离职");
+        }else if("4".equals(driverPO.getState()) ){
+            driverVO.setState("空闲");
+        }
+        if (driverPO.getGetLicenseDate()!=null && !"".equals(driverPO.getGetLicenseDate())){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            driverVO.setGetLicenseDate(sdf.format(driverPO.getGetLicenseDate()) );
+        }
+        return driverVO;
     }
 }
