@@ -12,11 +12,11 @@ import javax.annotation.Resource;
 @RestController
 public class UserController {
 
-//    @Resource
-//    private UserService userService;
-//
-//    @RequestMapping("getUser/{id}")
-//    public UserInfo queryById(@PathVariable Integer id){
-//        return userService.queryById(id);
-//    }
+    @Resource
+    private UserService userService;
+
+    @RequestMapping("getUser/{id}")
+    public UserInfo queryById(@PathVariable Integer id){
+        return userService.queryById(id);
+    }
 }

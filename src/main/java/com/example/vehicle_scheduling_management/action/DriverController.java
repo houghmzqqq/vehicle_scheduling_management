@@ -1,15 +1,13 @@
 package com.example.vehicle_scheduling_management.action;
 
+import com.example.vehicle_scheduling_management.pojo.DriverPO;
 import com.example.vehicle_scheduling_management.service.DriverService;
-import com.example.vehicle_scheduling_management.vo.DividePageVO;
 import com.example.vehicle_scheduling_management.vo.DriverVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -23,11 +21,9 @@ public class DriverController {
     private DriverService driverService;
 
     @RequestMapping("/toList")
-    public String toDriverList(Model model, @RequestParam(defaultValue = "1") Integer thisPage){
-//        List<DriverVO> driverVOS = driverService.queryAll();
-        DividePageVO dividePage = driverService.divideQuery(thisPage,3);
-        model.addAttribute("dividePage",dividePage);
-        System.out.println(dividePage);
+    public String toDriverList(Model model){
+        List<DriverVO> driverVOS = driverService.queryAll();
+        model.addAttribute("drivers",driverVOS);
         return "/driver/driver-list";
     }
 
@@ -36,15 +32,8 @@ public class DriverController {
         return "/driver/driver-add";
     }
 
-    @RequestMapping("/addDriver")
-    public String addDriver(DriverVO driverVO){
-        try {
-            driverService.add(driverVO);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "redirect:/driver/toList";
+    @RequestMapping("/test")
+    public String test02(){
+        return "/driver/driver-add";
     }
-
-
 }

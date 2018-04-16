@@ -6,10 +6,6 @@
     <mapping>
         <class-a>com.example.vehicle_scheduling_management.pojo.DriverPO</class-a>
         <class-b>com.example.vehicle_scheduling_management.vo.DriverVO</class-b>
-        <field-exclude>
-            <a>getLicenseDate</a>
-            <b>getLicenseDate</b>
-        </field-exclude>
     </mapping>
 
     <!--<mapping>-->
