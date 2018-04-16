@@ -12,6 +12,15 @@
         </field-exclude>
     </mapping>
 
+    <mapping>
+        <class-a>com.example.vehicle_scheduling_management.pojo.TruckPO</class-a>
+        <class-b>com.example.vehicle_scheduling_management.vo.TruckVO</class-b>
+        <field-exclude>
+            <a>recordDate</a>
+            <b>recordDate</b>
+        </field-exclude>
+    </mapping>
+
     <!--<mapping>-->
         <!--<class-a>com.yejunfeng.PO.StudentPO</class-a>-->
         <!--<class-b>com.yejunfeng.VO.StudentVO</class-b>-->

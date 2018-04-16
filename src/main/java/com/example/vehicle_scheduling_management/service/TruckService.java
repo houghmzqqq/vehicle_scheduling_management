@@ -1,37 +1,70 @@
 package com.example.vehicle_scheduling_management.service;
 
-import com.example.vehicle_scheduling_management.mapper.TruckMapper;
-import com.example.vehicle_scheduling_management.pojo.TruckPO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.vehicle_scheduling_management.vo.DividePageVO;
+import com.example.vehicle_scheduling_management.vo.TruckVO;
 
 import java.util.List;
 
 /**
- * Created by 叶俊锋 on 2018/4/11.
+ * @Author: yjf
+ * @Description:
+ * @Date: create in 20:31 2018/4/16
+ * @modified by:
  */
-@Service
-public class TruckService {
-    @Autowired
-    private TruckMapper truckMapper;
+public interface TruckService {
 
-    public TruckPO queryById(int id){
-        return truckMapper.queryById(id);
-    }
+    /**
+     * @Author: yjf
+     * @Description: 通过id查询车辆信息
+     * @Param: id
+     * @Return: TruckPO
+     * @Date: 20:32 2018/4/16
+     */
+    TruckVO queryById(int id);
 
-    public List<TruckPO> queryAll(){
-        return truckMapper.queryAll();
-    }
+    /**
+     * @Author: yjf
+     * @Description: 查询所有车辆信息
+     * @Param: null
+     * @Return: List<TruckPO>
+     * @Date: 20:32 2018/4/16
+     */
+    List<TruckVO> queryAll();
 
-    public void add(TruckPO truckPO){
-        truckMapper.add(truckPO);
-    }
+    /**
+     * @Author: yjf
+     * @Description: 分页查询车辆信息
+     * @Param: thisPage
+     * @Param: rowOfEachPage
+     * @Return: List<TruckVO>
+     * @Date: 20:35 2018/4/16
+     */
+    DividePageVO<TruckVO> divideQuery(int thisPage, int rowOfEachPage);
 
-    public void delete(int id){
-        truckMapper.delete(id);
-    }
+    /**
+     * @Author: yjf
+     * @Description: 新增车辆
+     * @Param: truckPO
+     * @Return: null
+     * @Date: 20:33 2018/4/16
+     */
+    void add(TruckVO truckVO);
 
-    public void update(TruckPO truckPO){
-        truckMapper.update(truckPO);
-    }
+    /**
+     * @Author: yjf
+     * @Description: 删除车辆
+     * @Param: id
+     * @Return: null
+     * @Date: 20:36 2018/4/16
+     */
+    void delete(int id);
+
+    /**
+     * @Author: yjf
+     * @Description: 更新车辆信息
+     * @Param: truckPO
+     * @Return: null
+     * @Date: 20:36 2018/4/16
+     */
+    void update(TruckVO truckVO);
 }

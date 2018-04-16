@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>cssmoban</title>
+    <!-- Bootstrap Styles-->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <!-- FontAwesome Styles-->
+    <link href="/assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/assets/css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- Custom Styles-->
+    <link href="/assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="/assets/css/style-responsive.css" rel="stylesheet"/>
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!--jquery ui css-->
+    <link href="/assets/css/jquery-ui-timepicker-addon.min.css" rel="stylesheet"/>
+    <link href="/assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation" th:include="header :: top-navbar">
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation" th:include="sidebar :: navbar-side">
+    </nav>
+
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div class="header">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Forms</a></li>
+                <li class="active">Data</li>
+            </ol>
+
+        </div>
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Basic Form Elements
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form">
+                                    <form class="form-validate form-horizontal" id="register_form" method="get"
+                                          th:action="@{/driver/addDriver}">
+                                        <div class="form-group ">
+                                            <label for="driverName" class="control-label col-lg-2">姓名 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="driverName" name="driverName" type="text"
+                                                       required/>
+                                            </div>
+                                            <label for="sex" class="control-label col-lg-2">性别 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <select class="form-control" id="sex" name="sex" type="text" required>
+                                                    <option th:value="男">男</option>
+                                                    <option th:value="女">女</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="age" class="control-label col-lg-2">年龄 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="age" type="number" name="age"
+                                                       max="110" min="0" required/>
+                                            </div>
+                                            <label for="tellphone" class="control-label col-lg-2">电话 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="tellphone" name="tellphone" minlength="11"
+                                                       type="text" required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="email" class="control-label col-lg-2">邮箱 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="email" type="email" name="email"
+                                                       required/>
+                                            </div>
+                                            <label for="address" class="control-label col-lg-2">地址 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="address" type="text" name="address"
+                                                       required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="DriAge" class="control-label col-lg-2">车龄 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="DriAge" type="number" name="drivingAge"
+                                                       max="110" min="0" required/>
+                                            </div>
+                                            <label for="cLicType" class="control-label col-lg-2">驾照类型 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <select class="form-control" id="cLicType" name="drivingLicenseType" type="text" required>
+                                                    <option th:value="C1">C1</option> <option th:value="C2">C2</option> <option th:value="C3">C3</option>
+                                                    <option th:value="C4">C4</option> <option th:value="B1">B1</option> <option th:value="B2">B2</option>
+                                                    <option th:value="A1">A1</option> <option th:value="A2">A2</option> <option th:value="A3">A3</option>
+                                                    <option th:value="D">D</option> <option th:value="E">E</option> <option th:value="F">F</option>
+                                                    <option th:value="M">M</option> <option th:value="N">N</option> <option th:value="P">P</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cLicNum" class="control-label col-lg-2">驾驶证号码 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cLicNum" type="text" name="drivingLicense"
+                                                       required/>
+                                            </div>
+                                            <label for="cJobSenNum" class="control-label col-lg-2">从业资格证号</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cJobSenNum" type="text" name="jobSeniorityNum"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cLicDate" class="control-label col-lg-2">驾驶证初领日期</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="cLicDate" name="getLicenseDate" type="date"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-8 col-lg-10">
+                                                <button class="btn btn-primary" type="submit">保存</button>
+                                                <button class="btn btn-default" type="reset">重置</button>
+                                                <a class="btn btn-default" type="button" th:href="@{/driver/toList}">取消</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="/assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="/assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="/assets/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<script src="/assets/js/custom-scripts.js"></script>
+<!--jquery ui js-->
+<script src="/assets/js/jquery-ui-1.10.4.min.js"></script>
+<script src="/assets/js/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery-ui-timepicker-zh-CN.js"></script>
+<!-- datetime util -->
+<script type="text/javascript">
+</script>
+
+</body>
+</html>

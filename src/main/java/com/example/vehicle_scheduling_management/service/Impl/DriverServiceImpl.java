@@ -3,6 +3,7 @@ package com.example.vehicle_scheduling_management.service.Impl;
 import com.example.vehicle_scheduling_management.mapper.DriverMapper;
 import com.example.vehicle_scheduling_management.pojo.DriverPO;
 import com.example.vehicle_scheduling_management.service.DriverService;
+import com.example.vehicle_scheduling_management.util.DivideUtil;
 import com.example.vehicle_scheduling_management.vo.DividePageVO;
 import com.example.vehicle_scheduling_management.vo.DriverVO;
 import org.dozer.DozerBeanMapper;
@@ -50,73 +51,16 @@ public class DriverServiceImpl implements DriverService {
     public DividePageVO<DriverVO> divideQuery(Integer thisPage, Integer rowOfEachPage) {
         List<DriverPO> driverPOS = driverMapper.queryByDivide((thisPage-1)*rowOfEachPage,rowOfEachPage,null);
         List<DriverVO> driverVOS = new ArrayList<>();
-        DividePageVO<DriverVO> dividePage = new DividePageVO<>();
+        int pageCount = driverMapper.driverCount();
+        DividePageVO<DriverVO> dividePage =
+                new DivideUtil().getDividePageVO(thisPage,rowOfEachPage,pageCount);
 
-        int pageCount;
-        int maxPage;
-        int nextPage;
-        int prePage;
-        int start;
-        int end;
-        List<Integer> startAndEnd = new ArrayList<>();
-
-        pageCount = driverMapper.driverCount();
-        if((pageCount%rowOfEachPage) != 0)
-        {
-            maxPage = (pageCount/rowOfEachPage)+1;
-        }
-        else
-        {
-            maxPage = (pageCount/rowOfEachPage);
-        }
-        if(thisPage >= maxPage)
-        {
-            nextPage = thisPage;
-        }
-        else
-        {
-            nextPage = thisPage+1;
-        }
-        if (thisPage > 1){
-            prePage = thisPage-1;
-        }else{
-            prePage = thisPage;
-        }
 
         for (DriverPO driverPO : driverPOS){
             //匹配po和vo
             driverVOS.add(turnPoToVo(driverPO));
         }
 
-        if(maxPage < 5){
-            start = 1;
-            end = maxPage;
-        }else{
-            if(thisPage <= 3){
-                start = 1;
-                end = 5;
-            }else if(thisPage >= maxPage-2){
-                start = maxPage-2;
-                end = maxPage;
-            }else{
-                start = thisPage-2;
-                end = thisPage+2;
-            }
-        }
-
-        for(int i=start;i<=end;i++){
-            startAndEnd.add(i);
-        }
-
-        dividePage.setThisPage(thisPage);
-        dividePage.setRowOfEachPage(rowOfEachPage);
-        dividePage.setLastPage(maxPage);
-        dividePage.setNextPage(nextPage);
-        dividePage.setPageCount(pageCount);
-        dividePage.setPrePage(prePage);
-        dividePage.setStartAndEnd(startAndEnd);
-//        dividePage.setStart(start);
-//        dividePage.setEnd(end);
         dividePage.setObjList(driverVOS);
 
         return dividePage;

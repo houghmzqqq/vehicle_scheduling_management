@@ -2,36 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.vehicle_scheduling_management.mapper.TruckMapper">
-   <!-- <resultMap id="BaseResultMap"
-               type="com.example.vehicle_scheduling_management.pojo.DriverPO">
+    <resultMap id="BaseResultMap"
+               type="com.example.vehicle_scheduling_management.pojo.TruckPO">
         <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="driverCode" property="driverCode" jdbcType="CHAR" />
-        <result column="driverName" property="driverName" jdbcType="VARCHAR" />
-        <result column="sex" property="sex" jdbcType="CHAR" />
-        <result column="age" property="age" jdbcType="INTEGER" />
-        <result column="tellphone" property="tellphone" jdbcType="CHAR" />
-        <result column="email" property="email" jdbcType="CHAR" />
-        <result column="address" property="address" jdbcType="VARCHAR" />
-        <result column="drivingLicenseType" property="drivingLicenseType" jdbcType="CHAR" />
-        <result column="drivingLicense" property="drivingLicense" jdbcType="CHAR" />
-        <result column="drivingAge" property="drivingAge" jdbcType="INTEGER" />
-        <result column="jobSeniorityNum" property="jobSeniorityNum" jdbcType="CHAR" />
-        <result column="getLicenseDate" property="getLicenseDate" />
-        <result column="state" property="state" jdbcType="CHAR" />
-    </resultMap>-->
+        <result column="plateNumber" property="plateNumber" jdbcType="VARCHAR" />
+        <result column="fleetName" property="fleetName" jdbcType="VARCHAR" />
+        <result column="brand" property="brand" jdbcType="VARCHAR" />
+        <result column="model" property="model" jdbcType="VARCHAR" />
+        <result column="types" property="types" jdbcType="VARCHAR" />
+        <result column="loads" property="loads" jdbcType="INTEGER" />
+        <result column="colour" property="colour" jdbcType="VARCHAR" />
+        <result column="output" property="output" jdbcType="VARCHAR" />
+        <result column="seat" property="seat" jdbcType="INTEGER" />
+        <result column="recordDate" property="recordDate" />
+    </resultMap>
     <sql id="Base_Column_List">
-        *
+        id,plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate
     </sql>
     <select id="queryById" resultType="com.example.vehicle_scheduling_management.pojo.TruckPO"
             parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List" />
-        from truck
-        where id = #{id}
+        select * from truck where id = #{id}
     </select>
     
     <select id="queryAll" resultType="TruckPO">
         select * from truck
+    </select>
+
+    <select id="queryByDivide" resultMap="BaseResultMap">
+        select * from truck limit #{firstData},#{rowOfEachPage}
+    </select>
+
+    <select id="truckCount" resultType="Integer">
+        select count(*) from truck
     </select>
 
     <insert id="add" parameterType="TruckPO" useGeneratedKeys="true" keyProperty="id">
