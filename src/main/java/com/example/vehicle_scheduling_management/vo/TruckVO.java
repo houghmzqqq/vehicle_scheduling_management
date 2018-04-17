@@ -12,9 +12,9 @@ public class TruckVO {
     private String brand;
     private String model;
     private String types;
-    private float loads;
+    private String loads;
     private String colour;
-    private float output;
+    private String output;
     private int seat;
     private String recordDate;
 
@@ -69,12 +69,8 @@ public class TruckVO {
         this.types = types;
     }
 
-    public float getLoads() {
+    public String getLoads() {
         return loads;
-    }
-
-    public void setLoads(float loads) {
-        this.loads = loads;
     }
 
     public String getColour() {
@@ -85,11 +81,15 @@ public class TruckVO {
         this.colour = colour;
     }
 
-    public float getOutput() {
+    public void setLoads(String loads) {
+        this.loads = loads;
+    }
+
+    public String getOutput() {
         return output;
     }
 
-    public void setOutput(float output) {
+    public void setOutput(String output) {
         this.output = output;
     }
 

@@ -61,31 +61,33 @@
                                         <th>排量(L)</th>
                                         <th>核定座位</th>
                                         <th>颜色</th>
+                                        <th>注册日期</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="odd gradeX" data-th-each="driver : ${dividePage.objList}">
-                                        <td data-th-text="${driver.driverName}"></td>
-                                        <td data-th-text="${driver.tellphone}"></td>
-                                        <td data-th-text="${driver.email}"></td>
-                                        <td data-th-text="${driver.drivingLicenseType}"></td>
-                                        <td data-th-text="${driver.drivingAge}"></td>
-                                        <td data-th-text="${driver.state}"></td>
-                                        <td ><a href="#" th:href="@{/driver/toEdit(id=${driver.id})}">[编辑]</a>
-                                            <a href="#" th:href="@{/driver/delete(id=${driver.id})}">[删除]</a></td>
+                                    <tr class="odd gradeX" data-th-each="truck : ${dividePage.objList}">
+                                        <td data-th-text="${truck.plateNumber}"></td>
+                                        <td data-th-text="${truck.brand}"></td>
+                                        <td data-th-text="${truck.loads}"></td>
+                                        <td data-th-text="${truck.output}"></td>
+                                        <td data-th-text="${truck.seat}"></td>
+                                        <td data-th-text="${truck.colour}"></td>
+                                        <td data-th-text="${truck.recordDate}"></td>
+                                        <td ><a href="#" th:href="@{/truck/toEdit(id=${truck.id})}">[编辑]</a>
+                                            <a href="#" th:href="@{/truck/delete(id=${truck.id})}">[删除]</a></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <ul class="pagination">
-                                    <li><a href="#" th:href="@{/driver/toList(thisPage=${dividePage.prePage})}">&laquo;</a></li>
+                                    <li><a href="#" th:href="@{/truck/toList(thisPage=${dividePage.prePage})}">&laquo;</a></li>
 
 
                                     <li th:class="${num eq dividePage.thisPage}?active" th:each="num:${dividePage.startAndEnd}">
-                                        <a href="#" th:href="@{/driver/toList(thisPage=${num})}"
+                                        <a href="#" th:href="@{/truck/toList(thisPage=${num})}"
                                            th:text="${numStat.count }"></a>
                                     </li>
-                                    <li><a href="#" th:href="@{/driver/toList(thisPage=${dividePage.nextPage})}">&raquo;</a></li>
+                                    <li><a href="#" th:href="@{/truck/toList(thisPage=${dividePage.nextPage})}">&raquo;</a></li>
                                 </ul>
                             </div>
 

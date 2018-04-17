@@ -10,9 +10,9 @@
         <result column="brand" property="brand" jdbcType="VARCHAR" />
         <result column="model" property="model" jdbcType="VARCHAR" />
         <result column="types" property="types" jdbcType="VARCHAR" />
-        <result column="loads" property="loads" jdbcType="INTEGER" />
+        <result column="loads" property="loads" jdbcType="FLOAT" />
         <result column="colour" property="colour" jdbcType="VARCHAR" />
-        <result column="output" property="output" jdbcType="VARCHAR" />
+        <result column="output" property="output" jdbcType="FLOAT" />
         <result column="seat" property="seat" jdbcType="INTEGER" />
         <result column="recordDate" property="recordDate" />
     </resultMap>
