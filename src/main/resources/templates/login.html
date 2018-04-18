@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,21 +29,22 @@
 
     <div class="container">
 
-      <form class="login-form" action="index.html">        
+      <form class="login-form" th:action="@{/login/login}">
         <div class="login-wrap">
             <p class="login-img"><i class="icon_lock_alt"></i></p>
             <div class="input-group">
               <span class="input-group-addon"><i class="icon_profile"></i></span>
-              <input type="text" class="form-control" placeholder="用户名" autofocus>
+              <input name="username" type="text" class="form-control" placeholder="用户名" autofocus>
             </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-                <input type="password" class="form-control" placeholder="秘密">
+                <input name="password" type="password" class="form-control" placeholder="秘密">
             </div>
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> 记住我
                 <!--<span class="pull-right"> <a href="#"> Forgot Password?</a></span>-->
             </label>
+            <p th:text="${result}"></p>
             <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
             <!--<button class="btn btn-info btn-lg btn-block" type="submit">Signup</button>-->
         </div>

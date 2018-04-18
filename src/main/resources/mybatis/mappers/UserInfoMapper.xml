@@ -11,7 +11,7 @@
     <sql id="Base_Column_List">
         *
     </sql>
-    <select id="queryById" resultMap="UserInfo"
+    <select id="queryById" resultType="UserInfo"
             parameterType="java.lang.Integer">
         select
         *
@@ -24,7 +24,7 @@
     </select>
 
     <select id="validateUser" resultType="UserInfo">
-        select * from users where username=#{username},password=#{password}
+        select * from users where username=#{username} and password=#{password}
     </select>
 
     <insert id="add" parameterType="UserInfo" useGeneratedKeys="true" keyProperty="id">
