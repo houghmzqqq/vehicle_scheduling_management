@@ -1,16 +1,28 @@
 package com.example.vehicle_scheduling_management.pojo;
 
-
+/**
+ * 用户信息类
+ */
 public class UserInfo {
-    public Integer id;
-    public String username;
-    public String age;
+    private int id;
+    private String username;
+    private String password;
+    private String role;
 
-    public Integer getId() {
+    public UserInfo() {
+    }
+
+    public UserInfo(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -22,12 +34,20 @@ public class UserInfo {
         this.username = username;
     }
 
-    public String getAge() {
-        return age;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -35,7 +55,8 @@ public class UserInfo {
         return "UserInfo{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", age='" + age + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

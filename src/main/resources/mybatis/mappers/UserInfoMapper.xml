@@ -2,20 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.vehicle_scheduling_management.mapper.UserInfoMapper">
-    <resultMap id="BaseResultMap"
-               type="com.example.vehicle_scheduling_management.pojo.UserInfo">
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="driverName" property="username" jdbcType="VARCHAR" />
-        <result column="age" property="age" jdbcType="VARCHAR" />
-    </resultMap>
+    <!--<resultMap id="BaseResultMap"-->
+               <!--type="com.example.vehicle_scheduling_management.pojo.UserInfo">-->
+        <!--<id column="id" property="id" jdbcType="INTEGER" />-->
+        <!--<result column="driverName" property="username" jdbcType="VARCHAR" />-->
+        <!--<result column="age" property="age" jdbcType="VARCHAR" />-->
+    <!--</resultMap>-->
     <sql id="Base_Column_List">
-        id, driverName, age
+        *
     </sql>
-    <select id="queryById" resultMap="BaseResultMap"
+    <select id="queryById" resultMap="UserInfo"
             parameterType="java.lang.Integer">
         select
-        <include refid="Base_Column_List" />
+        *
         from users
         where id = #{id}
     </select>
+
+    <select id="queryAll" resultType="UserInfo">
+        select * from users
+    </select>
+
+    <select id="validateUser" resultType="UserInfo">
+        select * from users where username=#{username},password=#{password}
+    </select>
+
+    <insert id="add" parameterType="UserInfo" useGeneratedKeys="true" keyProperty="id">
+      insert into users(username,password,role) VALUES (#{username},#{password},#{role})
+    </insert>
+
+    <update id="update" parameterType="UserInfo">
+        update users set username=#{username},password=#{password},role=#{role} where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from users where id=#{id}
+    </delete>
 </mapper>

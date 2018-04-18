@@ -7,14 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
-public class UserService {
+public interface UserService {
 
-    @Autowired
-    private UserInfoMapper userInfoMapper;
+    UserInfo queryById(Integer id);
 
-    public UserInfo queryById(Integer id){
-        return userInfoMapper.queryById(id);
-    }
+    List<UserInfo> queryAll();
+
+    void add(UserInfo userInfo);
+
+    void delete(int id);
+
+    void update(UserInfo userInfo);
 }
