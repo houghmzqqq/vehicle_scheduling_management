@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -78,9 +79,11 @@ public class TruckController {
      * @Date: 21:48 2018/4/16
      */
     @RequestMapping("/updateTruck")
+    @ResponseBody
     public String updateTruck(TruckVO truckVO){
         truckService.update(truckVO);
-        return "redirect:/truck/toList";
+//        return "redirect:/truck/toList";
+        return "{\"rel\": \"yes\"}";
     }
 
     /**
