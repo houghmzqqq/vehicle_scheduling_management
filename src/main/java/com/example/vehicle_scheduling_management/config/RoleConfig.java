@@ -7,50 +7,55 @@ import java.util.*;
  */
 public class RoleConfig {
 
-    private static RoleModel model1 = new RoleModel("调度管理", Arrays.asList(
+    //权限，存储角色能够访问的模块
+    private static Map<String,List<RoleModel>> permiss;
+
+    //每个模块能够访问的uri
+    private RoleModel model1 = new RoleModel("调度管理", Arrays.asList(
             "","",""));
-    private static RoleModel model2 = new RoleModel("司机管理", Arrays.asList(
+    private RoleModel model2 = new RoleModel("司机管理", Arrays.asList(
             "/driver/toList","/driver/toEdit","/driver/updateDriver"
             ,"/driver/delete","/driver/toAdd","/driver/addDriver"));
-    private static RoleModel model3 = new RoleModel("车辆管理", Arrays.asList(
+    private RoleModel model3 = new RoleModel("车辆管理", Arrays.asList(
             "/truck/toList","/truck/toEdit","/truck/updateTruck"
             ,"/truck/delete","/truck/toAdd","/truck/addTruck"));
 
-    static {
-        List<String> roles = new ArrayList<>();
-        roles.add("superAdmin");
-        roles.add("role1");
-        roles.add("role2");
-
-        Map<String, List<RoleModel>> permiss = new HashMap<>();
+    //实例化时，加载各个角色的权限
+    public RoleConfig(){
+        permiss = new HashMap<>();
         permiss.put("superAdmin",Arrays.asList(model1,model2,model3));
         permiss.put("role1",Arrays.asList(model1));
         permiss.put("role2",Arrays.asList(model2,model3));
     }
-}
 
-class RoleModel{
-    private String modelName;
-    private List<String> urls;
-
-    public RoleModel(String modelName, List<String> url) {
-        this.modelName = modelName;
-        this.urls = url;
+    public Map<String, List<RoleModel>> getPermiss() {
+        return permiss;
     }
 
-    public String getModelName() {
-        return modelName;
-    }
+    //内部内，存放系统模块对应的uri
+    public class RoleModel{
+        private String modelName;
+        private List<String> urls;
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
+        public RoleModel(String modelName, List<String> url) {
+            this.modelName = modelName;
+            this.urls = url;
+        }
 
-    public List<String> getUrls() {
-        return urls;
-    }
+        public String getModelName() {
+            return modelName;
+        }
 
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
+        public void setModelName(String modelName) {
+            this.modelName = modelName;
+        }
+
+        public List<String> getUrls() {
+            return urls;
+        }
+
+        public void setUrls(List<String> urls) {
+            this.urls = urls;
+        }
     }
 }

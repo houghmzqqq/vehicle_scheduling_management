@@ -10,7 +10,8 @@ import org.springframework.context.annotation.ComponentScans;
 @ComponentScan(basePackages = {"com.example.vehicle_scheduling_management.service.Impl",
 		"com.example.vehicle_scheduling_management.config",
 		"com.example.vehicle_scheduling_management.action",
-        "com.example.vehicle_scheduling_management.aspect"})
+        "com.example.vehicle_scheduling_management.aspect",
+        "com.example.vehicle_scheduling_management.filter"})
 @MapperScan(basePackages = {"com.example.vehicle_scheduling_management.mapper"})
 public class VehicleSchedulingManagementApplication {
 	public static void main(String[] args) {

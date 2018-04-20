@@ -2,6 +2,7 @@ package com.example.vehicle_scheduling_management.action;
 
 import com.example.vehicle_scheduling_management.pojo.UserInfo;
 import com.example.vehicle_scheduling_management.service.LoginService;
+import com.sun.net.httpserver.HttpsConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,22 +24,30 @@ public class LoginController {
 
     @RequestMapping("/toLogin")
     public String toLogin(){
-        return "login";
+        return "/login";
     }
 
     @RequestMapping("/login")
     public String login(@RequestParam String username,
                         @RequestParam String password,
-                        HttpServletRequest request, Model model){
+                        HttpSession session, Model model){
         UserInfo user = loginService.login(username,password);
         if (user==null){
             model.addAttribute("result","登录失败，请检查用户名和密码！");
             return "/login";
         }
 
-        HttpSession session = request.getSession();
         session.setAttribute("user",user);
-        System.out.println(user);
         return "index";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        //不产生新的session，request.getSession()如果不存在session，它会创建一个新的
+        HttpSession session = request.getSession(false);
+        if(session != null){
+            session.removeAttribute("user");
+        }
+        return "/login";
     }
 }
