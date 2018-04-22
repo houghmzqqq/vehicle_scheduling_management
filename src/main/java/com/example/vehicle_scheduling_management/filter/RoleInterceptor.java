@@ -30,6 +30,11 @@ public class RoleInterceptor implements HandlerInterceptor{
         HttpSession session = request.getSession();
         UserInfo user = (UserInfo) session.getAttribute("user");
 
+        if(user==null){
+            response.sendRedirect(request.getContextPath() + "/login/toLogin");
+            return false;
+        }
+
         //获取角色权限配置
         RoleConfig roleConfig = new RoleConfig();
         Map permiss = roleConfig.getPermiss();
@@ -37,12 +42,16 @@ public class RoleInterceptor implements HandlerInterceptor{
 
         for(RoleConfig.RoleModel model : models){
             for(String reqUri : model.getUrls()){
-                if(reqUri.equals(uri))
+                if(reqUri.equals(uri)){
+                    System.out.println(user.getUsername() + " have permiss.");
                     return true;
+                }
             }
         }
 
-//        System.out.println("用户：" + user.);
+
+        System.out.println("你没有权限，跳转到uri:"+models.get(0).getUrls().get(0));
+        response.sendRedirect(request.getContextPath() + models.get(0).getUrls().get(0));
         return false;
     }
 

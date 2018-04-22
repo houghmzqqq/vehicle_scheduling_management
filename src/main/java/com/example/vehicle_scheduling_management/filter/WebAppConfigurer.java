@@ -5,6 +5,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import java.util.Arrays;
+
 /**
  * Created by 叶俊锋 on 2018/4/4.
  * 添加一个拦截器
@@ -14,8 +16,9 @@ public class WebAppConfigurer extends WebMvcConfigurationSupport {
     /*注册拦截器*/
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/login/*").addPathPatterns("/**");
+//        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/login/*").addPathPatterns("/**");
 //        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/*/**");
+        registry.addInterceptor(new RoleInterceptor()).addPathPatterns(Arrays.asList("/driver/*","/truck/*"));
         super.addInterceptors(registry);
     }
 

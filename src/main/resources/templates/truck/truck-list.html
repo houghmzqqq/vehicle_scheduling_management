@@ -85,7 +85,7 @@
 
                                     <li th:class="${num eq dividePage.thisPage}?active" th:each="num:${dividePage.startAndEnd}">
                                         <a href="#" th:href="@{/truck/toList(thisPage=${num})}"
-                                           th:text="${numStat.count }"></a>
+                                           th:text="${num }"></a>
                                     </li>
                                     <li><a href="#" th:href="@{/truck/toList(thisPage=${dividePage.nextPage})}">&raquo;</a></li>
                                 </ul>

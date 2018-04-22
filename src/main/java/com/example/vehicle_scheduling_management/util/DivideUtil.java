@@ -68,7 +68,7 @@ public class DivideUtil {
                 start = 1;
                 end = 5;
             }else if(thisPage >= maxPage-2){
-                start = maxPage-2;
+                start = maxPage-4;
                 end = maxPage;
             }else{
                 start = thisPage-2;

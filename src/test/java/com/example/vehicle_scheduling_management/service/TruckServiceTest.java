@@ -10,7 +10,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,8 @@ import java.util.Date;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest@ComponentScan(basePackages = {"com.example.vehicle_scheduling_management.service.Impl",
+@SpringBootTest
+@ComponentScan(basePackages = {"com.example.vehicle_scheduling_management.service.Impl",
         "com.example.vehicle_scheduling_management.config",
         "com.example.vehicle_scheduling_management.action",
         "com.example.vehicle_scheduling_management.aspect"})

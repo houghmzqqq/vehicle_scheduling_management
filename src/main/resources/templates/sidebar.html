@@ -23,12 +23,12 @@
     <div id="wrapper">
         <nav class="navbar-default navbar-side" role="navigation" th:fragment="navbar-side">
             <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-                    <li>
+                <ul class="nav" id="main-menu" th:object="${session.user}">
+                    <li >
                         <a th:href="@{/}"><i class="fa fa-edit"></i> 首页 </a>
                     </li>
 
-                    <li>
+                    <li th:if="*{role eq 'role1' || role eq 'superAdmin'}">
                         <a href="#"><i class="fa fa-sitemap"></i> 调度管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -59,10 +59,10 @@
                         </ul>
                     </li>
 
-                    <li>
+                    <li th:if="*{role eq 'role2' || role eq 'superAdmin'}" >
                         <a href="#"><i class="fa fa-sitemap"></i> 车辆管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li>
+                            <li >
                                 <a href="#" th:href="@{/truck/toList}">车辆信息</a>
                             </li>
                             <li>
@@ -93,7 +93,7 @@
                         </ul>
                     </li>
 
-                    <li>
+                    <li th:if="*{role eq 'role2' || role eq 'superAdmin'} ">
                         <a href="#"><i class="fa fa-sitemap"></i> 司机管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>

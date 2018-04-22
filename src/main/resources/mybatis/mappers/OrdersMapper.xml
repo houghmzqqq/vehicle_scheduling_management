@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.vehicle_scheduling_management.mapper.OrdersMapper">
+    <!--<resultMap id="BaseResultMap"-->
+               <!--type="com.example.vehicle_scheduling_management.pojo.DriverPO">-->
+        <!--<id column="id" property="id" jdbcType="INTEGER" />-->
+        <!--<result column="driverCode" property="driverCode" jdbcType="CHAR" />-->
+        <!--<result column="driverName" property="driverName" jdbcType="VARCHAR" />-->
+        <!--<result column="sex" property="sex" jdbcType="CHAR" />-->
+        <!--<result column="age" property="age" jdbcType="INTEGER" />-->
+        <!--<result column="tellphone" property="tellphone" jdbcType="CHAR" />-->
+        <!--<result column="email" property="email" jdbcType="CHAR" />-->
+        <!--<result column="address" property="address" jdbcType="VARCHAR" />-->
+        <!--<result column="drivingLicenseType" property="drivingLicenseType" jdbcType="CHAR" />-->
+        <!--<result column="drivingLicense" property="drivingLicense" jdbcType="CHAR" />-->
+        <!--<result column="drivingAge" property="drivingAge" jdbcType="INTEGER" />-->
+        <!--<result column="jobSeniorityNum" property="jobSeniorityNum" jdbcType="CHAR" />-->
+        <!--<result column="getLicenseDate" property="getLicenseDate" />-->
+        <!--<result column="state" property="state" jdbcType="CHAR" />-->
+    <!--</resultMap>-->
+    <sql id="Base_Column_List">
+        *
+    </sql>
+    <select id="queryById" resultType="OrdersPO"
+            parameterType="java.lang.Integer">
+        select
+        *
+        from orders
+        where id = #{id}
+    </select>
+    
+    <select id="queryByFilter" resultType="OrdersPO">
+        select * from orders
+    </select>
+
+    <!--<select id="queryByDivide" resultMap="BaseResultMap">-->
+        <!--select * from driver limit #{firstData},#{rowOfEachPage}-->
+    <!--</select>-->
+
+    <!--<select id="driverCount" resultType="java.lang.Integer">-->
+        <!--select count(*) from driver-->
+    <!--</select>-->
+
+    <insert id="add" parameterType="OrdersPO" useGeneratedKeys="true" keyProperty="id">
+        insert into orders(company,goodsName,name,weight,volume,province,city,
+        detailedAddress,createDate,status,types,isToBring)
+        values(#{company},#{goodsName},#{name},#{weight},#{volume},#{province},
+        #{city},#{detailedAddress},#{createDate},#{status},#{types},#{isToBring})
+    </insert>
+    
+    <update id="update" parameterType="OrdersPO">
+        update orders set company=#{company},goodsName=#{goodsName},name=#{name},
+        weight=#{weight},volume=#{volume},province=#{province},city=#{city},
+        detailedAddress=#{detailedAddress},createDate=#{createDate},status=#{status},
+        types=#{types},isToBring=#{isToBring}
+        where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        delete from orders where id=#{id}
+    </delete>
+</mapper>
