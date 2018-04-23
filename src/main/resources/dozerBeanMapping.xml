@@ -21,6 +21,23 @@
         </field-exclude>
     </mapping>
 
+    <mapping>
+        <class-a>com.example.vehicle_scheduling_management.pojo.OrdersPO</class-a>
+        <class-b>com.example.vehicle_scheduling_management.vo.OrdersVO</class-b>
+        <field-exclude>
+            <a>province</a>
+            <b>province</b>
+        </field-exclude>
+        <field-exclude>
+            <a>city</a>
+            <b>city</b>
+        </field-exclude>
+        <field-exclude>
+            <a>detailedAddress</a>
+            <b>address</b>
+        </field-exclude>
+    </mapping>
+
     <!--<mapping>-->
         <!--<class-a>com.yejunfeng.PO.StudentPO</class-a>-->
         <!--<class-b>com.yejunfeng.VO.StudentVO</class-b>-->

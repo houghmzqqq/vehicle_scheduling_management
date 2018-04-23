@@ -12,7 +12,7 @@ public class RoleConfig {
 
     //每个模块能够访问的uri
     private RoleModel model1 = new RoleModel("调度管理", Arrays.asList(
-            "","",""));
+            "/schedule/toApply","",""));
     private RoleModel model2 = new RoleModel("司机管理", Arrays.asList(
             "/driver/toList","/driver/toEdit","/driver/updateDriver"
             ,"/driver/delete","/driver/toAdd","/driver/addDriver"));

@@ -31,7 +31,11 @@
     </select>
     
     <select id="queryByFilter" resultType="OrdersPO">
-        select * from orders
+        select * from orders where #{filter}
+    </select>
+
+    <select id="queryByTypes" resultType="OrdersPO">
+        select * from orders where status=1 and types=#{types}
     </select>
 
     <!--<select id="queryByDivide" resultMap="BaseResultMap">-->

@@ -15,9 +15,7 @@ public class OrdersVO {
     private String goodsName;
     private float weight;
     private float volume;
-    private String province;
-    private String city;
-    private String detailedAddress;
+    private String address;
     private String createDate;
     private String types;
     private String isToBring;
@@ -26,15 +24,14 @@ public class OrdersVO {
     public OrdersVO() {
     }
 
-    public OrdersVO(String company, String name, String goodsName, float weight, float volume, String province, String city, String detailedAddress, String createDate, String types, String isToBring, String status) {
+    public OrdersVO(String company, String name, String goodsName, float weight, float volume,
+                    String address, String createDate, String types, String isToBring, String status) {
         this.company = company;
         this.name = name;
         this.goodsName = goodsName;
         this.weight = weight;
         this.volume = volume;
-        this.province = province;
-        this.city = city;
-        this.detailedAddress = detailedAddress;
+        this.address = address;
         this.createDate = createDate;
         this.types = types;
         this.isToBring = isToBring;
@@ -89,28 +86,12 @@ public class OrdersVO {
         this.volume = volume;
     }
 
-    public String getProvince() {
-        return province;
+    public String getAddress() {
+        return address;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getDetailedAddress() {
-        return detailedAddress;
-    }
-
-    public void setDetailedAddress(String detailedAddress) {
-        this.detailedAddress = detailedAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCreateDate() {
@@ -154,9 +135,7 @@ public class OrdersVO {
                 ", goodsName='" + goodsName + '\'' +
                 ", weight=" + weight +
                 ", volume=" + volume +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", detailedAddress='" + detailedAddress + '\'' +
+                ", address='" + address + '\'' +
                 ", createDate='" + createDate + '\'' +
                 ", types='" + types + '\'' +
                 ", isToBring='" + isToBring + '\'' +

@@ -21,6 +21,15 @@ public interface OrdersService {
      */
     List<OrdersVO> queryByFilter(String filter);
 
+    /**
+     * @Author: yjf
+     * @Description: 通过订单类型查询订单（分为整车和零担）
+     * @Param: types
+     * @Return: List<OrdersVO>
+     * @Date: 11:11 2018/4/23
+     */
+    List<OrdersVO> queryByTypes(int types);
+
     void add(OrdersVO ordersVO);
 
     /**

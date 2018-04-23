@@ -83,7 +83,11 @@
 			<artifactId>json-lib-ext-spring</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
