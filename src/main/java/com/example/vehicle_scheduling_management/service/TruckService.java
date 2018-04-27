@@ -24,6 +24,15 @@ public interface TruckService {
 
     /**
      * @Author: yjf
+     * @Description: 通过状态查询车辆信息
+     * @Param: status
+     * @Return: List<TruckVO>
+     * @Date: 17:19 2018/4/24
+     */
+    List<TruckVO> queryByStatus(int status);
+
+    /**
+     * @Author: yjf
      * @Description: 查询所有车辆信息
      * @Param: null
      * @Return: List<TruckPO>

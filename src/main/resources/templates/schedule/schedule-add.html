@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>车辆信息录入</title>
+    <!-- Bootstrap Styles-->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <!-- FontAwesome Styles-->
+    <link href="/assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/assets/css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- Custom Styles-->
+    <link href="/assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="/assets/css/style-responsive.css" rel="stylesheet"/>
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!--jquery ui css-->
+    <link href="/assets/css/jquery-ui-timepicker-addon.min.css" rel="stylesheet"/>
+    <link href="/assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation" th:include="header :: top-navbar">
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation" th:include="sidebar :: navbar-side">
+    </nav>
+
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div class="header">
+            <ol class="breadcrumb">
+                <li><a href="#">主页</a></li>
+                <li><a href="#">调度申请</a></li>
+                <li class="active">生成调度单</li>
+            </ol>
+
+        </div>
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            新增调度单
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form">
+                                    <form class="form-validate form-horizontal" id="register_form" method="get"
+                                          th:action="@{/schedule/create}">
+                                        <input hidden name="orderId" th:value="${order.id}" />
+                                        <div class="form-group ">
+                                            <label for="company" class="control-label col-lg-2">公司名称</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="company" name="company" type="text"
+                                                       th:value="${order.company}" disabled/>
+                                            </div>
+                                            <label for="fzrName" class="control-label col-lg-2">客户负责人</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="fzrName" name="name" type="text"
+                                                       th:value="${order.name}" disabled/>
+                                                <!--<select class="form-control" id="fleetName" name="fleetName" type="text" required>-->
+                                                    <!--<option th:value="男">男</option>-->
+                                                    <!--<option th:value="女">女</option>-->
+                                                <!--</select>-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="goodsName" class="control-label col-lg-2">货物名称 </label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="goodsName" type="text" name="goodsName"
+                                                       th:value="${order.goodsName}" disabled/>
+                                            </div>
+                                            <label for="weight" class="control-label col-lg-2">货物重量(吨) </label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="weight" name="weight"
+                                                       th:value="${order.weight}" type="text" disabled/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="volume" class="control-label col-lg-2">货物体积(立方)</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="volume" type="text" name="volume"
+                                                       th:value="${order.volume}" disabled/>
+                                            </div>
+                                            <label for="totalAddress" class="control-label col-lg-2">目的地</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="totalAddress" type="text" name="totalAddress"
+                                                       th:value="${order.totalAddress}" disabled/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="form-group ">
+                                            <label for="truck" class="control-label col-lg-2">货车</label>
+                                            <div class="col-lg-8">
+                                                <select onchange="getTruckInfo()" class="form-control" id="truck" name="truckId" required>
+                                                    <option></option>
+                                                    <option th:each="truck : ${trucks}" th:value="${truck.id}"
+                                                            th:text="${truck.plateNumber} + '    ' + ${truck.loads} +'t'"></option>
+                                                    <!--<option th:value="女">女</option>-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="plateNumber" class="control-label col-lg-2">车牌号</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="plateNumber" type="text" name="plateNumber"
+                                                       disabled/>
+                                            </div>
+                                            <label for="fleetName" class="control-label col-lg-2">车队名称</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="fleetName" type="text" name="fleetName"
+                                                       disabled/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="loads" class="control-label col-lg-2">载重(t)</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="loads" type="text" name="loads"
+                                                       disabled/>
+                                            </div>
+                                            <label for="output" class="control-label col-lg-2">排量(L)</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="output" type="text" name="output"
+                                                       disabled/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="form-group ">
+                                            <label for="driver" class="control-label col-lg-2">司机</label>
+                                            <div class="col-lg-8">
+                                                <select onchange="getDriverInfo()" class="form-control" id="driver" name="driverId" required>
+                                                    <option></option>
+                                                    <option th:each="driver : ${drivers}" th:value="${driver.id}"
+                                                            th:text="${driver.driverName} + '    ' + ${driver.drivingLicenseType}"></option>
+                                                    <!--<option th:value="女">女</option>-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="drivingLicense" class="control-label col-lg-2">驾驶证号</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="drivingLicense" type="text" name="drivingLicense"
+                                                       disabled/>
+                                            </div>
+                                            <label for="driverName" class="control-label col-lg-2">姓名</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="driverName" type="text" name="driverName"
+                                                       disabled/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="drivingLicenseType" class="control-label col-lg-2">驾照类型</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="drivingLicenseType" type="text" name="drivingLicenseType"
+                                                       disabled/>
+                                            </div>
+                                            <label for="tellphone" class="control-label col-lg-2">联系方式</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="tellphone" type="text" name="tellphone"
+                                                       disabled/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-8 col-lg-10">
+                                                <button class="btn btn-primary" type="submit">保存</button>
+                                                <button class="btn btn-default" type="reset">重置</button>
+                                                <a class="btn btn-default" type="button" th:href="@{/truck/toList}">取消</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="/assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="/assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="/assets/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<script src="/assets/js/custom-scripts.js"></script>
+<!--jquery ui js-->
+<script src="/assets/js/jquery-ui-1.10.4.min.js"></script>
+<script src="/assets/js/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery-ui-timepicker-zh-CN.js"></script>
+<!-- datetime util -->
+<script type="text/javascript">
+
+    //获取选中的货车信息
+    function getTruckInfo() {
+        var selected = document.getElementById("truck");
+        var truckId = selected.value;
+
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/schedule/getTruckInfo?id="+truckId ,//url
+//            data: $('#register_form').serialize(),
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code != 200) {
+                    alert("获取货车信息失败！");
+                    return false;
+                }
+                var truckInfo = result.result;
+                document.getElementById("plateNumber").value = truckInfo.plateNumber;
+                document.getElementById("fleetName").value = truckInfo.fleetName;
+                document.getElementById("loads").value = truckInfo.loads;
+                document.getElementById("output").value = truckInfo.output;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+//                alert(XMLHttpRequest.status);
+//                alert(XMLHttpRequest.readyState);
+//                alert(textStatus);
+            }
+        });
+    }
+
+    //获取选中的司机信息
+    function getDriverInfo() {
+        var selected = document.getElementById("driver");
+        var driverId = selected.value;
+
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/schedule/getDriverInfo?id="+driverId ,//url
+//            data: $('#register_form').serialize(),
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code != 200) {
+                    alert("获取司机信息失败！");
+                    return false;
+                }
+                var driverInfo = result.result;
+                document.getElementById("drivingLicense").value = driverInfo.drivingLicense;
+                document.getElementById("driverName").value = driverInfo.driverName;
+                document.getElementById("drivingLicenseType").value = driverInfo.drivingLicenseType;
+                document.getElementById("tellphone").value = driverInfo.tellphone;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+//                alert(XMLHttpRequest.status);
+//                alert(XMLHttpRequest.readyState);
+//                alert(textStatus);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

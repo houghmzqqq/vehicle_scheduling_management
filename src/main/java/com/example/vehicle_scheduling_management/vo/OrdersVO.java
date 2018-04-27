@@ -15,7 +15,10 @@ public class OrdersVO {
     private String goodsName;
     private float weight;
     private float volume;
-    private String address;
+    private String province;
+    private String city;
+    private String detailedAddress;
+    private String totalAddress;
     private String createDate;
     private String types;
     private String isToBring;
@@ -25,13 +28,17 @@ public class OrdersVO {
     }
 
     public OrdersVO(String company, String name, String goodsName, float weight, float volume,
-                    String address, String createDate, String types, String isToBring, String status) {
+                    String province, String city, String detailedAddress, String totalAddress,
+                    String createDate, String types, String isToBring, String status) {
         this.company = company;
         this.name = name;
         this.goodsName = goodsName;
         this.weight = weight;
         this.volume = volume;
-        this.address = address;
+        this.province = province;
+        this.city = city;
+        this.detailedAddress = detailedAddress;
+        this.totalAddress = totalAddress;
         this.createDate = createDate;
         this.types = types;
         this.isToBring = isToBring;
@@ -86,12 +93,36 @@ public class OrdersVO {
         this.volume = volume;
     }
 
-    public String getAddress() {
-        return address;
+    public String getProvince() {
+        return province;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDetailedAddress() {
+        return detailedAddress;
+    }
+
+    public void setDetailedAddress(String detailedAddress) {
+        this.detailedAddress = detailedAddress;
+    }
+
+    public String getTotalAddress() {
+        return totalAddress;
+    }
+
+    public void setTotalAddress(String totalAddress) {
+        this.totalAddress = totalAddress;
     }
 
     public String getCreateDate() {
@@ -135,7 +166,10 @@ public class OrdersVO {
                 ", goodsName='" + goodsName + '\'' +
                 ", weight=" + weight +
                 ", volume=" + volume +
-                ", address='" + address + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", detailedAddress='" + detailedAddress + '\'' +
+                ", totalAddress='" + totalAddress + '\'' +
                 ", createDate='" + createDate + '\'' +
                 ", types='" + types + '\'' +
                 ", isToBring='" + isToBring + '\'' +

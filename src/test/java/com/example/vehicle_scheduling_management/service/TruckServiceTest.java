@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: yjf
@@ -42,14 +43,16 @@ public class TruckServiceTest {
 
     @Test
     @Transactional
-    @Rollback(false)
+    @Rollback(true)
     public void addTest(){
         TruckPO truckPO = new TruckPO("粤A 5666", "秋名山", "123","123", "123",
         10.5f, "红色", 1.6f, 4, new Date());
-        for(int i=1;i<=20;i++){
-            truckPO.setPlateNumber("粤A 5666"+i);
-            truckMapper.add(truckPO);
-        }
+//        for(int i=1;i<=20;i++){
+//            truckPO.setPlateNumber("粤A 5666"+i);
+//            truckMapper.add(truckPO);
+//        }
+        truckMapper.add(truckPO);
+        System.out.println(truckPO.getId());
     }
 
     @Test
@@ -58,5 +61,11 @@ public class TruckServiceTest {
     public void divideTest(){
         DividePageVO<TruckVO> dividePage = truckService.divideQuery(1,3);
         System.out.println(dividePage);
+    }
+
+    @Test
+    public void statusTest(){
+        List<TruckVO> truckVOS = truckService.queryByStatus(0);
+        System.out.println(truckVOS);
     }
 }

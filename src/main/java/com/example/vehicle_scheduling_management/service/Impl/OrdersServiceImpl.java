@@ -34,6 +34,12 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
+    public OrdersVO queryById(int id) {
+        OrdersPO ordersPO = ordersMapper.queryById(id);
+        return turnPoToVo(ordersPO);
+    }
+
+    @Override
     public List<OrdersVO> queryByTypes(int types) {
 
         List<OrdersPO> ordersPOS = ordersMapper.queryByTypes(types);
@@ -67,7 +73,7 @@ public class OrdersServiceImpl implements OrdersService {
         beanMapper.map(ordersPO,ordersVO);
 
         String address = ordersPO.getProvince()+ordersPO.getCity()+ordersPO.getDetailedAddress();
-        ordersVO.setAddress(address);
+        ordersVO.setTotalAddress(address);
 
         if(ordersPO.getTypes() == 0){
             ordersVO.setTypes("整车");

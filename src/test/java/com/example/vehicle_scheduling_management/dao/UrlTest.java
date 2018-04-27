@@ -37,7 +37,7 @@ public class UrlTest {
     public void test02() throws Exception {
         //获取坐标
         urlTool = new UrlTool("http://restapi.amap.com/v3/geocode/geo?" +
-                "key=a5adf042b0fb331d06dacd542469c1c8&address=湛江麻章广东海洋大学");
+                "key=a5adf042b0fb331d06dacd542469c1c8&address=惠州市河南岸汽车客运站");
         String msg = urlTool.getResponseMsg();
         System.out.println(msg);
     }

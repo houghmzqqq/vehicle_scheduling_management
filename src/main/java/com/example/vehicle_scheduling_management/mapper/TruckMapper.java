@@ -14,6 +14,15 @@ import java.util.List;
 public interface TruckMapper {
     TruckPO queryById(int id);
 
+    /**
+     * @Author: yjf
+     * @Description: 通过车辆状态查询信息
+     * @Param: status
+     * @Return: List<TruckPO>
+     * @Date: 15:44 2018/4/24
+     */
+    List<TruckPO> queryByStatus(int status);
+
     List<TruckPO> queryAll();
 
     List<TruckPO> queryByDivide(@Param("firstData") int firstData,

@@ -31,9 +31,19 @@ public interface DriverService {
 
     /**
      * @Author: yjf
+     * @Description: 根据状态查询司机
+     * @Param: status
+     * @Return: List<DriverVO>
+     * @Date: 17:32 2018/4/24
+     */
+    List<DriverVO> queryByStatus(String status);
+
+    /**
+     * @Author: yjf
      * @Description: 分页查询司机信息
-     * @Param: null
-     * @Return: null
+     * @Param: thisPage
+     * @Param: rowOfEachPage
+     * @Return: DividePageVO<DriverVO>
      * @Date: 11:37 2018/4/15
      */
     DividePageVO<DriverVO> divideQuery(Integer thisPage, Integer rowOfEachPage);

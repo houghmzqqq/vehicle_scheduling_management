@@ -38,6 +38,18 @@ public class TruckServiceImpl implements TruckService {
     }
 
     @Override
+    public List<TruckVO> queryByStatus(int status) {
+        List<TruckPO> truckPOS = truckMapper.queryByStatus(status);
+        List<TruckVO> truckVOS = new ArrayList<>();
+
+        for (TruckPO truckPO : truckPOS){
+            truckVOS.add(turnPoToVo(truckPO));
+        }
+
+        return truckVOS;
+    }
+
+    @Override
     public List<TruckVO> queryAll() {
         return null;
     }
@@ -83,6 +95,13 @@ public class TruckServiceImpl implements TruckService {
         truckMapper.update(truckPO);
     }
 
+    /**
+     * @Author: yjf
+     * @Description: 将PO转换为VO
+     * @Param: truckPO
+     * @Return: TruckVO
+     * @Date: 17:23 2018/4/24
+     */
     public TruckVO turnPoToVo(TruckPO truckPO){
         TruckVO truckVO = new TruckVO();
         beanMapper.map(truckPO,truckVO);

@@ -28,6 +28,10 @@
         select * from truck
     </select>
 
+    <select id="queryByStatus" resultType="TruckPO">
+        select * from truck where status=#{status}
+    </select>
+
     <select id="queryByDivide" resultMap="BaseResultMap">
         select * from truck limit #{firstData},#{rowOfEachPage}
     </select>
@@ -44,7 +48,7 @@
     <update id="update" parameterType="TruckPO">
         update truck set plateNumber=#{plateNumber},fleetName=#{fleetName},brand=#{brand},
         model=#{model},types=#{types},loads=#{loads},colour=#{colour},output=#{output},seat=#{seat},
-        recordDate=#{recordDate}
+        recordDate=#{recordDate},status=#{status}
         where id=#{id}
     </update>
     

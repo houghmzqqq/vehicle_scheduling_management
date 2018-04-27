@@ -17,8 +17,8 @@ public class WebAppConfigurer extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/login/*").addPathPatterns("/**");
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/*/**");
-        registry.addInterceptor(new RoleInterceptor()).addPathPatterns(Arrays.asList("/driver/*","/truck/*","/schedule"));
+        registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/login/*").addPathPatterns("/*");
+        registry.addInterceptor(new RoleInterceptor()).addPathPatterns(Arrays.asList("/driver/*","/truck/*","/schedule/*"));
         super.addInterceptors(registry);
     }
 

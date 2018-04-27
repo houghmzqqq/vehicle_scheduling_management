@@ -48,6 +48,18 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    public List<DriverVO> queryByStatus(String status) {
+        List<DriverPO> driverPOS = driverMapper.queryByStatus(status);
+        List<DriverVO> driverVOS = new ArrayList<>();
+
+        for(DriverPO driverPO : driverPOS){
+            driverVOS.add(turnPoToVo(driverPO));
+        }
+
+        return driverVOS;
+    }
+
+    @Override
     public DividePageVO<DriverVO> divideQuery(Integer thisPage, Integer rowOfEachPage) {
         List<DriverPO> driverPOS = driverMapper.queryByDivide((thisPage-1)*rowOfEachPage,rowOfEachPage,null);
         List<DriverVO> driverVOS = new ArrayList<>();

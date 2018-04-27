@@ -14,6 +14,15 @@ public interface OrdersService {
 
     /**
      * @Author: yjf
+     * @Description: 通过id查找订单信息
+     * @Param: id
+     * @Return: OrdersVO
+     * @Date: 14:38 2018/4/24
+     */
+    OrdersVO queryById(int id);
+
+    /**
+     * @Author: yjf
      * @Description: 通过一些条件如省份等查询订单信息
      * @Param: filter
      * @Return: List<OrdersVO>

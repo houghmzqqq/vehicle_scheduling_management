@@ -12,6 +12,14 @@ import java.util.List;
  */
 public interface ScheduleService {
 
+    /**
+     * @Author: yjf
+     * @Description: 生成车辆调度申请
+     * @Param: driverId
+     * @Param: truckId
+     * @Param: orderId
+     * @Date: 21:11 2018/4/25
+     */
     void createSchedule(int driverId,int truckId,int orderId);
 
     String getLocalPosition();

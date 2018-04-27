@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.vehicle_scheduling_management.mapper.OrderItemMapper">
+    <!--<resultMap id="BaseResultMap"-->
+               <!--type="com.example.vehicle_scheduling_management.pojo.TruckPO">-->
+        <!--<id column="id" property="id" jdbcType="INTEGER" />-->
+        <!--<result column="plateNumber" property="plateNumber" jdbcType="VARCHAR" />-->
+        <!--<result column="fleetName" property="fleetName" jdbcType="VARCHAR" />-->
+        <!--<result column="brand" property="brand" jdbcType="VARCHAR" />-->
+        <!--<result column="model" property="model" jdbcType="VARCHAR" />-->
+        <!--<result column="types" property="types" jdbcType="VARCHAR" />-->
+        <!--<result column="loads" property="loads" jdbcType="FLOAT" />-->
+        <!--<result column="colour" property="colour" jdbcType="VARCHAR" />-->
+        <!--<result column="output" property="output" jdbcType="FLOAT" />-->
+        <!--<result column="seat" property="seat" jdbcType="INTEGER" />-->
+        <!--<result column="recordDate" property="recordDate" />-->
+    <!--</resultMap>-->
+    <!--<sql id="Base_Column_List">-->
+        <!--id,plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate-->
+    <!--</sql>-->
+    <select id="queryById" resultType="OrderItemPO"
+            parameterType="java.lang.Integer">
+        select * from truck where id = #{id}
+    </select>
+    
+    <!--<select id="queryAll" resultType="OrderItemMapper">-->
+        <!--select * from truck-->
+    <!--</select>-->
+
+    <!--<select id="queryByDivide" resultType="OrderItemMapper">-->
+        <!--select * from truck where status=#{status}-->
+    <!--</select>-->
+
+    <!--<select id="orderItemCount" resultType="Integer">-->
+        <!--select count(*) from truck-->
+    <!--</select>-->
+
+    <insert id="add" parameterType="OrderItemPO" useGeneratedKeys="true" keyProperty="id">
+        insert into orderitem(scheduleId,orderId)
+        values(#{scheduleId},#{orderId})
+    </insert>
+    
+    <update id="update" parameterType="OrderItemPO">
+
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        delete from truck where id=#{id}
+    </delete>
+</mapper>

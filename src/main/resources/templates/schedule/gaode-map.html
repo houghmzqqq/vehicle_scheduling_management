@@ -3,32 +3,32 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>物流公司车辆调度管理系统</title>
     <!-- Bootstrap Styles-->
-    <link href="/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- FontAwesome Styles-->
-    <link href="/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/font-awesome.css" rel="stylesheet"/>
     <!-- Morris Chart Styles-->
-    <link href="/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <link href="/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet"/>
     <!-- Custom Styles-->
-    <link href="/assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="/assets/css/custom-styles.css" rel="stylesheet"/>
     <!-- Google Fonts-->
-    <link href='/assets/css/fonts-googleapis.css' rel='stylesheet' type='text/css' />
+    <link href='/assets/css/fonts-googleapis.css' rel='stylesheet' type='text/css'/>
     <link rel="stylesheet" href="/assets/js/Lightweight-Chart/cssCharts.css">
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main.css"/>
     <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
     <!--<style type="text/css">-->
-        <!--#panel {-->
-            <!--position: fixed;-->
-            <!--background-color: white;-->
-            <!--max-height: 70%;-->
-            <!--overflow-y: auto;-->
-            <!--top: 200px;-->
-            <!--right: 10px;-->
-            <!--width: 280px;-->
-        <!--}-->
+    <!--#panel {-->
+    <!--position: fixed;-->
+    <!--background-color: white;-->
+    <!--max-height: 70%;-->
+    <!--overflow-y: auto;-->
+    <!--top: 200px;-->
+    <!--right: 10px;-->
+    <!--width: 280px;-->
+    <!--}-->
     <!--</style>-->
 </head>
 
@@ -41,9 +41,9 @@
     </nav>
     <!-- /. NAV SIDE  -->
     <!--<div class="panel panel-default">-->
-        <!--<div class="panel-body">-->
-            <!--面板内容-->
-        <!--</div>-->
+    <!--<div class="panel-body">-->
+    <!--面板内容-->
+    <!--</div>-->
     <!--</div>-->
 
 
@@ -71,8 +71,8 @@
                                     <tr>
                                         <th>公司</th>
                                         <th>客户负责人</th>
-                                        <th>重量</th>
-                                        <th>体积</th>
+                                        <th>重量(吨)</th>
+                                        <th>体积(立方)</th>
                                         <th>地址</th>
                                         <th>类型</th>
                                         <th>状态</th>
@@ -80,16 +80,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="odd gradeX" data-th-each="order : ${orders}">
+                                    <tr name="ordData"
+                                        th:onclick="'javascript:selectOne(\''+${order.detailedAddress}+'\',\''+${order.city}+'\');'"
+                                        class="odd gradeX" data-th-each="order : ${orders}">
                                         <td data-th-text="${order.company}"></td>
                                         <td data-th-text="${order.name}"></td>
                                         <td data-th-text="${order.weight}"></td>
                                         <td data-th-text="${order.volume}"></td>
-                                        <td data-th-text="${order.address}"></td>
+                                        <td data-th-text="${order.totalAddress}"></td>
                                         <td data-th-text="${order.types}"></td>
                                         <td data-th-text="${order.status}"></td>
-                                        <td ><a href="#">[编辑]</a>
-                                            <a href="#">[删除]</a></td>
+                                        <td><a href="#" th:href="@{/schedule/toAdd(orderId=${order.id})}">[生成调度单]</a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -118,7 +120,6 @@
             <!-- row -->
 
         </div>
-
     </div>
 
 
@@ -133,10 +134,6 @@
 
 <!-- Metis Menu Js -->
 <script src="/assets/js/jquery.metisMenu.js"></script>
-<!-- Morris Chart Js -->
-<script src="/assets/js/morris/raphael-2.1.0.min.js"></script>
-<script src="/assets/js/morris/morris.js"></script>
-
 
 <script src="/assets/js/easypiechart.js"></script>
 <script src="/assets/js/easypiechart-data.js"></script>
@@ -147,35 +144,36 @@
 <script src="/assets/js/custom-scripts.js"></script>
 
 <!--<script src="http://webapi.amap.com/maps?v=1.4.6&key=4b3e05927c7a55aa1a6526687c38207a&callback=init&plugin=AMap.Driving"></script>-->
-<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.6&key=4b3e05927c7a55aa1a6526687c38207a&plugin=AMap.Driving"></script>
+<script type="text/javascript"
+        src="http://webapi.amap.com/maps?v=1.4.6&key=4b3e05927c7a55aa1a6526687c38207a&plugin=AMap.Driving"></script>
 <script src="https://webapi.amap.com/js/marker.js"></script>
 <script type="text/javascript">
     //创建一个地图
     var map = new AMap.Map('map-window', {
-        center: [114.420433,23.069401],
+        center: [114.420433, 23.069401],
         zoom: 6
     });
 
     //点标注
-    var marker;
-    marker = new AMap.Marker({
-//        icon: icon,
-        position: "114.420433,23.069401".split(","),
-//        offset: new AMap.Pixel(-12,-12),
-//        zIndex: 101,
-        title: "哈哈",
-        map: map
-    });
+    //    var marker;
+    //    marker = new AMap.Marker({
+    ////        icon: icon,
+    //        position: "114.420433,23.069401".split(","),
+    ////        offset: new AMap.Pixel(-12,-12),
+    ////        zIndex: 101,
+    //        title: "总公司",
+    //        map: map
+    //    });
 
     //构建信息窗体中显示的内容
-    var info = [];
-    info.push("<div style=\"padding:0px 0px 0px 0px;\"><b>高德软件有限公司</b><br/>");
-    info.push("电话 : 010-84107000   邮编 : 100102<br/>");
-    info.push("地址 : 北京市望京阜通东大街方恒国际中心A座16层</div></div><br>");
-    infoWindow = new AMap.InfoWindow({
-        content: info.join("<br>")  //使用默认信息窗体框样式，显示信息内容
-    });
-    infoWindow.open(map, [114.420433,23.069401]);
+    //    var info = [];
+    //    info.push("<div style=\"padding:0px 0px 0px 0px;\"><b>高德软件有限公司</b><br/>");
+    //    info.push("电话 : 010-84107000   邮编 : 100102<br/>");
+    //    info.push("地址 : 北京市望京阜通东大街方恒国际中心A座16层</div></div><br>");
+    //    infoWindow = new AMap.InfoWindow({
+    //        content: info.join("<br>")  //使用默认信息窗体框样式，显示信息内容
+    //    });
+    //    infoWindow.open(map, [114.420433,23.069401]);
 
     //构造路线导航类
     var driving = new AMap.Driving({
@@ -183,14 +181,22 @@
 //        panel: "panel"
     });
     // 根据起终点名称规划驾车导航路线
-//    driving.search([
-//        {keyword: '惠州市火车南站',city:'惠州'},
-//        {keyword: '广州市天河客运站',city:'广州'}
-//    ]);
+    //    driving.search([
+    //        {keyword: '惠州市火车南站',city:'惠州'},
+    //        {keyword: '广州市天河客运站',city:'广州'}
+    //    ]);
     //通过坐标点规划路线
-    driving.search([114.416196,23.111847],[113.342309,23.170892],[110.301129,21.150769],function (status,result) {
-        
-    });
+    //    driving.search([114.423933,23.058291],[113.342309,23.170892],[110.301129,21.150769],function (status,result) {
+    //
+    //    });
+
+    function selectOne(address, city) {
+        driving.search([
+            {keyword: '惠州市火车南站', city: '惠州'},
+            {keyword: address, city: city}
+        ]);
+    }
+
 </script>
 <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 

@@ -32,6 +32,15 @@ public interface DriverMapper {
 
     /**
      * @Author: yjf
+     * @Description: 根据司机状态查询
+     * @Param: state
+     * @Return: List<DriverPO>
+     * @Date: 17:28 2018/4/24
+     */
+    List<DriverPO> queryByStatus(String state);
+
+    /**
+     * @Author: yjf
      * @Description: 分页查找司机信息
      * @Param: first
      * @Param: rowOfEachPage
