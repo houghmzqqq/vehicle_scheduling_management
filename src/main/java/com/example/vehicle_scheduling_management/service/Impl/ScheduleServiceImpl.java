@@ -4,16 +4,23 @@ package com.example.vehicle_scheduling_management.service.Impl;
 import com.example.vehicle_scheduling_management.mapper.*;
 import com.example.vehicle_scheduling_management.pojo.*;
 import com.example.vehicle_scheduling_management.service.ScheduleService;
+import com.example.vehicle_scheduling_management.util.DivideUtil;
 import com.example.vehicle_scheduling_management.util.MapUtil;
 import com.example.vehicle_scheduling_management.util.UrlTool;
+import com.example.vehicle_scheduling_management.vo.DividePageVO;
+import com.example.vehicle_scheduling_management.vo.TruckScheduleVO;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: yjf
@@ -36,6 +43,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     private OrderItemMapper orderItemMapper;
     @Autowired
     private TruckItemMapper truckItemMapper;
+    @Autowired
+    private DivideUtil divideUtil;
+    @Autowired
+    private DozerBeanMapper beanMapper;
 
     private JSONObject jsonObject;
 
@@ -113,5 +124,45 @@ public class ScheduleServiceImpl implements ScheduleService {
             e.printStackTrace();
         }
         return position;
+    }
+
+    @Override
+    public DividePageVO<TruckScheduleVO> divideQuery(int thisPage, int rowOfEachPage) {
+        List<TruckSchedulePO> schedulePOS =
+                scheduleMapper.queryByDivide((thisPage-1)*rowOfEachPage,rowOfEachPage);
+        List<TruckScheduleVO> scheduleVOS = new ArrayList<>();
+        int count = scheduleMapper.scheduleCount();
+        DividePageVO<TruckScheduleVO> dividePage =
+                divideUtil.getDividePageVO(thisPage,rowOfEachPage,count);
+
+        for(TruckSchedulePO schedulePO : schedulePOS){
+            scheduleVOS.add(this.turnPoToVo(schedulePO));
+        }
+
+        dividePage.setObjList(scheduleVOS);
+
+        return dividePage;
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: PO转换为VO
+     * @Param: schedulePO
+     * @Return: TruckScheduleVO
+     * @Date: 12:50 2018/4/30
+     */
+    public TruckScheduleVO turnPoToVo(TruckSchedulePO schedulePO){
+        TruckScheduleVO scheduleVO = new TruckScheduleVO();
+        beanMapper.map(schedulePO,scheduleVO);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if(schedulePO != null){
+            String applicationDate = sdf.format(schedulePO.getApplicationDate());
+            String accessDate = sdf.format(schedulePO.getAccessDate());
+            scheduleVO.setApplicationDate(applicationDate);
+            scheduleVO.setAccessDate(accessDate);
+        }
+
+        return scheduleVO;
     }
 }

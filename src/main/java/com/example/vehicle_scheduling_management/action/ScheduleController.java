@@ -122,7 +122,8 @@ public class ScheduleController {
     public String createSchedule(@RequestParam int driverId,@RequestParam int truckId,
                                  @RequestParam int orderId){
 //        scheduleService.createSchedule(driverId,truckId,orderId);
-
+        scheduleService.createSchedule(driverId,truckId,orderId);
+//        System.out.println(orderId + ", " + truckId + ", " + driverId);
         return "redirect:/schedule/toApply";
     }
 }

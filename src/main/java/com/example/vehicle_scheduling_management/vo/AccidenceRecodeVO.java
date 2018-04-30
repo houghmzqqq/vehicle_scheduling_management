@@ -1,11 +1,14 @@
-package com.example.vehicle_scheduling_management.pojo;
+package com.example.vehicle_scheduling_management.vo;
 
 import java.util.Date;
 
 /**
- * Created by 叶俊锋 on 2018/4/10.
+ * @Author: yjf
+ * @Description:
+ * @Date: create in 12:01 2018/4/30
+ * @modified by:
  */
-public class AccidenceRecodePO {
+public class AccidenceRecodeVO {
     private int id;
     private String plateNumber;
     private String driverCode;
@@ -24,21 +27,21 @@ public class AccidenceRecodePO {
     private String guyCarType;
     private String accidentPlace;
     private String anlysis;
-    private Date signDate;
+    private String signDate;
     private String handleResult;
     private String operator;
     private String remark;
     private int truckItemId;
 
-    public AccidenceRecodePO() {
+    public AccidenceRecodeVO() {
     }
 
-    public AccidenceRecodePO(String plateNumber, String driverCode, String driverName,
+    public AccidenceRecodeVO(String plateNumber, String driverCode, String driverName,
                              float cost, float insuranceCost, float companyPay, int injured,
                              int dead, float guyPay, String guyName, String guyIdentity,
                              String guyAddress, String guyTellphone, String guyPlateNumber,
                              String guyCartType, String accidentPlace, String anlysis,
-                             Date signDate, String handleResult, String operator,
+                             String signDate, String handleResult, String operator,
                              String remark, int truckItemId) {
         this.plateNumber = plateNumber;
         this.driverCode = driverCode;
@@ -207,11 +210,11 @@ public class AccidenceRecodePO {
         this.anlysis = anlysis;
     }
 
-    public Date getSignDate() {
+    public String getSignDate() {
         return signDate;
     }
 
-    public void setSignDate(Date signDate) {
+    public void setSignDate(String signDate) {
         this.signDate = signDate;
     }
 
@@ -249,7 +252,7 @@ public class AccidenceRecodePO {
 
     @Override
     public String toString() {
-        return "AccidenceRecodePO{" +
+        return "AccidenceRecodeVO{" +
                 "id=" + id +
                 ", plateNumber='" + plateNumber + '\'' +
                 ", driverCode='" + driverCode + '\'' +
@@ -268,7 +271,7 @@ public class AccidenceRecodePO {
                 ", guyCartType='" + guyCarType + '\'' +
                 ", accidentPlace='" + accidentPlace + '\'' +
                 ", anlysis='" + anlysis + '\'' +
-                ", signDate=" + signDate +
+                ", signDate='" + signDate + '\'' +
                 ", handleResult='" + handleResult + '\'' +
                 ", operator='" + operator + '\'' +
                 ", remark='" + remark + '\'' +

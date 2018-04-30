@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.vehicle_scheduling_management.mapper.TruckScheduleMapper">
+<mapper namespace="com.example.vehicle_scheduling_management.mapper.AccidenceRecodeMapper">
     <!--<resultMap id="BaseResultMap"-->
                <!--type="com.example.vehicle_scheduling_management.pojo.TruckPO">-->
         <!--<id column="id" property="id" jdbcType="INTEGER" />-->
@@ -16,36 +16,40 @@
         <!--<result column="seat" property="seat" jdbcType="INTEGER" />-->
         <!--<result column="recordDate" property="recordDate" />-->
     <!--</resultMap>-->
-    <!--<sql id="Base_Column_List">-->
-        <!--id,plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate-->
-    <!--</sql>-->
-    <select id="queryById" resultType="TruckSchedulePO"
+    <sql id="Base_Column_List">
+        plateNumber,driverCode,driverName,cost,insuranceCost,companyPay,injured,dead,
+        guyPay,guyName,guyIdentity,guyAddress,guyTellphone,guyPlateNumber,guyCarType,
+        accidentPlace,anlysis,signDate,handleResult,operator,remark,truckItemId
+    </sql>
+    <select id="queryById" resultType="AccidenceRecodePO"
             parameterType="java.lang.Integer">
-        select * from truckschedule where id = #{id}
+        select * from accidencerecode where id = #{id}
     </select>
     
     <!--<select id="queryAll" resultType="TruckPO">-->
         <!--select * from truck-->
     <!--</select>-->
 
-    <select id="queryByDivide" resultType="TruckSchedulePO">
-        select * from truckschedule limit #{firstData},#{rowOfEachPage}
+    <select id="queryByDivide" resultType="AccidenceRecodePO">
+        select * from accidencerecode limit #{firstData},#{rowOfEachPage}
     </select>
 
-    <select id="scheduleCount" resultType="Integer">
-        select count(*) from truckschedule
+    <select id="accidenceCount" resultType="Integer">
+        select count(*) from accidencerecode
     </select>
 
-    <insert id="add" parameterType="TruckSchedulePO" useGeneratedKeys="true" keyProperty="id">
-        insert into truckschedule(startPlace,endPlace,span,aim,applicationState,applicationDate,accessDate,remark)
-        values(#{startPlace},#{endPlace},#{span},#{aim},#{applicationState},#{applicationDate},#{accessDate},#{remark})
+    <insert id="add" parameterType="AccidenceRecodePO" useGeneratedKeys="true" keyProperty="id">
+        insert into accidencerecode(<include refid="Base_Column_List" />)
+        values(#{plateNumber},#{driverCode},#{driverName},#{cost},#{insuranceCost},#{companyPay},#{injured},#{dead},
+        #{guyPay},#{guyName},#{guyIdentity},#{guyAddress},#{guyTellphone},#{guyPlateNumber},#{guyCarType},
+        #{accidentPlace},#{anlysis},#{signDate},#{handleResult},#{operator},#{remark},#{truckItemId})
     </insert>
     
-    <update id="update" parameterType="TruckSchedulePO">
+    <update id="update" parameterType="AccidenceRecodePO">
 
     </update>
     
     <delete id="delete" parameterType="int">
-        delete from truckschedule where id=#{id}
+        delete from accidencerecode where id=#{id}
     </delete>
 </mapper>

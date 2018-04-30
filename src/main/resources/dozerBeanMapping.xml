@@ -3,6 +3,7 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
       http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
+    <!-- 司机 -->
     <mapping>
         <class-a>com.example.vehicle_scheduling_management.pojo.DriverPO</class-a>
         <class-b>com.example.vehicle_scheduling_management.vo.DriverVO</class-b>
@@ -12,6 +13,7 @@
         </field-exclude>
     </mapping>
 
+    <!-- 货车 -->
     <mapping>
         <class-a>com.example.vehicle_scheduling_management.pojo.TruckPO</class-a>
         <class-b>com.example.vehicle_scheduling_management.vo.TruckVO</class-b>
@@ -21,12 +23,47 @@
         </field-exclude>
     </mapping>
 
+    <!-- 订单 -->
     <mapping>
         <class-a>com.example.vehicle_scheduling_management.pojo.OrdersPO</class-a>
         <class-b>com.example.vehicle_scheduling_management.vo.OrdersVO</class-b>
         <field-exclude>
             <a>totalAddress</a>
             <b>totalAddress</b>
+        </field-exclude>
+    </mapping>
+
+    <!-- 调度单 -->
+    <mapping>
+        <class-a>com.example.vehicle_scheduling_management.pojo.TruckSchedulePO</class-a>
+        <class-b>com.example.vehicle_scheduling_management.vo.TruckScheduleVO</class-b>
+        <field-exclude>
+            <a>applicationDate</a>
+            <b>applicationDate</b>
+        </field-exclude>
+        <field-exclude>
+            <a>accessDate</a>
+            <b>accessDate</b>
+        </field-exclude>
+    </mapping>
+
+    <!-- 事故记录 -->
+    <mapping>
+        <class-a>com.example.vehicle_scheduling_management.pojo.AccidenceRecodePO</class-a>
+        <class-b>com.example.vehicle_scheduling_management.vo.AccidenceRecodeVO</class-b>
+        <field-exclude>
+            <a>signDate</a>
+            <b>signDate</b>
+        </field-exclude>
+    </mapping>
+
+    <!-- 事故记录 -->
+    <mapping>
+        <class-a>com.example.vehicle_scheduling_management.pojo.PeccancyRecordPO</class-a>
+        <class-b>com.example.vehicle_scheduling_management.vo.PeccancyRecordVO</class-b>
+        <field-exclude>
+            <a>peccancyDate</a>
+            <b>peccancyDate</b>
         </field-exclude>
     </mapping>
 

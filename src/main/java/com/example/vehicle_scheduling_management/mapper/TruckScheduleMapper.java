@@ -13,8 +13,10 @@ import java.util.List;
 public interface TruckScheduleMapper {
     TruckSchedulePO queryById(int id);
 
-    List<TruckSchedulePO> queryByDivide(@Param("fristData") int fristData,
+    List<TruckSchedulePO> queryByDivide(@Param("firstData") int firstData,
                                         @Param("rowOfEachPage") int rowOfEachPage);
+
+    int scheduleCount();
 
     void add(TruckSchedulePO truckSchedulePO);
 

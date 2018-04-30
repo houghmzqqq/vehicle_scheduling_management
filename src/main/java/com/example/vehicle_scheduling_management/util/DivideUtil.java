@@ -2,6 +2,7 @@ package com.example.vehicle_scheduling_management.util;
 
 import com.example.vehicle_scheduling_management.pojo.TruckPO;
 import com.example.vehicle_scheduling_management.vo.DividePageVO;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * @Date: create in 21:04 2018/4/16
  * @modified by:
  */
+@Component
 public class DivideUtil {
 
     private DividePageVO dividePage;

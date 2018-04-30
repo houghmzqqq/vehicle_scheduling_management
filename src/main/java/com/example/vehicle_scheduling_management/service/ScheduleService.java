@@ -1,6 +1,8 @@
 package com.example.vehicle_scheduling_management.service;
 
+import com.example.vehicle_scheduling_management.vo.DividePageVO;
 import com.example.vehicle_scheduling_management.vo.OrdersVO;
+import com.example.vehicle_scheduling_management.vo.TruckScheduleVO;
 
 import java.util.List;
 
@@ -23,5 +25,15 @@ public interface ScheduleService {
     void createSchedule(int driverId,int truckId,int orderId);
 
     String getLocalPosition();
+
+    /**
+     * @Author: yjf
+     * @Description: 分页查询调度单
+     * @Param: thisPage
+     * @Param: rowOfEachPage
+     * @Return: DividePageVO<TruckScheduleVO>
+     * @Date: 12:08 2018/4/30
+     */
+    DividePageVO<TruckScheduleVO> divideQuery(int thisPage,int rowOfEachPage);
 
 }
