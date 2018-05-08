@@ -30,4 +30,14 @@ public class TruckScheduleTest {
     public void createTest(){
         service.createSchedule(5,2,1);
     }
+
+    @Test
+    public void queryByDivide(){
+        System.out.println(service.divideQuery(1,3));
+    }
+
+    @Test
+    public void shTest(){
+        System.out.println(service.getShList(1,2));
+    }
 }

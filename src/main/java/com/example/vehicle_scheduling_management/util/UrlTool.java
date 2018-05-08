@@ -20,6 +20,7 @@ public class UrlTool {
     private URL url;
     private HttpURLConnection conn;
     private String _url;
+    private String method = "GET";
 
     public UrlTool(){
 //        this._url = "http://172.16.12.167:8080/teach/"+
@@ -32,6 +33,12 @@ public class UrlTool {
         init();
     }
 
+    public UrlTool(String _url, String method) throws Exception {
+        this._url = _url;
+        this.method = method;
+        init();
+    }
+
     /**
      * 初始化，连接url
      * @throws Exception
@@ -40,32 +47,6 @@ public class UrlTool {
         openConnection(_url);
         doConnect();
     }
-
-    /**
-     * 解析json数据
-     * @throws IOException
-     * @return 课表计划的list集合
-     */
-//    public List<CourseSchedule> analysis(String msg) throws IOException {
-////        String msg = getResponseMsg();
-//
-//        JSONObject jsonObject = JSONObject.fromObject(msg);
-//        String range = jsonObject.getString("range");
-//        String termTem = jsonObject.getString("term");
-//        int term = Integer.valueOf(termTem);
-//
-//        //获取json数据中的课表计划list
-//        Map<String,Object> map = new HashMap<String,Object>();
-//        map.put("time",ScheduleTime.class);
-//        JSONArray jsonArray = jsonObject.getJSONArray("course");
-//        List<CourseSchedule> couList = (List<CourseSchedule>) JSONArray.toList(jsonArray,CourseSchedule.class,map);
-//
-//        for(CourseSchedule cs : couList){
-//            cs.setRange(range);
-//            cs.setTerm(term);
-//        }
-//        return couList;
-//    }
 
     /**
      * 打开连接
@@ -85,13 +66,14 @@ public class UrlTool {
         //URLConnection
         conn = (HttpURLConnection)url.openConnection();
 
-        conn.setRequestMethod("GET");  //相当于: method=POST
+        conn.setRequestMethod(this.method);  //相当于: method=POST
         conn.setDoOutput(true);       //提交表单的参数 ---> true
 
-        conn.setRequestProperty("Connection", "Keep-Alive");
+//        conn.setRequestProperty("Connection", "Keep-Alive");
         conn.setRequestProperty("Charset", "UTF-8");
-        conn.setRequestProperty("Content-Type",
-                "application/x-www-form-urlencoded");
+//        conn.setRequestProperty("Content-Type",
+//                "application/x-www-form-urlencoded");
+        conn.setRequestProperty("Accept-Encoding", "identity");
     }
 
     /**
@@ -106,7 +88,13 @@ public class UrlTool {
         File file = new File(url.getFile());
         InputStream in = null;
 
-        byte[] buff = new byte[conn.getContentLength()];
+//        //没有响应内容
+//        if(conn.getContentLength() <= 0 ){
+//            System.out.println(conn.getContentLength());
+//            return "";
+//        }
+
+        byte[] buff = new byte[1024*100];
         if (code == HttpURLConnection.HTTP_OK) {
             in = conn.getInputStream();
             int num;
@@ -115,9 +103,10 @@ public class UrlTool {
                 buff[c] = (byte) num;
                 c++;
             }
-            msg = new String(buff, 0, conn.getContentLength());
+            msg = new String(buff, 0, 1024*100);
         }
-        return msg.substring(1,msg.length());
+//        return msg.substring(1,msg.length());
+        return msg;
     }
 
     public String get_url() {

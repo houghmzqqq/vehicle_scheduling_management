@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.vehicle_scheduling_management.mapper.TruckItemMapper">
+<mapper namespace="com.example.vehicle_scheduling_management.mapper.HistoryPathMapper">
     <!--<resultMap id="BaseResultMap"-->
-               <!--type="com.example.vehicle_scheduling_management.pojo.TruckPO">-->
+               <!--type="com.example.vehicle_scheduling_management.pojo.HistoryPathPO">-->
         <!--<id column="id" property="id" jdbcType="INTEGER" />-->
         <!--<result column="plateNumber" property="plateNumber" jdbcType="VARCHAR" />-->
         <!--<result column="fleetName" property="fleetName" jdbcType="VARCHAR" />-->
@@ -19,34 +19,36 @@
     <!--<sql id="Base_Column_List">-->
         <!--id,plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate-->
     <!--</sql>-->
-    <!-- 通过货车id查询车辆项 -->
-    <select id="queryByTruckId" resultType="TruckItemPO"
+    <select id="queryById" resultType="com.example.vehicle_scheduling_management.pojo.HistoryPathPO"
             parameterType="java.lang.Integer">
-        select * from truckitem where truckId = #{truckId}
-    </select>
-
-    <!-- 通过调度申请id查询车辆项 -->
-    <select id="queryByScheId" resultType="TruckItemPO"
-            parameterType="java.lang.Integer">
-        select * from truckitem where scheduleId = #{scheId}
+        select * from historypath where id = #{id}
     </select>
     
+    <select id="queryAll" resultType="HistoryPathPO">
+        select * from historypath
+    </select>
 
-    <insert id="add" parameterType="TruckItemPO" useGeneratedKeys="true" keyProperty="id">
-        insert into truckitem(scheduleId,plateNumber,driverCode,driverName)
-        values(#{scheduleId},#{truckId},#{plateNumber},#{driverId},#{driverCode},#{driverName})
+    <select id="queryByDivide" resultType="HistoryPathPO">
+        select * from historypath limit #{firstData},#{rowOfEachPage}
+    </select>
+
+    <select id="truckCount" resultType="Integer">
+        select count(*) from historypath
+    </select>
+
+    <insert id="add" parameterType="HistoryPathPO" useGeneratedKeys="true" keyProperty="id">
+        insert into historypath(plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate)
+        values(#{plateNumber},#{fleetName},#{brand},#{model},#{types},#{loads},#{colour},#{output},#{seat},#{recordDate})
     </insert>
     
-    <update id="update" parameterType="TruckItemPO">
-
+    <update id="update" parameterType="HistoryPathPO">
+        update historypath set plateNumber=#{plateNumber},fleetName=#{fleetName},brand=#{brand},
+        model=#{model},types=#{types},loads=#{loads},colour=#{colour},output=#{output},seat=#{seat},
+        recordDate=#{recordDate},status=#{status}
+        where id=#{id}
     </update>
     
     <delete id="delete" parameterType="int">
-        delete from truckitem where id=#{id}
-    </delete>
-
-    <!-- 删除与该调度申请有关的车辆项 -->
-    <delete id="deleteByScheId" parameterType="int">
-        delete from truckitem where scheduleId=#{scheId}
+        delete from historypath where id=#{id}
     </delete>
 </mapper>

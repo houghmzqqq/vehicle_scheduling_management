@@ -28,21 +28,34 @@
         <!--select * from truck-->
     <!--</select>-->
 
+    <!--分页查询调度申请列表-->
     <select id="queryByDivide" resultType="TruckSchedulePO">
         select * from truckschedule limit #{firstData},#{rowOfEachPage}
     </select>
 
+    <!-- 根据申请状态，分页查询调度申请 -->
+    <select id="queryByAppstate" resultType="TruckSchedulePO">
+        select * from truckschedule where applicationState=#{appState} limit #{firstData},#{rowOfEachPage}
+    </select>
+
+    <!-- 查询所有调度申请的数量 -->
     <select id="scheduleCount" resultType="Integer">
         select count(*) from truckschedule
     </select>
 
+    <!-- 根据申请状态查询调度申请的数量 -->
+    <select id="shScheduleCount" resultType="Integer">
+        select count(*) from truckschedule where applicationState=#{appState}
+    </select>
+
     <insert id="add" parameterType="TruckSchedulePO" useGeneratedKeys="true" keyProperty="id">
-        insert into truckschedule(startPlace,endPlace,span,aim,applicationState,applicationDate,accessDate,remark)
-        values(#{startPlace},#{endPlace},#{span},#{aim},#{applicationState},#{applicationDate},#{accessDate},#{remark})
+        insert into truckschedule(startPlace,endPlace,span,aim,applicationState,applicationDate,accessDate,status,remark)
+        values(#{startPlace},#{endPlace},#{span},#{aim},#{applicationState},#{applicationDate},#{accessDate},#{status},#{remark})
     </insert>
     
     <update id="update" parameterType="TruckSchedulePO">
-
+        update truckschedule set startPlace=#{startPlace},endPlace=#{endPlace},span=#{span},aim=#{aim},applicationState=#{applicationState},
+        applicationDate=#{applicationDate},accessDate=#{accessDate},status=#{status},remark=#{remark} where id=#{id}
     </update>
     
     <delete id="delete" parameterType="int">

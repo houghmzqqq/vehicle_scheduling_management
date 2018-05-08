@@ -6,7 +6,9 @@ package com.example.vehicle_scheduling_management.pojo;
 public class TruckItemPO {
     private int id;
     private int scheduleId;
+    private int truckId;
     private String plateNumber;
+    private int driverId;
     private String driverCode;
     private String driverName;
 
@@ -26,6 +28,22 @@ public class TruckItemPO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getTruckId() {
+        return truckId;
+    }
+
+    public void setTruckId(int truckId) {
+        this.truckId = truckId;
+    }
+
+    public int getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
     }
 
     public int getScheduleId() {
@@ -65,7 +83,9 @@ public class TruckItemPO {
         return "TruckItemPO{" +
                 "id=" + id +
                 ", scheduleId=" + scheduleId +
+                ", truckId=" + truckId +
                 ", plateNumber='" + plateNumber + '\'' +
+                ", driver=" + driverId +
                 ", driverCode='" + driverCode + '\'' +
                 ", driverName='" + driverName + '\'' +
                 '}';

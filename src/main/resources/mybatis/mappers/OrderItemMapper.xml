@@ -21,7 +21,13 @@
     <!--</sql>-->
     <select id="queryById" resultType="OrderItemPO"
             parameterType="java.lang.Integer">
-        select * from truck where id = #{id}
+        select * from orderitem where id = #{orderId}
+    </select>
+
+    <!-- 根据调度申请的id查找订单项 -->
+    <select id="queryBySchId" resultType="OrderItemPO"
+            parameterType="java.lang.Integer">
+        select * from orderitem where scheduleId=#{scheId}
     </select>
     
     <!--<select id="queryAll" resultType="OrderItemMapper">-->
@@ -46,6 +52,11 @@
     </update>
     
     <delete id="delete" parameterType="int">
-        delete from truck where id=#{id}
+        delete from orderitem where id=#{id}
+    </delete>
+
+    <!-- 删除与该调度申请相关的订单项 -->
+    <delete id="deleteByScheId" parameterType="int">
+        delete from orderitem where scheduleId=#{scheId}
     </delete>
 </mapper>

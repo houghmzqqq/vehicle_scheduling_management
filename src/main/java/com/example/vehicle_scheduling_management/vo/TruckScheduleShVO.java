@@ -1,14 +1,9 @@
 package com.example.vehicle_scheduling_management.vo;
 
-import java.util.Date;
-
 /**
- * @Author: yjf
- * @Description:
- * @Date: create in 11:58 2018/4/30
- * @modified by:
+ * Created by 叶俊锋 on 2018/5/8.
  */
-public class TruckScheduleVO {
+public class TruckScheduleShVO {
     private int id;
     private String startPlace;
     private String endPlace;
@@ -20,23 +15,21 @@ public class TruckScheduleVO {
     private String status;
     private String remark;
 
-    public TruckScheduleVO() {
-    }
+    //司机
+    private int driverId;
+    private String driverName;
+    //货车
+    private int truckId;
+    private String plateNumber;
+    //订单
+    private int orderId;
+    private String company;
 
-    public TruckScheduleVO(String startPlace, String endPlace, String span, String aim, String applicationState, String applicationDate, String accessDate, String status, String remark) {
-        this.startPlace = startPlace;
-        this.endPlace = endPlace;
-        this.span = span;
-        this.aim = aim;
-        this.applicationState = applicationState;
-        this.applicationDate = applicationDate;
-        this.accessDate = accessDate;
-        this.status = status;
-        this.remark = remark;
+    public TruckScheduleShVO() {
     }
-
 
     public int getId() {
+
         return id;
     }
 
@@ -58,14 +51,6 @@ public class TruckScheduleVO {
 
     public void setEndPlace(String endPlace) {
         this.endPlace = endPlace;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getSpan() {
@@ -108,6 +93,14 @@ public class TruckScheduleVO {
         this.accessDate = accessDate;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -116,9 +109,57 @@ public class TruckScheduleVO {
         this.remark = remark;
     }
 
+    public int getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public int getTruckId() {
+        return truckId;
+    }
+
+    public void setTruckId(int truckId) {
+        this.truckId = truckId;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
     @Override
     public String toString() {
-        return "TruckScheduleVO{" +
+        return "TruckScheduleShVO{" +
                 "id=" + id +
                 ", startPlace='" + startPlace + '\'' +
                 ", endPlace='" + endPlace + '\'' +
@@ -129,6 +170,12 @@ public class TruckScheduleVO {
                 ", accessDate='" + accessDate + '\'' +
                 ", status='" + status + '\'' +
                 ", remark='" + remark + '\'' +
+                ", driverId=" + driverId +
+                ", driverName='" + driverName + '\'' +
+                ", truckId=" + truckId +
+                ", plateNumber='" + plateNumber + '\'' +
+                ", orderId=" + orderId +
+                ", company='" + company + '\'' +
                 '}';
     }
 }

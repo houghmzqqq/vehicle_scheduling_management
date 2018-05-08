@@ -47,6 +47,12 @@
         </field-exclude>
     </mapping>
 
+    <!-- 调度申请审批 -->
+    <mapping>
+        <class-a>com.example.vehicle_scheduling_management.vo.TruckScheduleVO</class-a>
+        <class-b>com.example.vehicle_scheduling_management.vo.TruckScheduleShVO</class-b>
+    </mapping>
+
     <!-- 事故记录 -->
     <mapping>
         <class-a>com.example.vehicle_scheduling_management.pojo.AccidenceRecodePO</class-a>
@@ -57,7 +63,7 @@
         </field-exclude>
     </mapping>
 
-    <!-- 事故记录 -->
+    <!-- 违章记录 -->
     <mapping>
         <class-a>com.example.vehicle_scheduling_management.pojo.PeccancyRecordPO</class-a>
         <class-b>com.example.vehicle_scheduling_management.vo.PeccancyRecordVO</class-b>

@@ -27,11 +27,13 @@
         <nav class="navbar-default navbar-side" role="navigation" th:include="sidebar :: navbar-side">
         </nav>
         <!-- /. NAV SIDE  -->
-      
-		<div id="page-wrapper">
+        <div id="page-wrapper">
 
-            <button class="button" onclick="openInfo()">打开信息窗体</button>
         </div>
+        <!--<div id="page-wrapper">-->
+
+            <!--<button class="button" onclick="openInfo()">打开信息窗体</button>-->
+        <!--</div>-->
         <!-- /. PAGE WRAPPER  -->
     </div>
     <!-- /. WRAPPER  -->
@@ -58,25 +60,25 @@
 
     <script src="http://webapi.amap.com/maps?v=1.4.6&key=4b3e05927c7a55aa1a6526687c38207a&callback=init"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=4b3e05927c7a55aa1a6526687c38207a"></script>
-    <script type="text/javascript">
-        var map = new AMap.Map('page-wrapper', {
-            center: [117.000923, 36.675807],
-            zoom: 6
-        });
+    <!--<script type="text/javascript">-->
+        <!--var map = new AMap.Map('page-wrapper', {-->
+            <!--center: [117.000923, 36.675807],-->
+            <!--zoom: 6-->
+        <!--});-->
 
-            //构建信息窗体中显示的内容
-            var info = [];
-            info.push("<div style=\"padding:0px 0px 0px 0px;\"><b>高德软件有限公司</b><br/>");
-            info.push("电话 : 010-84107000   邮编 : 100102<br/>");
-            info.push("地址 : 北京市望京阜通东大街方恒国际中心A座16层</div></div><br>");
+            <!--//构建信息窗体中显示的内容-->
+            <!--var info = [];-->
+            <!--info.push("<div style=\"padding:0px 0px 0px 0px;\"><b>高德软件有限公司</b><br/>");-->
+            <!--info.push("电话 : 010-84107000   邮编 : 100102<br/>");-->
+            <!--info.push("地址 : 北京市望京阜通东大街方恒国际中心A座16层</div></div><br>");-->
 
-            infoWindow = new AMap.InfoWindow({
-                content: info.join("<br>")  //使用默认信息窗体框样式，显示信息内容
-            });
-            infoWindow.open(map, [116.480983, 39.989628]);
+            <!--infoWindow = new AMap.InfoWindow({-->
+                <!--content: info.join("<br>")  //使用默认信息窗体框样式，显示信息内容-->
+            <!--});-->
+            <!--infoWindow.open(map, [116.480983, 39.989628]);-->
 
 
-    </script>
+    <!--</script>-->
     <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 </body>
 

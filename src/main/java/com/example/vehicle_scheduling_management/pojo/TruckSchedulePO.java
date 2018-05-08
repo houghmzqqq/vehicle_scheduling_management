@@ -14,12 +14,13 @@ public class TruckSchedulePO {
     private String applicationState;
     private Date applicationDate;
     private Date accessDate;
+    private String status;
     private String remark;
 
     public TruckSchedulePO() {
     }
 
-    public TruckSchedulePO(String startPlace, String endPlace, String span, String aim, String applicationState, Date applicationDate, Date accessDate, String remark) {
+    public TruckSchedulePO(String startPlace, String endPlace, String span, String aim, String applicationState, Date applicationDate, Date accessDate, String status, String remark) {
         this.startPlace = startPlace;
         this.endPlace = endPlace;
         this.span = span;
@@ -27,6 +28,7 @@ public class TruckSchedulePO {
         this.applicationState = applicationState;
         this.applicationDate = applicationDate;
         this.accessDate = accessDate;
+        this.status = status;
         this.remark = remark;
     }
 
@@ -36,6 +38,14 @@ public class TruckSchedulePO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getStartPlace() {
@@ -113,6 +123,7 @@ public class TruckSchedulePO {
                 ", applicationState='" + applicationState + '\'' +
                 ", applicationDate=" + applicationDate +
                 ", accessDate=" + accessDate +
+                ", status='" + status + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }

@@ -43,7 +43,7 @@ public class DriverServiceTest {
                 "4415221995001", 2, "123456",
                new Date(), "0");
         for (int i=0;i<5;i++){
-            driverPO.setDriverName("Horry" + (i+1));
+            driverPO.setDriverName("Tony" + (i+1));
             mapper.add(driverPO);
         }
 //        driverService.add(driverPO);

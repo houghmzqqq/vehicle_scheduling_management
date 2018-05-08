@@ -40,6 +40,10 @@ public class OrdersTest {
         OrdersPO ordersPO = new OrdersPO("天威网络", "陈文豪", "合同纸", 30.5f, 25.5f,
         "广东省", "惠州市", "惠城区江北东江二路富力国际中心", new Date(), 0,1,0);
 
-        ordersMapper.add(ordersPO);
+        for(int i=1;i<=20;i++){
+            ordersPO.setName("cc" + i);
+            ordersPO.setGoodsName("杯子");
+            ordersMapper.add(ordersPO);
+        }
     }
 }

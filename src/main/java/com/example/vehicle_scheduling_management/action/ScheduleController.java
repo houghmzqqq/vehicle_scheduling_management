@@ -4,9 +4,8 @@ import com.example.vehicle_scheduling_management.service.DriverService;
 import com.example.vehicle_scheduling_management.service.OrdersService;
 import com.example.vehicle_scheduling_management.service.ScheduleService;
 import com.example.vehicle_scheduling_management.service.TruckService;
-import com.example.vehicle_scheduling_management.vo.DriverVO;
-import com.example.vehicle_scheduling_management.vo.OrdersVO;
-import com.example.vehicle_scheduling_management.vo.TruckVO;
+import com.example.vehicle_scheduling_management.util.MapUtil;
+import com.example.vehicle_scheduling_management.vo.*;
 import net.sf.json.JSONObject;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +124,120 @@ public class ScheduleController {
         scheduleService.createSchedule(driverId,truckId,orderId);
 //        System.out.println(orderId + ", " + truckId + ", " + driverId);
         return "redirect:/schedule/toApply";
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 分页查询车辆调度记录
+     * @Param: thisPage
+     * @Return: String
+     * @Date: 13:57 2018/5/7
+     */
+    @RequestMapping("/toRecordList")
+    public String toRecordList(@RequestParam(defaultValue = "1")int thisPage, Model model){
+        DividePageVO<TruckScheduleVO> dividePage = scheduleService.divideQuery(thisPage,10);
+
+        model.addAttribute("dividePage",dividePage);
+        return "/schedule/record-list";
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 提交调度申请
+     * @Param: id
+     * @Return: String
+     * @Date: 13:59 2018/5/7
+     */
+    @RequestMapping("/submitSche")
+    @ResponseBody
+    public String submitSche(@RequestParam Integer id){
+        scheduleService.submit(id);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("rel","200");
+
+        return jsonObject.toString();
+//        return "redirect:/schedule/toRecordList";
+    }
+
+
+    /**
+     * @Author: yjf
+     * @Description: 调度申请审核
+     * @Param: null
+     * @Return: null
+     * @Date: 9:50 2018/5/8
+     */
+    @RequestMapping("/shSche")
+    public String shSche(@RequestParam Integer id){
+        return "";
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 调度申请审核列表
+     * @Param: thisPage
+     * @Return: String
+     * @Date: 15:58 2018/5/8
+     */
+    @RequestMapping("/toShList")
+    public String toShList(@RequestParam(defaultValue="1") int thisPage,Model model){
+        DividePageVO<TruckScheduleShVO> dividePage = scheduleService.getShList(thisPage,10);
+
+        model.addAttribute("dividePage",dividePage);
+        return "/schedule/schedule-sp.html";
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 获取调度申请的详细信息
+     * @Param: null
+     * @Return: null
+     * @Date: 16:33 2018/5/8
+     */
+    @RequestMapping("/shCheck")
+    @ResponseBody
+    public String shCheck(@RequestParam int orderId,@RequestParam int truckId,
+                          @RequestParam int driverId){
+        OrdersVO ordersVO = ordersService.queryById(orderId);
+        TruckVO truckVO = truckService.queryById(truckId);
+        DriverVO driverVO = driverService.queryById(driverId);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONObject result = new JSONObject();
+        result.accumulate("order",ordersVO);
+        result.accumulate("truck",truckVO);
+        result.accumulate("driver",driverVO);
+
+        jsonObject.accumulate("code",200);
+        jsonObject.accumulate("result",result);
+
+//        System.out.println(jsonObject.toString());
+        return jsonObject.toString();
+    }
+
+
+    @RequestMapping("/toHistory")
+    public String toHistory(){
+        return "/schedule/historyPath";
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 获取高德webService中路线规划中的'steps'信息
+     * @Param: null
+     * @Return: String
+     * @Date: 11:50 2018/5/7
+     */
+    @RequestMapping("/getSteps")
+    @ResponseBody
+    public String getSteps(){
+        return MapUtil.getDirection("惠州市惠城区东江二路1号富力国际大厦");
+    }
+
+    @RequestMapping
+    @ResponseBody
+    public String getHistoryList(){
+        return "";
     }
 }
