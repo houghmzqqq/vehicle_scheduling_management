@@ -17,6 +17,7 @@ public class TruckScheduleVO {
     private String applicationState;
     private String applicationDate;
     private String accessDate;
+    private String completeDate;
     private String status;
     private String remark;
 
@@ -104,6 +105,14 @@ public class TruckScheduleVO {
         return accessDate;
     }
 
+    public String getCompleteDate() {
+        return completeDate;
+    }
+
+    public void setCompleteDate(String completeDate) {
+        this.completeDate = completeDate;
+    }
+
     public void setAccessDate(String accessDate) {
         this.accessDate = accessDate;
     }
@@ -127,6 +136,7 @@ public class TruckScheduleVO {
                 ", applicationState='" + applicationState + '\'' +
                 ", applicationDate='" + applicationDate + '\'' +
                 ", accessDate='" + accessDate + '\'' +
+                ", completeDate='" + completeDate + '\'' +
                 ", status='" + status + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';

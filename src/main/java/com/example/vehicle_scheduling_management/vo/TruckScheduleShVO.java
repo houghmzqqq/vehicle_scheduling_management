@@ -12,6 +12,7 @@ public class TruckScheduleShVO {
     private String applicationState;
     private String applicationDate;
     private String accessDate;
+    private String completeDate;
     private String status;
     private String remark;
 
@@ -93,6 +94,14 @@ public class TruckScheduleShVO {
         this.accessDate = accessDate;
     }
 
+    public String getCompleteDate() {
+        return completeDate;
+    }
+
+    public void setCompleteDate(String completeDate) {
+        this.completeDate = completeDate;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -168,6 +177,7 @@ public class TruckScheduleShVO {
                 ", applicationState='" + applicationState + '\'' +
                 ", applicationDate='" + applicationDate + '\'' +
                 ", accessDate='" + accessDate + '\'' +
+                ", completeDate='" + completeDate + '\'' +
                 ", status='" + status + '\'' +
                 ", remark='" + remark + '\'' +
                 ", driverId=" + driverId +

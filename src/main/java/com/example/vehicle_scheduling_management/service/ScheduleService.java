@@ -1,9 +1,7 @@
 package com.example.vehicle_scheduling_management.service;
 
-import com.example.vehicle_scheduling_management.vo.DividePageVO;
-import com.example.vehicle_scheduling_management.vo.OrdersVO;
-import com.example.vehicle_scheduling_management.vo.TruckScheduleShVO;
-import com.example.vehicle_scheduling_management.vo.TruckScheduleVO;
+import com.example.vehicle_scheduling_management.exception.NoTruckItemFindException;
+import com.example.vehicle_scheduling_management.vo.*;
 
 import java.util.List;
 
@@ -55,5 +53,51 @@ public interface ScheduleService {
      * @Date: 10:00 2018/5/8
      */
     DividePageVO<TruckScheduleShVO> getShList(int thisPage, int rowOfEachPage);
+
+    /**
+     * @Author: yjf
+     * @Description: 审核调度申请
+     * @Param: scheId
+     * @Param: state
+     * @Return: int
+     * @Date: 20:33 2018/5/9
+     */
+    int shSche(int scheId,String state);
+
+    /**
+     * @Author: yjf
+     * @Description: 获取已完成的调度申请的车辆项
+     * @Param: null
+     * @Return: null
+     * @Date: 16:47 2018/5/14
+     */
+    List<LsgjVO> getLsgjList() throws NoTruckItemFindException;
+
+    /**
+     * @Author: yjf
+     * @Description: 获取某个车辆项的历史轨迹
+     * @Param: truckItemId
+     * @Return: String
+     * @Date: 12:07 2018/5/16
+     */
+    String getLisgStep(int truckItemId);
+
+    /**
+     * @Author: yjf
+     * @Description: 根据调度单的状态查找调度申请
+     * @Param: status
+     * @Return: List<TruckScheduleVO>
+     * @Date: 9:43 2018/5/19
+     */
+    List<TruckScheduleVO> getSchesByStatus(String status);
+
+    /**
+     * @Author: yjf
+     * @Description: 根据Id查找调度记录
+     * @Param: id
+     * @Return: TruckScheduleVO
+     * @Date: 10:00 2018/5/19
+     */
+    TruckScheduleShVO getScheById(int id);
 
 }

@@ -14,6 +14,7 @@ public class TruckSchedulePO {
     private String applicationState;
     private Date applicationDate;
     private Date accessDate;
+    private Date completeDate;
     private String status;
     private String remark;
 
@@ -80,6 +81,14 @@ public class TruckSchedulePO {
         this.aim = aim;
     }
 
+    public Date getCompleteDate() {
+        return completeDate;
+    }
+
+    public void setCompleteDate(Date completeDate) {
+        this.completeDate = completeDate;
+    }
+
     public String getApplicationState() {
         return applicationState;
     }
@@ -123,6 +132,7 @@ public class TruckSchedulePO {
                 ", applicationState='" + applicationState + '\'' +
                 ", applicationDate=" + applicationDate +
                 ", accessDate=" + accessDate +
+                ", completeDate=" + completeDate +
                 ", status='" + status + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';

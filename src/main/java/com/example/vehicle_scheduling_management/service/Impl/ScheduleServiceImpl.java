@@ -1,15 +1,15 @@
 package com.example.vehicle_scheduling_management.service.Impl;
 
 
+import com.example.vehicle_scheduling_management.exception.NoTruckItemFindException;
 import com.example.vehicle_scheduling_management.mapper.*;
 import com.example.vehicle_scheduling_management.pojo.*;
 import com.example.vehicle_scheduling_management.service.ScheduleService;
+import com.example.vehicle_scheduling_management.util.DateFormatUtil;
 import com.example.vehicle_scheduling_management.util.DivideUtil;
 import com.example.vehicle_scheduling_management.util.MapUtil;
 import com.example.vehicle_scheduling_management.util.UrlTool;
-import com.example.vehicle_scheduling_management.vo.DividePageVO;
-import com.example.vehicle_scheduling_management.vo.TruckScheduleShVO;
-import com.example.vehicle_scheduling_management.vo.TruckScheduleVO;
+import com.example.vehicle_scheduling_management.vo.*;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -45,11 +45,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private TruckItemMapper truckItemMapper;
     @Autowired
+    private HistoryPathMapper pathMapper;
+    @Autowired
     private DivideUtil divideUtil;
     @Autowired
     private DozerBeanMapper beanMapper;
 
-    private JSONObject jsonObject;
+//    private JSONObject jsonObject;
 
     @Override
     @Transactional
@@ -92,7 +94,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         //3.生成调度车辆项
         TruckItemPO truckItemPO = new TruckItemPO();
         truckItemPO.setScheduleId(truckSchedulePO.getId());
+        truckItemPO.setTruckId(truckPO.getId());
         truckItemPO.setPlateNumber(truckPO.getPlateNumber());
+        truckItemPO.setDriverId(driverPO.getId());
         truckItemPO.setDriverCode(driverPO.getDriverCode());
         truckItemPO.setDriverName(driverPO.getDriverName());
         truckItemMapper.add(truckItemPO);
@@ -117,7 +121,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             //获取返回的结果
             String msg = urlTool.getResponseMsg();
 
-            jsonObject = JSONObject.fromObject(msg);
+            JSONObject jsonObject = JSONObject.fromObject(msg);
             JSONArray jsonArray = jsonObject.getJSONArray("geocodes");
             jsonObject = jsonArray.getJSONObject(0);
             position = jsonObject.getString("location");
@@ -202,6 +206,144 @@ public class ScheduleServiceImpl implements ScheduleService {
         return dividePageVO;
     }
 
+    @Override
+    public int shSche(int scheId, String state) {
+        TruckSchedulePO schedulePO = scheduleMapper.queryById(scheId);
+        String stateTemp = schedulePO.getApplicationState();
+
+        if(stateTemp.equals("0")){
+            //未提交
+            return 0;
+        }else if(stateTemp.equals("2")){
+            //已登记审核通过
+            return 2;
+        }else if(stateTemp.equals("3")){
+            //已登记审核失败
+            return 3;
+        }
+
+        //设置为已审核状态
+        schedulePO.setApplicationState(state);
+        schedulePO.setAccessDate(new Date());
+        scheduleMapper.update(schedulePO);
+        return 4;
+    }
+
+    @Override
+    public List<LsgjVO> getLsgjList() throws NoTruckItemFindException {
+        List<TruckSchedulePO> schedulePOS = scheduleMapper.queryByStatus("2");
+
+        List<TruckItemPO> truckItemPOS = new ArrayList<>();
+        List<LsgjVO> lsgjVOS = new ArrayList<>();
+        TruckItemPO truckItemPO = new TruckItemPO();
+        for(TruckSchedulePO schedulePO : schedulePOS){
+                truckItemPOS = truckItemMapper.queryByScheId(schedulePO.getId());
+
+//                truckItemPOS.add(truckItemPO);
+                if (truckItemPOS!=null && truckItemPOS.size()!=0){
+                    truckItemPO = truckItemPOS.get(0);
+                    LsgjVO lsgjVO = new LsgjVO();
+                    lsgjVO.setId(truckItemPO.getId());
+                    lsgjVO.setScheduleId(schedulePO.getId());
+                    lsgjVO.setTruckId(truckItemPO.getTruckId());
+                    lsgjVO.setPlateNumber(truckItemPO.getPlateNumber());
+                    lsgjVO.setDriverId(truckItemPO.getDriverId());
+                    lsgjVO.setDriverCode(truckItemPO.getDriverCode());
+                    lsgjVO.setDriverName(truckItemPO.getDriverName());
+                    lsgjVO.setEndPlace(schedulePO.getEndPlace());
+                    //待完善
+                    lsgjVO.setStartDate(new Date().toString());
+                    lsgjVO.setEndDate(new Date().toString());
+
+                    lsgjVOS.add(lsgjVO);
+                }
+        }
+
+        return lsgjVOS;
+    }
+
+    @Override
+    public String getLisgStep(int truckItemId) {
+        List<HistoryPathPO> pathPOS = pathMapper.queryByItemId(truckItemId);
+        List<HistoryPathVO> pathVOS = new ArrayList<>();
+        StringBuilder sb = new StringBuilder("[");
+
+        //转换po为vo
+        for(HistoryPathPO pathPO : pathPOS){
+            HistoryPathVO pathVO = new HistoryPathVO();
+            beanMapper.map(pathPO,pathVO);
+            //将时间转换为字符串格式
+            if(pathPO.getTimes()!=null){
+                pathVO.setTimes(DateFormatUtil.getDateFormatTime(pathPO.getTimes()).toString());
+            }
+
+            pathVOS.add(pathVO);
+
+            //拼接x,y坐标
+            sb.append("[").append(pathVO.getLatitude()).
+                    append(",").append(pathVO.getLongitude()).
+                    append("]").append(",");
+        }
+
+        //将最后的','变为']'
+        sb.deleteCharAt(sb.length()-1);
+//        sb.setCharAt(sb.length()-1,']');
+        sb.append("]");
+
+        //将pathVOS和坐标的集合变成json格式的字符串返回
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = JSONArray.fromObject(pathVOS);
+//        JSONObject steps = JSONObject.fromObject(sb.toString());
+        jsonObject.accumulate("pathVOS",jsonArray);
+        jsonObject.accumulate("steps",sb.toString());
+
+        return jsonObject.toString();
+    }
+
+    @Override
+    public List<TruckScheduleVO> getSchesByStatus(String status) {
+        List<TruckSchedulePO> schedulePOS = scheduleMapper.queryByStatus(status);
+        List<TruckScheduleVO> scheduleVOS = new ArrayList<>();
+
+        for(TruckSchedulePO schedulePO : schedulePOS){
+            scheduleVOS.add(turnPoToVo(schedulePO));
+        }
+        return scheduleVOS;
+    }
+
+    @Override
+    public TruckScheduleShVO getScheById(int id) {
+        TruckSchedulePO schedulePO = scheduleMapper.queryById(id);
+        TruckScheduleShVO scheduleShVO = new TruckScheduleShVO();
+        List<TruckItemPO> truckItemPOS = new ArrayList<>();
+        List<OrderItemPO> orderItemPOS = new ArrayList<>();
+
+        int scheId = id;
+        truckItemPOS = truckItemMapper.queryByScheId(scheId);
+        orderItemPOS = orderItemMapper.queryBySchId(scheId);
+        TruckItemPO truckItemPO = new TruckItemPO();
+        OrderItemPO orderItemPO = new OrderItemPO();
+        if(truckItemPOS != null  &&  truckItemPOS.size() > 0)
+            truckItemPO = truckItemPOS.get(0);
+        if(orderItemPOS != null  &&  orderItemPOS.size() > 0)
+            orderItemPO = orderItemPOS.get(0);
+
+        OrdersPO ordersPO = ordersMapper.queryById(orderItemPO.getOrderId());
+
+        beanMapper.map(turnPoToVo(schedulePO),scheduleShVO);
+        //设置货车信息
+        scheduleShVO.setTruckId(truckItemPO.getTruckId());
+        scheduleShVO.setPlateNumber(truckItemPO.getPlateNumber());
+        //设置司机信息
+        scheduleShVO.setDriverId(truckItemPO.getDriverId());
+        scheduleShVO.setDriverName(truckItemPO.getDriverName());
+        //设置订单信心
+        scheduleShVO.setOrderId(orderItemPO.getOrderId());
+        scheduleShVO.setCompany(ordersPO.getCompany());
+
+        return scheduleShVO;
+    }
+
     /**
      * @Author: yjf
      * @Description: PO转换为VO
@@ -227,6 +369,10 @@ public class ScheduleServiceImpl implements ScheduleService {
             if(schedulePO.getAccessDate() != null){
                 String accessDate = sdf.format(schedulePO.getAccessDate());
                 scheduleVO.setAccessDate(accessDate);
+            }
+            if(schedulePO.getCompleteDate() != null){
+                String date = DateFormatUtil.getDateFormatTime(schedulePO.getCompleteDate());
+                scheduleVO.setCompleteDate(date);
             }
 
             //转换申请状态

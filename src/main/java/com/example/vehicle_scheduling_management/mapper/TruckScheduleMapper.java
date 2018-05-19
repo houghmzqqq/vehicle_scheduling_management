@@ -37,6 +37,19 @@ public interface TruckScheduleMapper {
                                           @Param("rowOfEachPage") int rowOfEachPage,
                                           @Param("appState") String appState);
 
+
+    /**
+     * @Author: yjf
+     * @Description: 根据申请状态查找调度申请
+     * @Param: status
+     * @Return: List<TruckSchedulePO>
+     * @Date: 16:31 2018/5/14
+     */
+    List<TruckSchedulePO> queryByStatus(String status);
+
+//    List<TruckSchedulePO> sqjlQuery(@Param("firstData") int firstData,
+//                                    @Param("rowOfEachPage") int rowOfEachPage);
+
     /**
      * @Author: yjf
      * @Description: 查询所有调度申请的数量

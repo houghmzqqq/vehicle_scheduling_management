@@ -36,9 +36,14 @@
         select count(*) from historypath
     </select>
 
+    <!-- 根据truckItemId查找历史轨迹-->
+    <select id="queryByItemId" resultType="HistoryPathPO">
+        select * from historypath where truckItemId=#{truckItemId}
+    </select>
+
     <insert id="add" parameterType="HistoryPathPO" useGeneratedKeys="true" keyProperty="id">
-        insert into historypath(plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate)
-        values(#{plateNumber},#{fleetName},#{brand},#{model},#{types},#{loads},#{colour},#{output},#{seat},#{recordDate})
+        insert into historypath(truckItemId,times,latitude,longitude,location)
+        values(#{truckItemId},#{times},#{latitude},#{longitude},#{location})
     </insert>
     
     <update id="update" parameterType="HistoryPathPO">

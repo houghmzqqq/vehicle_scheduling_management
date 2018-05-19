@@ -73,6 +73,15 @@
         </field-exclude>
     </mapping>
 
+    <!-- 历史轨迹 -->
+    <mapping>
+        <class-a>com.example.vehicle_scheduling_management.pojo.HistoryPathPO</class-a>
+        <class-b>com.example.vehicle_scheduling_management.vo.HistoryPathVO</class-b>
+        <field-exclude>
+            <a>times</a>
+            <b>times</b>
+        </field-exclude>
+    </mapping>
     <!--<mapping>-->
         <!--<class-a>com.yejunfeng.PO.StudentPO</class-a>-->
         <!--<class-b>com.yejunfeng.VO.StudentVO</class-b>-->

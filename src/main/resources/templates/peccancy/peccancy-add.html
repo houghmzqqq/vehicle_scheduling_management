@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>违章信息录入</title>
+    <!-- Bootstrap Styles-->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <!-- FontAwesome Styles-->
+    <link href="/assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/assets/css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- Custom Styles-->
+    <link href="/assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="/assets/css/style-responsive.css" rel="stylesheet"/>
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!--jquery ui css-->
+    <link href="/assets/css/jquery-ui-timepicker-addon.min.css" rel="stylesheet"/>
+    <link href="/assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation" th:include="header :: top-navbar">
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation" th:include="sidebar :: navbar-side">
+    </nav>
+
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div class="header">
+            <ol class="breadcrumb">
+                <li><a href="#">主页</a></li>
+                <li><a href="#">违章管理</a></li>
+                <li class="active">录入违章信息</li>
+            </ol>
+
+        </div>
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            违章信息
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form">
+                                    <form class="form-validate form-horizontal" id="register_form" method="POST">
+
+                                        <div class="form-group ">
+                                            <label for="sche" class="control-label col-lg-2">行车记录 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-8">
+                                                <select onchange="getScheInfo()" class="form-control" id="sche" name="scheId" required>
+                                                    <option></option>
+                                                    <option th:each="sche : ${schedules}" th:value="${sche.id}"
+                                                            th:text="${sche.id} + '    ' + ${sche.endPlace}"></option>
+                                                    <!--<option th:value="女">女</option>-->
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="company" class="control-label col-lg-2">客户公司</label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="company" name="model"
+                                                       type="text" readonly/>
+                                            </div>
+                                            <label for="endPlace" class="control-label col-lg-2">目的地 <span
+                                                class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="endPlace" name="endPlace" type="text"
+                                                       readonly/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <input type="text" id="driverId" name="driverId" hidden/>
+                                            <input type="text" id="truckId" name="truckId" hidden/>
+                                            <label for="driverName" class="control-label col-lg-2">司机姓名 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="driverName" type="text" name="driverName"
+                                                       readonly/>
+                                            </div>
+                                            <label for="plateNumber" class="control-label col-lg-2">车牌号 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="plateNumber" name="plateNumber" type="text"
+                                                       readonly/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="completeDate" class="control-label col-lg-2">完成时间 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="completeDate" type="text" name="completeDate"
+                                                       readonly/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <!-- 违章信息 -->
+                                        <div class="form-group ">
+                                            <label for="peccancyPlace" class="control-label col-lg-2">违章地点 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="peccancyPlace" type="text" name="peccancyPlace"
+                                                       required/>
+                                            </div>
+                                            <label for="peccancyDate" class="control-label col-lg-2">违章时间 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="peccancyDate" name="peccancyDate" type="date"
+                                                       required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="peccancy" class="control-label col-lg-2">违章内容 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="peccancy" type="text" name="peccancy"
+                                                       required/>
+                                            </div>
+                                            <label for="fine" class="control-label col-lg-2">罚款 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="fine" name="fine" type="text"
+                                                       required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-8 col-lg-10">
+                                                <button class="btn btn-primary" onclick="submitForm()">保存</button>
+                                                <button class="btn btn-default" type="reset">重置</button>
+                                                <a class="btn btn-default" type="button" th:href="@{/peccancy/toList}">取消</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="/assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="/assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="/assets/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<script src="/assets/js/custom-scripts.js"></script>
+<!--jquery ui js-->
+<script src="/assets/js/jquery-ui-1.10.4.min.js"></script>
+<script src="/assets/js/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery-ui-timepicker-zh-CN.js"></script>
+<!-- datetime util -->
+<script type="text/javascript">
+    function getScheInfo(){
+        var selected = document.getElementById("sche");
+        var scheId = selected.value;
+
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/peccancy/getScheInfo?id="+scheId ,//url
+//            data: $('#register_form').serialize(),
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code != 200) {
+                    alert("获取调度记录失败！");
+                    return false;
+                }
+                var scheInfo = result.rel;
+                document.getElementById("company").value = scheInfo.company;
+                document.getElementById("endPlace").value = scheInfo.endPlace;
+                document.getElementById("driverName").value = scheInfo.driverName;
+                document.getElementById("plateNumber").value = scheInfo.plateNumber;
+                document.getElementById("completeDate").value = scheInfo.completeDate;
+                document.getElementById("driverId").value = scheInfo.driverId;
+                document.getElementById("truckId").value = scheInfo.truckId;
+//                document.getElementById("plateNumber").value = truckInfo.plateNumber;
+//                document.getElementById("fleetName").value = truckInfo.fleetName;
+//                document.getElementById("loads").value = truckInfo.loads;
+//                document.getElementById("output").value = truckInfo.output;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+//                alert(XMLHttpRequest.status);
+//                alert(XMLHttpRequest.readyState);
+//                alert(textStatus);
+            }
+        });
+    }
+    
+    function submitForm() {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/peccancy/addPeccancy" ,//url
+            data: $('#register_form').serialize(),
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == "300") {
+                    alert("失败！");
+                    return false;
+                }
+                alert("新增成功！");
+                window.onload("localhost/peccancy/toList");
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+//                alert(XMLHttpRequest.status);
+//                alert(XMLHttpRequest.readyState);
+//                alert(textStatus);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,20 +1,25 @@
 package com.example.vehicle_scheduling_management.action;
 
+import com.example.vehicle_scheduling_management.exception.NoTruckItemFindException;
 import com.example.vehicle_scheduling_management.service.DriverService;
 import com.example.vehicle_scheduling_management.service.OrdersService;
 import com.example.vehicle_scheduling_management.service.ScheduleService;
 import com.example.vehicle_scheduling_management.service.TruckService;
+import com.example.vehicle_scheduling_management.util.HistoryTest;
 import com.example.vehicle_scheduling_management.util.MapUtil;
 import com.example.vehicle_scheduling_management.vo.*;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -168,9 +173,26 @@ public class ScheduleController {
      * @Return: null
      * @Date: 9:50 2018/5/8
      */
-    @RequestMapping("/shSche")
-    public String shSche(@RequestParam Integer id){
-        return "";
+    @RequestMapping(value="/shSche",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String shSche(@RequestParam Integer scheId,@RequestParam String state){
+        int reli = scheduleService.shSche(scheId,state);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("code","200");
+        if(reli == 0){
+            jsonObject.accumulate("result","调度申请还未提交！");
+        }else if (reli == 2){
+            jsonObject.accumulate("result","已登记审核通过！");
+        }else if(reli == 3){
+            jsonObject.accumulate("result","已登记审核失败！");
+        }else if(reli == 4){
+            jsonObject.accumulate("result","成功！");
+        }else{
+            jsonObject.accumulate("result","发生未知异常!");
+        }
+
+        return jsonObject.toString();
     }
 
     /**
@@ -195,7 +217,7 @@ public class ScheduleController {
      * @Return: null
      * @Date: 16:33 2018/5/8
      */
-    @RequestMapping("/shCheck")
+    @RequestMapping(value="/shCheck",produces="application/json;charset=utf-8")
     @ResponseBody
     public String shCheck(@RequestParam int orderId,@RequestParam int truckId,
                           @RequestParam int driverId){
@@ -216,10 +238,27 @@ public class ScheduleController {
         return jsonObject.toString();
     }
 
-
+    /**
+     * @Author: yjf
+     * @Description: 跳转到历史轨迹页面
+     * @Param: null
+     * @Return: null
+     * @Date: 11:58 2018/5/11
+     */
     @RequestMapping("/toHistory")
     public String toHistory(){
         return "/schedule/historyPath";
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 获取能够查看历史轨迹的车辆调度项
+     * @Param: null
+     * @Return: null
+     * @Date: 16:38 2018/5/14
+     */
+    public String getTruckItems(Model model){
+        return "";
     }
 
     /**
@@ -229,15 +268,31 @@ public class ScheduleController {
      * @Return: String
      * @Date: 11:50 2018/5/7
      */
-    @RequestMapping("/getSteps")
+    @RequestMapping(value="/getSteps",produces="application/json;charset=utf-8")
     @ResponseBody
-    public String getSteps(){
-        return MapUtil.getDirection("惠州市惠城区东江二路1号富力国际大厦");
+    public String getSteps(@RequestParam Integer truckItemId) throws Exception {
+//        return MapUtil.getDirection("惠州市惠城区东江二路1号富力国际大厦");
+
+        return scheduleService.getLisgStep(truckItemId);
     }
 
-    @RequestMapping
+
+    @RequestMapping(value="/getLsgjList",produces="application/json;charset=utf-8")
     @ResponseBody
-    public String getHistoryList(){
-        return "";
+    public String getHistoryList() {
+        List<LsgjVO> lsgjVOS = new ArrayList<>();
+        try {
+            lsgjVOS = scheduleService.getLsgjList();
+        } catch (NoTruckItemFindException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject rel = new JSONObject();
+        rel.accumulate("code","200");
+
+        JSONArray lsgjJson = JSONArray.fromObject(lsgjVOS);
+        rel.accumulate("rel",lsgjJson);
+
+        return rel.toString();
     }
 }

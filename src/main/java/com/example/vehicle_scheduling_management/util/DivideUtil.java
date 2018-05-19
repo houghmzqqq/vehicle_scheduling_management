@@ -16,10 +16,27 @@ import java.util.List;
 @Component
 public class DivideUtil {
 
+    private ThreadLocal<DividePageVO> divideLocal = new ThreadLocal<>();
     private DividePageVO dividePage;
 
+    /**
+     * @Author: yjf
+     * @Description: 通过ThreadLocal保证线程安全
+     * @Param: null
+     * @Return: DividePageVO
+     * @Date: 15:39 2018/5/18
+     */
+    public DividePageVO getDividePage(){
+        if(divideLocal.get()==null){
+            dividePage = new DividePageVO();
+            divideLocal.set(dividePage);;
+        }
+        return divideLocal.get();
+    }
+
+
     public DivideUtil() {
-        this.dividePage = new DividePageVO();
+        this.dividePage = this.getDividePage();
     }
 
     /**

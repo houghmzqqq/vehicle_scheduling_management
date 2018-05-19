@@ -32,7 +32,7 @@ public class TruckController {
      */
     @RequestMapping("/toList")
     public String toTruckList(@RequestParam(defaultValue = "1") Integer thisPage, Model model){
-        DividePageVO<TruckVO> dividePageVO = truckService.divideQuery(thisPage,5);
+        DividePageVO<TruckVO> dividePageVO = truckService.divideQuery(thisPage,10);
         model.addAttribute("dividePage",dividePageVO);
         return "/truck/truck-list";
     }

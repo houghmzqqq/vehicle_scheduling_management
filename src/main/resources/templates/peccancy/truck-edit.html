@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>车辆信息修改</title>
+    <!-- Bootstrap Styles-->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <!-- FontAwesome Styles-->
+    <link href="/assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/assets/css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- Custom Styles-->
+    <link href="/assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="/assets/css/style-responsive.css" rel="stylesheet"/>
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <!--jquery ui css-->
+    <link href="/assets/css/jquery-ui-timepicker-addon.min.css" rel="stylesheet"/>
+    <link href="/assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation" th:include="header :: top-navbar">
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation" th:include="sidebar :: navbar-side">
+    </nav>
+
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div class="header">
+            <ol class="breadcrumb">
+                <li><a href="#">主页</a></li>
+                <li><a href="#">车辆管理</a></li>
+                <li class="active">更新车辆</li>
+            </ol>
+
+        </div>
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            更新车辆
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form">
+                                    <form class="form-validate form-horizontal" id="register_form">
+                                        <input name="id" th:value="${truck.id}" hidden="hidden" />
+                                        <div class="form-group ">
+                                            <label for="plateNumber" class="control-label col-lg-2">车牌号 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="plateNumber" name="plateNumber" type="text"
+                                                       th:value="${truck.plateNumber}" required/>
+                                            </div>
+                                            <label for="fleetName" class="control-label col-lg-2">车队名称 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="fleetName" name="fleetName" type="text"
+                                                       th:value="${truck.fleetName}" required/>
+                                                <!--<select class="form-control" id="fleetName" name="fleetName" type="text" required>-->
+                                                    <!--<option th:value="男">男</option>-->
+                                                    <!--<option th:value="女">女</option>-->
+                                                <!--</select>-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="brand" class="control-label col-lg-2">品牌 </label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="brand" type="text" name="brand"
+                                                       th:value="${truck.brand}"/>
+                                            </div>
+                                            <label for="model" class="control-label col-lg-2">车系 </label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control" id="model" name="model"
+                                                       th:value="${truck.model}" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="loads" class="control-label col-lg-2">载重(吨) <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="loads" type="text" name="loads"
+                                                       th:value="${truck.loads}" required/>
+                                            </div>
+                                            <label for="output" class="control-label col-lg-2">排量(L) <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="output" type="text" name="output"
+                                                       th:value="${truck.output}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="colour" class="control-label col-lg-2">颜色 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="colour" type="text" name="colour"
+                                                       th:value="${truck.colour}" required/>
+                                            </div>
+                                            <label for="seat" class="control-label col-lg-2">核定座位 <span
+                                                    class="required">*</span></label>
+                                            <div class="col-lg-3">
+                                                <input class="form-control " id="seat" type="number" name="seat"
+                                                       th:value="${truck.seat}" required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-8 col-lg-10">
+                                                <button class="btn btn-primary" type="button" onclick="update()">保存</button>
+                                                <button class="btn btn-default" type="reset">重置</button>
+                                                <a class="btn btn-default" type="button" th:href="@{/truck/toList}">取消</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="/assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="/assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="/assets/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<script src="/assets/js/custom-scripts.js"></script>
+<!--jquery ui js-->
+<script src="/assets/js/jquery-ui-1.10.4.min.js"></script>
+<script src="/assets/js/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery-ui-timepicker-zh-CN.js"></script>
+<!-- datetime util -->
+<script type="text/javascript">
+    var result1;
+    function update() {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/truck/updateTruck" ,//url
+            data: $('#register_form').serialize(),
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.rel == "yes") {
+                    alert("SUCCESS");
+                }else{
+                    alert("success2");
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

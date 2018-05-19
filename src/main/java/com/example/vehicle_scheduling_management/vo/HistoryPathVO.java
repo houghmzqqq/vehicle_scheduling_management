@@ -1,28 +1,18 @@
-package com.example.vehicle_scheduling_management.pojo;
+package com.example.vehicle_scheduling_management.vo;
 
 import java.util.Date;
 
 /**
- * Created by 叶俊锋 on 2018/4/10.
+ * Created by 叶俊锋 on 2018/5/16.
  */
-public class HistoryPathPO {
+public class HistoryPathVO {
     private int id;
     private int truckItemId;
-    private Date times;
+    private String times;
     private String longitude;
     private String location;
     private String latitude;
 
-    public HistoryPathPO() {
-    }
-
-    public HistoryPathPO(int truckItemId, Date times, String longitude, String latitude, String location) {
-        this.truckItemId = truckItemId;
-        this.times = times;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.location = location;
-    }
 
     public int getId() {
         return id;
@@ -40,11 +30,11 @@ public class HistoryPathPO {
         this.truckItemId = truckItemId;
     }
 
-    public Date getTimes() {
+    public String getTimes() {
         return times;
     }
 
-    public void setTimes(Date times) {
+    public void setTimes(String times) {
         this.times = times;
     }
 
@@ -56,14 +46,6 @@ public class HistoryPathPO {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -72,15 +54,23 @@ public class HistoryPathPO {
         this.location = location;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
     @Override
     public String toString() {
-        return "HistoryPathPO{" +
+        return "HistoryPathVO{" +
                 "id=" + id +
                 ", truckItemId=" + truckItemId +
-                ", times=" + times +
+                ", times='" + times + '\'' +
                 ", longitude='" + longitude + '\'' +
-                ", latitude='" + latitude + '\'' +
                 ", location='" + location + '\'' +
+                ", latitude='" + latitude + '\'' +
                 '}';
     }
 }

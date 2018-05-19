@@ -19,17 +19,6 @@
     <link rel="stylesheet" href="/assets/js/Lightweight-Chart/cssCharts.css">
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main.css"/>
     <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
-    <!--<style type="text/css">-->
-    <!--#panel {-->
-    <!--position: fixed;-->
-    <!--background-color: white;-->
-    <!--max-height: 70%;-->
-    <!--overflow-y: auto;-->
-    <!--top: 200px;-->
-    <!--right: 10px;-->
-    <!--width: 280px;-->
-    <!--}-->
-    <!--</style>-->
     <style rel="stylesheet">
         #historyTool {
             width: 400px;
@@ -71,7 +60,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>车牌号</th>
-                                        <th>日期</th>
                                         <th>开始时间</th>
                                         <th>结束时间</th>
                                         <th>开始地点</th>
@@ -79,17 +67,8 @@
                                         <th>里程</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox"/></td>
-                                        <td>1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
+                                <tbody id="modalTbody">
+
                                 </tbody>
                             </table>
                         </div>
@@ -97,7 +76,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary">确定</button>
+                        <button type="button" class="btn btn-primary" onclick="getHistoryInfo()">确定</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -114,7 +93,7 @@
 
         <div class="panel panel-default" id="historyTool">
             <div class="panel-heading">
-                <button class="btn btn-default btn-sm" type="button" style="background-color: #0aacff !important;border-color: #0aacff;">
+                <button onclick="startPath()" class="btn btn-default btn-sm" type="button" style="background-color: #0aacff !important;border-color: #0aacff;" >
                     <img src="/assets/img/suspend.jpg"/>
                 </button>
                 <button class="btn btn-default btn-sm" id="showModal" onclick="showModal()"
@@ -128,54 +107,12 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                            <th>时间</th>
+                            <th>所在位置</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        <tbody id="toolTbody">
+
                         </tbody>
                     </table>
                 </div>
@@ -232,6 +169,8 @@
 <script type="text/javascript"
         src="http://webapi.amap.com/maps?v=1.4.6&key=4b3e05927c7a55aa1a6526687c38207a&plugin=AMap.Driving"></script>
 <script src="https://webapi.amap.com/js/marker.js"></script>
+<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 
 <script type="text/javascript">
     function showModal() {
@@ -241,54 +180,62 @@
             type: "POST",//方法类型
             async:false,
             dataType: "json",//预期服务器返回的数据类型
-            url: "/truck/updateTruck" ,//url
+            url: "/schedule/getLsgjList" ,//url
             data: $('#register_form').serialize(),
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
-                if (result.rel == "yes") {
-                    alert("SUCCESS");
+                eval(result);
+                if (result.code == "200") {
+                    var lsgjs = result.rel;
+                    var tbody = document.getElementById("modalTbody");
+                    tbody.innerHTML = "";
+                    for(var i=0;i<lsgjs.length;i++){
+                        var lsgj = lsgjs[i];
+                        var tr = document.createElement("tr");
+                        var td0 = document.createElement("td");
+                        var td1 = document.createElement("td");
+                        var td2 = document.createElement("td");
+                        var td3 = document.createElement("td");
+                        var td4 = document.createElement("td");
+                        var td5 = document.createElement("td");
+                        var td6 = document.createElement("td");
+
+                        td0.innerHTML = "<input type=\'checkbox\' name=\'icheckbox\' value=\'"+ lsgj.id +"\'/>";
+                        td1.innerHTML = lsgj.plateNumber;
+                        td2.innerHTML = lsgj.startDate;
+                        td3.innerHTML = lsgj.endDate;
+                        td4.innerHTML = "广东省惠州市惠城区";
+                        td5.innerHTML = lsgj.endPlace;
+                        td6.innerHTML = 16;
+
+                        tr.appendChild(td0);
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        tr.appendChild(td4);
+                        tr.appendChild(td5);
+                        tr.appendChild(td6);
+
+                        tbody.appendChild(tr);
+                    }
                 }else{
-                    alert("success2");
+                    alert("出错！");
                 }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
             }
         });
 
         $("#myModal").modal();
     }
+
 </script>
 
 <script type="text/javascript">
     //创建一个地图
     var map = new AMap.Map('map-window', {
+        resizeEnable: true,
         center: [114.420433, 23.069401],
         zoom: 6
     });
-
-    //点标注
-    //    var marker;
-    //    marker = new AMap.Marker({
-    ////        icon: icon,
-    //        position: "114.420433,23.069401".split(","),
-    ////        offset: new AMap.Pixel(-12,-12),
-    ////        zIndex: 101,
-    //        title: "总公司",
-    //        map: map
-    //    });
-
-    //构建信息窗体中显示的内容
-    //    var info = [];
-    //    info.push("<div style=\"padding:0px 0px 0px 0px;\"><b>高德软件有限公司</b><br/>");
-    //    info.push("电话 : 010-84107000   邮编 : 100102<br/>");
-    //    info.push("地址 : 北京市望京阜通东大街方恒国际中心A座16层</div></div><br>");
-    //    infoWindow = new AMap.InfoWindow({
-    //        content: info.join("<br>")  //使用默认信息窗体框样式，显示信息内容
-    //    });
-    //    infoWindow.open(map, [114.420433,23.069401]);
 
     //构造路线导航类
     var driving = new AMap.Driving({
@@ -310,6 +257,223 @@
             {keyword: '惠州市火车南站', city: '惠州'},
             {keyword: address, city: city}
         ]);
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 点击模态框的"确定"按钮时，获取时间-地点数据，在地图上画出线路
+     * @Param: truckItemId
+     * @Return: null
+     * @Date: 17:30 2018/5/16
+     */
+//    function getHistoryInfo(truckItemId) {
+//        //获取复选框选中的记录的truckItemId
+//        var checks = document.getElementsByName("icheckbox");
+//        var truckItemId = "233";
+//        for(var i=0;i<checks.length;i++){
+//            var check = checks[i];
+//            if(check.checked){
+//                truckItemId = check.value;
+//                $("#myModal").modal("hide");
+//                break;
+//            }
+//            alert("请选择一条记录！");
+//        }
+//
+//        $.ajax({
+//            //几个参数需要注意一下
+//            type: "POST",//方法类型
+//            async:false,
+//            dataType: "json",//预期服务器返回的数据类型
+//            url: "/schedule/getSteps?truckItemId=" + truckItemId ,//url
+////            data: $('#register_form').serialize(),
+//            success: function (result) {
+//                console.log(result);//打印服务端返回的数据(调试用)
+//                var lineArr = result.steps;
+//                console.log("lineArr:" + lineArr);
+//                var pathVOS = result.pathVOS;
+//
+//                //在悬浮的工具栏中加入数据
+//                var tbody = document.getElementById("toolTbody");
+//                for(var i=0;i<pathVOS.length;i++){
+//                    var path = pathVOS[i];
+//                    var tr = document.createElement("tr");
+//                    var td0 = document.createElement("td");
+//                    var td1 = document.createElement("td");
+//                    var td2 = document.createElement("td");
+//
+//                    td0.innerHTML = path.id;
+//                    td1.innerHTML = path.times;
+//                    td2.innerHTML = path.location;
+//
+//                    tr.appendChild(td0);
+//                    tr.appendChild(td1);
+//                    tr.appendChild(td2);
+//
+//                    tbody.appendChild(tr);
+//                }
+//
+//                //在地图上画线
+//                var polyline = new AMap.Polyline({
+//                    path: lineArr,          //设置线覆盖物路径
+//                    strokeColor: "#FF0000", //线颜色
+//                    strokeOpacity: 2,       //线透明度
+//                    strokeWeight: 2,        //线宽
+//                    strokeStyle: "solid",   //线样式
+//                    strokeDasharray: [10, 5] //补充线样式
+//                });
+//
+//                重新定义中心点
+//                map = new AMap.Map('map-window', {
+//                    resizeEnable: true,
+//                    center: [114.423933, 23.058291],
+////                    center: [116.368904, 39.913423],
+//                    zoom: 12
+//                });
+//                polyline.setMap(map);
+////                setMarker("[114.408797,23.106159]","");
+//                //设置一个覆盖物
+//                setMarker([114.423933,23.058291],"/assets/img/truck8.png");
+//            }
+//        });
+//    }
+
+    var marker;
+    function setMarker(location,url) {
+        marker = new AMap.Marker({
+            position: location,
+            icon: new AMap.Icon({
+                size: new AMap.Size(53,32),
+                image: url,
+                imageOffset: new AMap.Pixel(0,10)
+            })
+        });
+        marker.setMap(map);
+    }
+
+    //测试用
+    function getHistoryInfo(truckItemId) {
+        //获取复选框选中的记录的truckItemId
+        var checks = document.getElementsByName("icheckbox");
+        var truckItemId = "233";
+        for(var i=0;i<checks.length;i++){
+            var check = checks[i];
+            if(check.checked){
+                truckItemId = check.value;
+                $("#myModal").modal("hide");
+                break;
+            }
+            alert("请选择一条记录！");
+        }
+
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/schedule/getSteps?truckItemId=" + truckItemId ,//url
+//            data: $('#register_form').serialize(),
+            success: function (result) {
+                var lineArr = result.steps;
+                var pathVOS = result.pathVOS;
+
+                //在悬浮的工具栏中加入数据
+                var tbody = document.getElementById("toolTbody");
+                for(var i=0;i<pathVOS.length;i++){
+                    var path = pathVOS[i];
+                    var tr = document.createElement("tr");
+                    var td0 = document.createElement("td");
+                    var td1 = document.createElement("td");
+                    var td2 = document.createElement("td");
+
+                    td0.innerHTML = i+1;
+                    td1.innerHTML = path.times;
+                    td2.innerHTML = path.location;
+
+                    tr.appendChild(td0);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+
+                    tbody.appendChild(tr);
+                }
+                showPath(lineArr);
+
+            }
+        });
+    }
+
+    var pathSimplifierIns;
+    var navg1;
+    function showPath(lineArr){
+        AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
+
+            if (!PathSimplifier.supportCanvas) {
+                alert('当前环境不支持 Canvas！');
+                return;
+            }
+
+            pathSimplifierIns = new PathSimplifier({
+                zIndex: 100,
+                //autoSetFitView:false,
+                map: map, //所属的地图实例
+
+                getPath: function(pathData, pathIndex) {
+
+                    return pathData.path;
+                },
+                getHoverTitle: function(pathData, pathIndex, pointIndex) {
+
+                    if (pointIndex >= 0) {
+                        //point
+                        return pathData.name + '，点：' + pointIndex + '/' + pathData.path.length;
+                    }
+
+                    return pathData.name + '，点数量' + pathData.path.length;
+                },
+                renderOptions: {
+
+                    renderAllPointsIfNumberBelow: 100 //绘制路线节点，如不需要可设置为-1
+                }
+            });
+
+            window.pathSimplifierIns = pathSimplifierIns;
+
+            //设置数据
+            pathSimplifierIns.setData([{
+                name: '路线0',
+                path: lineArr
+            }]);
+
+            //巡航器的样式
+            var pathNavigatorStyles = [
+                {
+                    width: 16,
+                    height: 32,
+                    //使用图片
+                    content: PathSimplifier.Render.Canvas.getImageContent('/assets/img/truck8.png', onload, onerror),
+                }
+            ];
+            function onload() {
+                pathSimplifierIns.renderLater();
+            }
+
+            function onerror(e) {
+                alert('图片加载失败！');
+            }
+
+            //对第一条线路（即索引 0）创建一个巡航器
+            navg1 = pathSimplifierIns.createPathNavigator(0, {
+                loop: false, //循环播放
+                speed: 500, //巡航速度，单位千米/小时
+                pathNavigatorStyle: pathNavigatorStyles[0]
+            });
+
+//            navg1.start();
+        });
+    }
+
+    function startPath(){
+        navg1.start();
     }
 
 </script>

@@ -83,12 +83,12 @@
                                     </div>
                                 </div>
                                 <hr/>
-                                <div class="form-group ">
-                                    <label for="truck" class="control-label col-lg-2">货车</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="truck" name="truckId" disabled/>
-                                    </div>
-                                </div>
+                                <!--<div class="form-group ">-->
+                                    <!--<label for="truck" class="control-label col-lg-2">货车</label>-->
+                                    <!--<div class="col-lg-8">-->
+                                        <!--<input type="text" class="form-control" id="truck" name="truckId" disabled/>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                                 <div class="form-group ">
                                     <label for="plateNumber" class="control-label col-lg-2">车牌号</label>
                                     <div class="col-lg-3">
@@ -114,12 +114,12 @@
                                     </div>
                                 </div>
                                 <hr/>
-                                <div class="form-group ">
-                                    <label for="driver" class="control-label col-lg-2">司机</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="driver" name="driverId" disabled />
-                                    </div>
-                                </div>
+                                <!--<div class="form-group ">-->
+                                    <!--<label for="driver" class="control-label col-lg-2">司机</label>-->
+                                    <!--<div class="col-lg-8">-->
+                                        <!--<input type="text" class="form-control" id="driver" name="driverId" disabled />-->
+                                    <!--</div>-->
+                                <!--</div>-->
                                 <div class="form-group ">
                                     <label for="drivingLicense" class="control-label col-lg-2">驾驶证号</label>
                                     <div class="col-lg-3">
@@ -195,6 +195,7 @@
                                         <th>客户公司</th>
                                         <th>车牌号</th>
                                         <th>司机名称</th>
+                                        <th>申请时间</th>
                                         <th>申请状态</th>
                                         <th>操作</th>
                                     </tr>
@@ -208,11 +209,12 @@
                                         <td data-th-text="${objs.company}"></td>
                                         <td data-th-text="${objs.plateNumber}"></td>
                                         <td data-th-text="${objs.driverName}"></td>
+                                        <td data-th-text="${objs.applicationDate}"></td>
                                         <td data-th-text="${objs.applicationState}"></td>
                                         <td >
 
-                                            <a th:onclick="'javascript:submit(\''+${objs.id}+'\')'"
-                                               th:if="${objs.applicationState eq '未提交'}">[提交]</a>
+                                            <a th:onclick="'javascript:submitSh(\''+${objs.id}+'\',\''+2+'\')'">[通过]</a>
+                                            <a th:onclick="'javascript:submitSh(\''+${objs.id}+'\',\''+3+'\')'">[驳回]</a>
                                             <!--<a href="#" >[删除]</a>-->
                                         </td>
                                     </tr>
@@ -268,6 +270,25 @@
         $('#dataTables-example').dataTable();
     });
 
+    function submitSh(scheId,state) {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "GET",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/schedule/shSche?scheId="+scheId+"&state="+state,//url
+//            data: $('#register_form').serialize(),
+            success: function (rel) {
+                if (rel.code == "200") {
+                    alert(rel.result);
+                    window.location.reload();
+                }else{
+                    alert("提交失败！");
+                }
+            }
+        });
+    }
+    
     function shCheck(orderId,truckId,driverId) {
         $.ajax({
             //几个参数需要注意一下
@@ -276,10 +297,34 @@
             dataType: "json",//预期服务器返回的数据类型
             url: "/schedule/shCheck?orderId="+orderId+"&truckId="+truckId+"&driverId="+driverId,//url
 //            data: $('#register_form').serialize(),
-            success: function (result) {
-                eval(result);
+            success: function (rel) {
+
 //                console.log(result);//打印服务端返回的数据(调试用)
-                if (result.code == "200") {
+                if (rel.code == "200") {
+                    var order = rel.result.order;
+                    var truck = rel.result.truck;
+                    var driver = rel.result.driver;
+
+                    //设置订单信息
+                    document.getElementById("company").value = order.company;
+                    document.getElementById("fzrName").value = order.name;
+                    document.getElementById("goodsName").value = order.goodsName;
+                    document.getElementById("weight").value = order.weight;
+                    document.getElementById("volume").value = order.volume;
+                    document.getElementById("totalAddress").value = order.totalAddress;
+
+                    //设置货车信息
+                    document.getElementById("plateNumber").value = truck.plateNumber;
+                    document.getElementById("fleetName").value = truck.fleetName;
+                    document.getElementById("loads").value = truck.loads;
+                    document.getElementById("output").value = truck.output;
+
+                    //设置货车信息
+                    document.getElementById("drivingLicense").value = driver.drivingLicense;
+                    document.getElementById("driverName").value = driver.driverName;
+                    document.getElementById("drivingLicenseType").value = driver.drivingLicenseType;
+                    document.getElementById("tellphone").value = driver.tellphone;
+
                     //显示模态框
                     $("#myModal").modal();
 //                    window.location.reload();

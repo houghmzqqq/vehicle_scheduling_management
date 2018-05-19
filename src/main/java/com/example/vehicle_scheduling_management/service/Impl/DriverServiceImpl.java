@@ -32,7 +32,12 @@ public class DriverServiceImpl implements DriverService {
 
     public DriverVO queryById(int id){
         DriverPO driverPO = driverMapper.queryById(id);
-        return turnPoToVo(driverPO);
+
+        if (driverPO != null) {
+            return turnPoToVo(driverPO);
+        }
+
+        return null;
     }
 
     public List<DriverVO> queryAll(){

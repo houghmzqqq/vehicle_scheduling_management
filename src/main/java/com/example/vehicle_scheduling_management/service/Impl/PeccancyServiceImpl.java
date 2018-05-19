@@ -1,7 +1,9 @@
 package com.example.vehicle_scheduling_management.service.Impl;
 
 import com.example.vehicle_scheduling_management.mapper.PeccancyRecordMapper;
+import com.example.vehicle_scheduling_management.mapper.TruckItemMapper;
 import com.example.vehicle_scheduling_management.pojo.PeccancyRecordPO;
+import com.example.vehicle_scheduling_management.pojo.TruckItemPO;
 import com.example.vehicle_scheduling_management.service.PeccancyService;
 import com.example.vehicle_scheduling_management.util.DivideUtil;
 import com.example.vehicle_scheduling_management.vo.DividePageVO;
@@ -28,13 +30,26 @@ public class PeccancyServiceImpl implements PeccancyService {
     @Autowired
     private PeccancyRecordMapper peccancyMapper;
     @Autowired
+    private TruckItemMapper truckItemMapper;
+    @Autowired
     private DozerBeanMapper beanMapper;
     @Autowired
     private DivideUtil divideUtil;
 
     @Override
-    public void add(PeccancyRecordVO peccancyRecordVO) {
+    public String add(PeccancyRecordVO peccancyRecordVO, int scheId) {
+        List<TruckItemPO> truckItemPOS = truckItemMapper.queryByScheId(scheId);
+
+        //如果不存在车辆调度项，返回失败标志
+        if(truckItemPOS == null || truckItemPOS.size() <= 0){
+            return "0";
+        }
+
+        peccancyRecordVO.setTruckItemId(truckItemPOS.get(0).getId());
+
         peccancyMapper.add(turnVoToPo(peccancyRecordVO));
+
+        return "1";
     }
 
     @Override
@@ -89,7 +104,7 @@ public class PeccancyServiceImpl implements PeccancyService {
         PeccancyRecordPO peccancyRecordPO = new PeccancyRecordPO();
         beanMapper.map(peccancyRecordVO,peccancyRecordPO);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if(peccancyRecordVO!=null){
             try {
                 peccancyRecordPO.setPeccancyDate(sdf.parse(peccancyRecordVO.getPeccancyDate()));
@@ -100,4 +115,5 @@ public class PeccancyServiceImpl implements PeccancyService {
 
         return peccancyRecordPO;
     }
+
 }

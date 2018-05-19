@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.dozer.Mapper;
+import org.springframework.context.annotation.Scope;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
 public class DozerConfigration {
 
     @Bean(name = "org.dozer.Mapper")
+    @Scope("prototype")
     public DozerBeanMapper dozerBean(){
         List<String> mappingFiles = Arrays.asList("dozerBeanMapping.xml");
         DozerBeanMapper dozerBean = new DozerBeanMapper();

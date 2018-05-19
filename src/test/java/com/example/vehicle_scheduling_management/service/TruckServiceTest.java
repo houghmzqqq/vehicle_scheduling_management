@@ -43,16 +43,22 @@ public class TruckServiceTest {
 
     @Test
     @Transactional
-    @Rollback(true)
+    @Rollback(false)
     public void addTest(){
-        TruckPO truckPO = new TruckPO("粤A 5666", "秋名山", "123","123", "123",
+        TruckPO truckPO = new TruckPO("粤L 00001", "迅捷", "123","123", "123",
         10.5f, "红色", 1.6f, 4, new Date());
-//        for(int i=1;i<=20;i++){
-//            truckPO.setPlateNumber("粤A 5666"+i);
-//            truckMapper.add(truckPO);
-//        }
-        truckMapper.add(truckPO);
-        System.out.println(truckPO.getId());
+        for(int i=1;i<=20;i++){
+            if(i<10){
+                truckPO.setPlateNumber("粤A 0000"+i);
+            }else{
+                truckPO.setPlateNumber("粤A 000"+i);
+            }
+
+            truckMapper.add(truckPO);
+        }
+
+//        truckMapper.add(truckPO);
+//        System.out.println(truckPO.getId());
     }
 
     @Test

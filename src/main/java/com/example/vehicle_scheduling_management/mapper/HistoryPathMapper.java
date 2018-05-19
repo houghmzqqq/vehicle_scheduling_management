@@ -16,6 +16,15 @@ public interface HistoryPathMapper {
     List<HistoryPathPO> queryByDivide(@Param("firstData") int firstData,
                                       @Param("rowOfEachPage") int rowOfEachPage);
 
+    /**
+     * @Author: yjf
+     * @Description: 通过truckItemId查找历史轨迹
+     * @Param: truckItemId
+     * @Return: List<HistoryPathPO>
+     * @Date: 16:33 2018/5/14
+     */
+    List<HistoryPathPO> queryByItemId(int truckItemId);
+
     void add(HistoryPathPO historyPathPO);
 
     void delete(int id);

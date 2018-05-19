@@ -33,7 +33,7 @@
     
 
     <insert id="add" parameterType="TruckItemPO" useGeneratedKeys="true" keyProperty="id">
-        insert into truckitem(scheduleId,plateNumber,driverCode,driverName)
+        insert into truckitem(scheduleId,truckId,plateNumber,driverId,driverCode,driverName)
         values(#{scheduleId},#{truckId},#{plateNumber},#{driverId},#{driverCode},#{driverName})
     </insert>
     

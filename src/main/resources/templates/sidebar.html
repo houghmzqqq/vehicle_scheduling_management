@@ -38,7 +38,7 @@
                                         <a href="#">实时监控</a>
                                     </li>
                                     <li>
-                                        <a href="#">历史轨迹</a>
+                                        <a th:href="@{/schedule/toHistory}">历史轨迹</a>
                                     </li>
                                 </ul>
                             </li>
@@ -60,55 +60,65 @@
                     </li>
 
                     <li th:if="*{role eq 'role2' || role eq 'superAdmin'}" >
-                        <a href="#"><i class="fa fa-sitemap"></i> 车辆管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li >
-                                <a href="#" th:href="@{/truck/toList}">车辆信息</a>
-                            </li>
-                            <li>
-                                <a href="#">临时车辆</a>
-                            </li>
-                            <li>
-                                <a href="#">违章管理<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">违章登记</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">违章记录</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">事故管理<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">事故登记</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">事故记录</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <a th:href="@{/truck/toList}"><i class="fa fa-sitemap"></i> 车辆管理</span></a>
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li >-->
+                                <!--<a href="#" th:href="@{/truck/toList}">车辆信息</a>-->
+                            <!--</li>-->
+
+                            <!--<li>-->
+                                <!--<a href="#">违章管理<span class="fa arrow"></span></a>-->
+                                <!--<ul class="nav nav-third-level">-->
+                                    <!--<li>-->
+                                        <!--<a href="#">违章登记</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="#">违章记录</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="#">事故管理<span class="fa arrow"></span></a>-->
+                                <!--<ul class="nav nav-third-level">-->
+                                    <!--<li>-->
+                                        <!--<a href="#">事故登记</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="#">事故记录</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                        <!--</ul>-->
                     </li>
 
                     <li th:if="*{role eq 'role2' || role eq 'superAdmin'} ">
-                        <a href="#"><i class="fa fa-sitemap"></i> 司机管理<span class="fa arrow"></span></a>
+                        <a th:href="@{/driver/toList}"><i class="fa fa-sitemap"></i> 司机管理</span></a>
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li>-->
+                                <!--<a th:href="@{/driver/toList}">司机信息</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="#">排班管理<span class="fa arrow"></span></a>-->
+                                <!--<ul class="nav nav-third-level">-->
+                                    <!--<li>-->
+                                        <!--<a href="#">司机排班</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="#">班次设置</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    </li>
+
+                    <li th:if="*{role eq 'role2' || role eq 'superAdmin'}" >
+                        <a href="#"><i class="fa fa-sitemap"></i> 违章管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a th:href="@{/driver/toList}">司机信息</a>
+                                <a th:href="@{/peccancy/toList}">违章记录</a>
                             </li>
                             <li>
-                                <a href="#">排班管理<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">司机排班</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">班次设置</a>
-                                    </li>
-                                </ul>
+                                <a href="#">事故记录</a>
                             </li>
                         </ul>
                     </li>

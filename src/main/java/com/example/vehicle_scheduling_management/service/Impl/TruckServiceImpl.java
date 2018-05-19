@@ -34,7 +34,11 @@ public class TruckServiceImpl implements TruckService {
     public TruckVO queryById(int id) {
         TruckPO truckPO = truckMapper.queryById(id);
 
-        return turnPoToVo(truckPO);
+        if(truckPO != null){
+            return turnPoToVo(truckPO);
+        }
+
+        return null;
     }
 
     @Override

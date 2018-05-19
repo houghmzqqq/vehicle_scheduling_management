@@ -15,20 +15,23 @@ public class RoleConfig {
             "/schedule/toApply","/schedule/toAdd","/schedule/getTruckInfo",
             "/schedule/getDriverInfo","/schedule/create","/schedule/toHistory",
             "/schedule/toRecordList","/schedule/submitSche","/schedule/toShList",
-            "/schedule/shSche","/schedule/shCheck"));
+            "/schedule/shSche","/schedule/shCheck","/schedule/getSteps",
+            "/schedule/getLsgjList"));
     private RoleModel model2 = new RoleModel("司机管理", Arrays.asList(
             "/driver/toList","/driver/toEdit","/driver/updateDriver"
             ,"/driver/delete","/driver/toAdd","/driver/addDriver"));
     private RoleModel model3 = new RoleModel("车辆管理", Arrays.asList(
             "/truck/toList","/truck/toEdit","/truck/updateTruck"
             ,"/truck/delete","/truck/toAdd","/truck/addTruck"));
+    private RoleModel model4 = new RoleModel("违章管理",Arrays.asList(
+            "/peccancy/toList","/peccancy/toAdd","/peccancy/toEdit"));
 
     //实例化时，加载各个角色的权限
     public RoleConfig(){
         permiss = new HashMap<>();
-        permiss.put("superAdmin",Arrays.asList(model1,model2,model3));
+        permiss.put("superAdmin",Arrays.asList(model1,model2,model3,model4));
         permiss.put("role1",Arrays.asList(model1));
-        permiss.put("role2",Arrays.asList(model2,model3));
+        permiss.put("role2",Arrays.asList(model2,model3,model4));
     }
 
     public Map<String, List<RoleModel>> getPermiss() {
