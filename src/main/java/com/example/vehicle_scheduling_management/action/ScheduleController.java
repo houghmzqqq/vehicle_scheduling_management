@@ -76,6 +76,35 @@ public class ScheduleController {
         return "/schedule/schedule-add";
     }
 
+    @RequestMapping("/toApply2")
+    public String yjscSche(){
+
+
+        return "/schedule/gaode-map2";
+    }
+
+    @RequestMapping("/getPois")
+    @ResponseBody
+    public String getOrdersPoi(){
+        try {
+            return scheduleService.getOrdersEndPoi();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @RequestMapping(value="/getOrdersPath",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String getOrdersPath(){
+        try {
+            return scheduleService.getOrdersPath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"code\":\"300\"}";
+        }
+    }
+
     /**
      * @Author: yjf
      * @Description: 获取单个货车信息
@@ -295,4 +324,6 @@ public class ScheduleController {
 
         return rel.toString();
     }
+
+
 }

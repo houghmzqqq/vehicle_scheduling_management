@@ -20,6 +20,10 @@
         <!--id,plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate-->
     <!--</sql>-->
     <!-- 通过货车id查询车辆项 -->
+
+    <!-- 开启二级缓存 -->
+    <cache eviction="LRU" flushInterval="10800000" size="1024"/>
+
     <select id="queryByTruckId" resultType="TruckItemPO"
             parameterType="java.lang.Integer">
         select * from truckitem where truckId = #{truckId}

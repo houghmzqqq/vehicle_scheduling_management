@@ -199,11 +199,6 @@
 //                document.getElementById("fleetName").value = truckInfo.fleetName;
 //                document.getElementById("loads").value = truckInfo.loads;
 //                document.getElementById("output").value = truckInfo.output;
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-//                alert(XMLHttpRequest.status);
-//                alert(XMLHttpRequest.readyState);
-//                alert(textStatus);
             }
         });
     }
@@ -223,14 +218,15 @@
                     return false;
                 }
                 alert("新增成功！");
-                window.onload("localhost/peccancy/toList");
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-//                alert(XMLHttpRequest.status);
-//                alert(XMLHttpRequest.readyState);
-//                alert(textStatus);
+
+                setTimeout(turnToList,2000);
+//                window.history.back(-1);
             }
         });
+    }
+
+    function turnToList(){
+        window.location.href="http://localhost/peccancy/toList";
     }
 </script>
 

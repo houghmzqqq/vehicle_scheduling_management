@@ -8,6 +8,10 @@
         <!--<result column="driverName" property="username" jdbcType="VARCHAR" />-->
         <!--<result column="age" property="age" jdbcType="VARCHAR" />-->
     <!--</resultMap>-->
+
+    <!-- 开启二级缓存 -->
+    <cache eviction="LRU" flushInterval="10800000" size="1024"/>
+
     <sql id="Base_Column_List">
         *
     </sql>

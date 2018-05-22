@@ -16,7 +16,8 @@ public class RoleConfig {
             "/schedule/getDriverInfo","/schedule/create","/schedule/toHistory",
             "/schedule/toRecordList","/schedule/submitSche","/schedule/toShList",
             "/schedule/shSche","/schedule/shCheck","/schedule/getSteps",
-            "/schedule/getLsgjList"));
+            "/schedule/getLsgjList","/schedule/toApply2","/schedule/getPois",
+            "/schedule/getOrdersPath"));
     private RoleModel model2 = new RoleModel("司机管理", Arrays.asList(
             "/driver/toList","/driver/toEdit","/driver/updateDriver"
             ,"/driver/delete","/driver/toAdd","/driver/addDriver"));

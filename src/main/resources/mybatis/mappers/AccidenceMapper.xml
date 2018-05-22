@@ -16,6 +16,10 @@
         <!--<result column="seat" property="seat" jdbcType="INTEGER" />-->
         <!--<result column="recordDate" property="recordDate" />-->
     <!--</resultMap>-->
+
+    <!-- 开启二级缓存 -->
+    <cache eviction="LRU" flushInterval="10800000" size="1024"/>
+
     <sql id="Base_Column_List">
         plateNumber,driverCode,driverName,cost,insuranceCost,companyPay,injured,dead,
         guyPay,guyName,guyIdentity,guyAddress,guyTellphone,guyPlateNumber,guyCarType,

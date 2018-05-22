@@ -19,6 +19,10 @@
         <result column="getLicenseDate" property="getLicenseDate" />
         <result column="state" property="state" jdbcType="CHAR" />
     </resultMap>
+
+    <!-- 开启二级缓存 -->
+    <cache eviction="LRU" flushInterval="10800000" size="1024"/>
+
     <sql id="Base_Column_List">
         *
     </sql>

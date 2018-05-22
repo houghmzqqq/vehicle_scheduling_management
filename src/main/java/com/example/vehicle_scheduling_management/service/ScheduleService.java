@@ -100,4 +100,21 @@ public interface ScheduleService {
      */
     TruckScheduleShVO getScheById(int id);
 
+    /**
+     * @Author: yjf
+     * @Description: 获取所有待发货（1）状态的订单的目的地poi信息
+     * @Param: null
+     * @Return: String
+     * @Date: 21:04 2018/5/19
+     */
+    String getOrdersEndPoi() throws Exception;
+
+    /**
+     * @Author: yjf
+     * @Description: 获取所有带发货订单的路径规划
+     * @Param: null
+     * @Return: String
+     * @Date: 10:46 2018/5/20
+     */
+    String getOrdersPath() throws Exception;
 }

@@ -21,7 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
         "com.example.vehicle_scheduling_management.action",
         "com.example.vehicle_scheduling_management.aspect"})
 @MapperScan(basePackages = {"com.example.vehicle_scheduling_management.mapper"})
-public class TruckScheduleTest {
+public class
+
+TruckScheduleTest {
 
     @Autowired
     private ScheduleService service;
@@ -39,5 +41,15 @@ public class TruckScheduleTest {
     @Test
     public void shTest(){
         System.out.println(service.getShList(1,2));
+    }
+
+    @Test
+    public void test04() throws Exception {
+        System.out.println(service.getOrdersEndPoi());
+    }
+
+    @Test
+    public void test05() throws Exception {
+        System.out.println(service.getOrdersPath());
     }
 }

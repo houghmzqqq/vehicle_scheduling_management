@@ -19,6 +19,10 @@
     <!--<sql id="Base_Column_List">-->
         <!--id,plateNumber,fleetName,brand,model,types,loads,colour,output,seat,recordDate-->
     <!--</sql>-->
+
+    <!-- 开启二级缓存 -->
+    <cache eviction="LRU" flushInterval="10800000" size="1024"/>
+
     <select id="queryById" resultType="OrderItemPO"
             parameterType="java.lang.Integer">
         select * from orderitem where id = #{orderId}

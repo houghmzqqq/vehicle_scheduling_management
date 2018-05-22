@@ -22,14 +22,65 @@
     <style rel="stylesheet">
         #historyTool {
             width: 400px;
-            height: 250px;
+            height: 500px;
             position: absolute;
             right: 0;
             top: 150px;
             z-index: 12;
         }
+
         #historyTable {
-            height:150px;
+            height:250px;
+        }
+
+        #routes-container {
+            height: 150px;
+            margin-left: 10px
+        }
+
+        #loadingTip {
+            z-index: 9999;
+            left: 0;
+            padding: 3px 10px;
+            background: red;
+            color: #fff;
+            font-size: 13px
+        }
+
+        .route-item {
+            margin-bottom: 10px
+        }
+
+        .route-item pre {
+            margin: 0
+        }
+
+        .route-item h3 {
+            margin: 5px 0;
+            font-size: 14px;
+            cursor: pointer
+        }
+
+        .hide {
+            display: none
+        }
+
+        .speedBox {
+            padding: 5px 0
+        }
+
+        .speedRange {
+            vertical-align: middle;
+            margin: 0;
+            padding: 0;
+            width: 100px
+        }
+
+        .markerInfo {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -92,14 +143,10 @@
         </div>
 
         <div class="panel panel-default" id="historyTool">
-            <div class="panel-heading">
-                <button onclick="startPath()" class="btn btn-default btn-sm" type="button" style="background-color: #0aacff !important;border-color: #0aacff;" >
-                    <img src="/assets/img/suspend.jpg"/>
-                </button>
-                <button class="btn btn-default btn-sm" id="showModal" onclick="showModal()"
-                        type="button" style="background-color: #0aacff !important;border-color: #0aacff;">
-                    <img src="/assets/img/search.jpg"/>
-                </button>
+            <div class="panel-heading" id="routes-container">
+                <div class="route-item" id="route-item">
+                    <button class="btn navigBtn" data-btnIdx="3" data-act="query" onclick="showModal()">查找</button>
+                </div>
             </div>
             <div class="panel-body">
                 <div class="table-responsive pre-scrollable" id="historyTable">
@@ -173,6 +220,346 @@
 <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 
 <script type="text/javascript">
+    //创建一个地图
+    var map = new AMap.Map('map-window', {
+        resizeEnable: true,
+        center: [114.420433, 23.069401],
+        zoom: 6
+    });
+
+    //构造路线导航类
+    var driving = new AMap.Driving({
+        map: map,
+//        panel: "panel"
+    });
+
+
+    var marker;
+    function setMarker(location,url) {
+        marker = new AMap.Marker({
+            position: location,
+            icon: new AMap.Icon({
+                size: new AMap.Size(53,32),
+                image: url,
+                imageOffset: new AMap.Pixel(0,10)
+            })
+        });
+        marker.setMap(map);
+    }
+
+    //测试用
+    function getHistoryInfo(truckItemId) {
+        //获取复选框选中的记录的truckItemId
+        var checks = document.getElementsByName("icheckbox");
+        var truckItemId = "233";
+        for(var i=0;i<checks.length;i++){
+            var check = checks[i];
+            if(check.checked){
+                truckItemId = check.value;
+                $("#myModal").modal("hide");
+                break;
+            }
+            alert("请选择一条记录！");
+        }
+
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            async:false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/schedule/getSteps?truckItemId=" + truckItemId ,//url
+//            data: $('#register_form').serialize(),
+            success: function (result) {
+                var lineArr = result.steps;
+                var pathVOS = result.pathVOS;
+
+                //在悬浮的工具栏中加入数据
+                var tbody = document.getElementById("toolTbody");
+                for(var i=0;i<pathVOS.length;i++){
+                    var path = pathVOS[i];
+                    var tr = document.createElement("tr");
+                    tr.setAttribute("data-index",i);
+                    var td0 = document.createElement("td");
+                    var td1 = document.createElement("td");
+                    var td2 = document.createElement("td");
+
+                    td0.innerHTML = i+1;
+                    td1.innerHTML = path.times;
+                    td2.innerHTML = path.location;
+
+                    tr.appendChild(td0);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+
+                    tbody.appendChild(tr);
+                }
+//                var trs = $("#toolTbody tr");
+//                $("#historyTable").animate({scrollTop:$("[data-index='8']").offset().top-$("[data-index='1']").offset().top});
+//                console.log($("[data-index='8']").offset().top)
+
+                document.getElementById("route-item").innerHTML = "";
+                showPath(lineArr,pathVOS[pathVOS.length-1].location);
+            }
+        });
+    }
+
+    var pathSimplifierIns;
+    var navg1;
+    var colors = [
+        "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
+        "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
+        "#651067", "#329262", "#5574a6", "#3b3eac"
+    ];
+    function showPath(lineArr,locaName){
+        AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
+
+            if (!PathSimplifier.supportCanvas) {
+                alert('当前环境不支持 Canvas！');
+                return;
+            }
+
+            pathSimplifierIns = new PathSimplifier({
+                zIndex: 100,
+                //autoSetFitView:false,
+                map: map, //所属的地图实例
+
+                getPath: function(pathData, pathIndex) {
+
+                    return pathData.path;
+                },
+                getHoverTitle: function(pathData, pathIndex, pointIndex) {
+
+                    if (pointIndex >= 0) {
+                        //point
+                        return pathData.name + '，点：' + pointIndex + '/' + pathData.length;
+                    }
+
+                    return pathData.name + '，点数量' + pathData.length;
+                },
+                renderOptions: {
+
+                    renderAllPointsIfNumberBelow: 100 //绘制路线节点，如不需要可设置为-1
+                }
+            });
+
+            //巡航控制器
+            var pathNavigs = [];
+            function getNavg(pathIndex) {
+
+                if (!pathNavigs[pathIndex]) {
+
+                    //创建一个轨迹巡航器
+                    var navgtr = pathSimplifierIns.createPathNavigator(pathIndex, {
+                        loop: true,
+                        speed: parseInt($('#speedInp_' + pathIndex).val())
+                    });
+
+                    var $markerContent = $('<div class="markerInfo"></div>');
+
+                    $markerContent.html(pathSimplifierIns.getPathData(pathIndex));
+
+            navgtr.marker = new AMap.Marker({
+                offset: new AMap.Pixel(12, -10),
+                content: $markerContent.get(0),
+                map: map
+            });
+
+                    var $msg = $('#routes-container').find('div.route-item[data-idx="' +
+                        pathIndex + '"]').find('.msg');
+
+            navgtr.on('move', function() {
+                navgtr.marker.setPosition(navgtr.getPosition());
+            });
+
+//            navgtr.onDestroy(function() {
+//                pathNavigs[pathIndex] = null;
+//                navgtr.marker.setMap(null);
+//                $msg.html('');
+//            });
+
+                    navgtr.on('start resume', function() {
+                        navgtr._startTime = Date.now();
+                        navgtr._startDist = this.getMovedDistance();
+                    });
+
+                    navgtr.on('pause', function() {
+
+//                        navgtr._movedTime = Date.now() - navgtr._startTime;
+//                        navgtr._movedDist = this.getMovedDistance() - navgtr._startDist;
+//
+//                        navgtr._realSpeed = (navgtr._movedDist / navgtr._movedTime * 3600);
+//
+//                        var msgInfo = {
+//                            '状态': this.getNaviStatus(),
+//                            '设定速度': this.getSpeed() + ' km/h',
+//                            '总行进距离': Math.round(this.getMovedDistance() / 1000) + ' km',
+//                            '本段行进距离': Math.round(navgtr._movedDist / 1000) + ' km',
+//                            '本段耗时': (navgtr._movedTime / 1000) + ' s',
+//                            '本段实际速度': Math.round(navgtr._realSpeed) + ' km/h'
+//                        };
+//
+//                        $msg.html('<pre>' + JSON.stringify(msgInfo, null, 2) + '</pre>');
+
+                        refreshNavgButtons();
+                    });
+
+//            navgtr.on('move', function() {
+//                        var msgInfo = {
+//                            '状态': this.getNaviStatus(),
+//                            '设定速度': this.getSpeed() + ' km/h',
+//                            '总行进距离': Math.round(this.getMovedDistance() / 1000) + ' km'
+//                        };
+//
+//                        $msg.html('<pre>' + JSON.stringify(msgInfo, null, 2) + '</pre>');
+//            });
+
+                    navgtr.on('query', function() {
+                        showModal();
+                    });
+
+                    pathNavigs[pathIndex] = navgtr;
+                }
+
+                return pathNavigs[pathIndex];
+            }
+
+            var navigBtnsConf = [{
+                name: '开始巡航',
+                action: 'start',
+                enableExp: 'navgStatus === "stop" || navgStatus === "pause"'
+            }, {
+                name: '暂停',
+                action: 'pause',
+                enableExp: 'navgStatus === "moving"'
+            }, {
+                name: '恢复',
+                action: 'resume',
+                enableExp: 'navgStatus === "pause"'
+            }];
+
+            function refreshNavgButtons() {
+
+                $('#routes-container').find('div.route-item').each(function() {
+
+                    var pathIndex = parseInt($(this).attr('data-idx'), 0);
+
+                    if (pathIndex < 0) {
+                        return;
+                    }
+
+                    var navgStatus = 'stop',
+                        navgExists = !!pathNavigs[pathIndex];
+
+                    if (navgExists) {
+                        navgStatus = pathNavigs[pathIndex].getNaviStatus();
+                    }
+
+                    $(this).find('.navigBtn').each(function() {
+
+                        var btnIdx = parseInt($(this).attr('data-btnIdx'));
+
+                        $(this).prop('disabled', !eval(navigBtnsConf[btnIdx].enableExp));
+
+                    });
+
+                });
+            }
+
+            function initRoutesContainer(data,locaName) {
+
+                $('#routes-container').on('click', '.navigBtn', function() {
+
+                    var pathIndex = parseInt($(this).closest('.route-item').attr('data-idx'), 0);
+
+                    var navg = getNavg(pathIndex);
+
+                    navg[$(this).attr('data-act')]();
+
+                    refreshNavgButtons();
+                });
+
+                initRouteItem(data,locaName, 0);
+
+                refreshNavgButtons();
+            }
+
+            function initRouteItem(pathData,locaName, idx) {
+
+//                var $routeItem = $('<div class="route-item"></div>');
+                var $routeItem = $("#route-item");
+
+                $routeItem.attr('data-idx', idx);
+
+                $('<h3/>').css({
+                    color: colors[idx]
+                }).html(locaName + '(点数： ' + pathData.length + ')').appendTo($routeItem).on('click', function() {
+                    pathSimplifierIns.setSelectedPathIndex(idx);
+                });
+
+
+                for (var i = 0, len = navigBtnsConf.length; i < len; i++) {
+                    $('<button class="btn navigBtn" data-btnIdx="' + i + '" data-act="' + navigBtnsConf[i].action + '"></button>').html(navigBtnsConf[i].name).appendTo($routeItem);
+                }
+                $("<button class='btn' onclick='showModal()'>查找</button>").appendTo(document.getElementById("route-item"));
+
+                $speedBox = $('<div class="speedBox"></div>').appendTo($routeItem);
+
+                var speedTxt = $('<span><span>').appendTo($speedBox);
+
+                var speedRangeInput = $('<input id="speedInp_' + idx +
+                    '" class="speedRange" type="range" min="1000" max="10000" step="1000" value="5000" />').appendTo($speedBox);
+
+                function updateSpeedTxt() {
+                    var speed = parseInt(speedRangeInput.val(), 10);
+
+                    speedTxt.html('时速：' + speed + ' km/h');
+
+                    if (pathNavigs[idx]) {
+                        pathNavigs[idx].setSpeed(speed);
+                    }
+                }
+                speedRangeInput.on('change', updateSpeedTxt);
+
+                updateSpeedTxt();
+
+                $speedBox.appendTo($routeItem);
+
+                $('<div class="msg"></div>').appendTo($routeItem);
+
+                $routeItem.appendTo('#routes-container');
+            }
+
+            window.pathSimplifierIns = pathSimplifierIns;
+
+            //设置数据
+            pathSimplifierIns.setData([{
+                name: locaName,
+                path: lineArr
+            }]);
+
+            initRoutesContainer(lineArr,locaName);
+
+            pathSimplifierIns.setSelectedPathIndex(0);
+
+            //点击路线上的点时，列表跳到相应的记录
+            pathSimplifierIns.on('pointClick', function(e, info) {
+                //1.现将之前的背景色去掉
+                $("#toolTbody tr").css("background-color","");
+
+                //2.为记录加上背景色，并跳转到该记录
+                var index = info.pointIndex;
+                $("#historyTable").animate({scrollTop:$("[data-index="+index+"]").offset().top-$("[data-index='1']").offset().top});
+                $("[data-index="+index+"]").css("background-color","rgb(38, 135, 192)");
+//                console.log('Click: ' + info.pathData.points[info.pointIndex].name);
+            });
+        });
+    }
+
+    function startPath(){
+        navg1.start();
+    }
+
+    //显示模态框
     function showModal() {
         //获取历史行车记录列表
         $.ajax({
@@ -227,255 +614,11 @@
         $("#myModal").modal();
     }
 
-</script>
-
-<script type="text/javascript">
-    //创建一个地图
-    var map = new AMap.Map('map-window', {
-        resizeEnable: true,
-        center: [114.420433, 23.069401],
-        zoom: 6
-    });
-
-    //构造路线导航类
-    var driving = new AMap.Driving({
-        map: map,
-//        panel: "panel"
-    });
-    // 根据起终点名称规划驾车导航路线
-    //    driving.search([
-    //        {keyword: '惠州市火车南站',city:'惠州'},
-    //        {keyword: '广州市天河客运站',city:'广州'}
-    //    ]);
-    //通过坐标点规划路线
-    //    driving.search([114.423933,23.058291],[113.342309,23.170892],[110.301129,21.150769],function (status,result) {
-    //
-    //    });
-
-    function selectOne(address, city) {
-        driving.search([
-            {keyword: '惠州市火车南站', city: '惠州'},
-            {keyword: address, city: city}
-        ]);
-    }
-
-    /**
-     * @Author: yjf
-     * @Description: 点击模态框的"确定"按钮时，获取时间-地点数据，在地图上画出线路
-     * @Param: truckItemId
-     * @Return: null
-     * @Date: 17:30 2018/5/16
-     */
-//    function getHistoryInfo(truckItemId) {
-//        //获取复选框选中的记录的truckItemId
-//        var checks = document.getElementsByName("icheckbox");
-//        var truckItemId = "233";
-//        for(var i=0;i<checks.length;i++){
-//            var check = checks[i];
-//            if(check.checked){
-//                truckItemId = check.value;
-//                $("#myModal").modal("hide");
-//                break;
-//            }
-//            alert("请选择一条记录！");
-//        }
-//
-//        $.ajax({
-//            //几个参数需要注意一下
-//            type: "POST",//方法类型
-//            async:false,
-//            dataType: "json",//预期服务器返回的数据类型
-//            url: "/schedule/getSteps?truckItemId=" + truckItemId ,//url
-////            data: $('#register_form').serialize(),
-//            success: function (result) {
-//                console.log(result);//打印服务端返回的数据(调试用)
-//                var lineArr = result.steps;
-//                console.log("lineArr:" + lineArr);
-//                var pathVOS = result.pathVOS;
-//
-//                //在悬浮的工具栏中加入数据
-//                var tbody = document.getElementById("toolTbody");
-//                for(var i=0;i<pathVOS.length;i++){
-//                    var path = pathVOS[i];
-//                    var tr = document.createElement("tr");
-//                    var td0 = document.createElement("td");
-//                    var td1 = document.createElement("td");
-//                    var td2 = document.createElement("td");
-//
-//                    td0.innerHTML = path.id;
-//                    td1.innerHTML = path.times;
-//                    td2.innerHTML = path.location;
-//
-//                    tr.appendChild(td0);
-//                    tr.appendChild(td1);
-//                    tr.appendChild(td2);
-//
-//                    tbody.appendChild(tr);
-//                }
-//
-//                //在地图上画线
-//                var polyline = new AMap.Polyline({
-//                    path: lineArr,          //设置线覆盖物路径
-//                    strokeColor: "#FF0000", //线颜色
-//                    strokeOpacity: 2,       //线透明度
-//                    strokeWeight: 2,        //线宽
-//                    strokeStyle: "solid",   //线样式
-//                    strokeDasharray: [10, 5] //补充线样式
-//                });
-//
-//                重新定义中心点
-//                map = new AMap.Map('map-window', {
-//                    resizeEnable: true,
-//                    center: [114.423933, 23.058291],
-////                    center: [116.368904, 39.913423],
-//                    zoom: 12
-//                });
-//                polyline.setMap(map);
-////                setMarker("[114.408797,23.106159]","");
-//                //设置一个覆盖物
-//                setMarker([114.423933,23.058291],"/assets/img/truck8.png");
-//            }
-//        });
-//    }
-
-    var marker;
-    function setMarker(location,url) {
-        marker = new AMap.Marker({
-            position: location,
-            icon: new AMap.Icon({
-                size: new AMap.Size(53,32),
-                image: url,
-                imageOffset: new AMap.Pixel(0,10)
-            })
-        });
-        marker.setMap(map);
-    }
-
-    //测试用
-    function getHistoryInfo(truckItemId) {
-        //获取复选框选中的记录的truckItemId
-        var checks = document.getElementsByName("icheckbox");
-        var truckItemId = "233";
-        for(var i=0;i<checks.length;i++){
-            var check = checks[i];
-            if(check.checked){
-                truckItemId = check.value;
-                $("#myModal").modal("hide");
-                break;
-            }
-            alert("请选择一条记录！");
-        }
-
-        $.ajax({
-            //几个参数需要注意一下
-            type: "POST",//方法类型
-            async:false,
-            dataType: "json",//预期服务器返回的数据类型
-            url: "/schedule/getSteps?truckItemId=" + truckItemId ,//url
-//            data: $('#register_form').serialize(),
-            success: function (result) {
-                var lineArr = result.steps;
-                var pathVOS = result.pathVOS;
-
-                //在悬浮的工具栏中加入数据
-                var tbody = document.getElementById("toolTbody");
-                for(var i=0;i<pathVOS.length;i++){
-                    var path = pathVOS[i];
-                    var tr = document.createElement("tr");
-                    var td0 = document.createElement("td");
-                    var td1 = document.createElement("td");
-                    var td2 = document.createElement("td");
-
-                    td0.innerHTML = i+1;
-                    td1.innerHTML = path.times;
-                    td2.innerHTML = path.location;
-
-                    tr.appendChild(td0);
-                    tr.appendChild(td1);
-                    tr.appendChild(td2);
-
-                    tbody.appendChild(tr);
-                }
-                showPath(lineArr);
-
-            }
-        });
-    }
-
-    var pathSimplifierIns;
-    var navg1;
-    function showPath(lineArr){
-        AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
-
-            if (!PathSimplifier.supportCanvas) {
-                alert('当前环境不支持 Canvas！');
-                return;
-            }
-
-            pathSimplifierIns = new PathSimplifier({
-                zIndex: 100,
-                //autoSetFitView:false,
-                map: map, //所属的地图实例
-
-                getPath: function(pathData, pathIndex) {
-
-                    return pathData.path;
-                },
-                getHoverTitle: function(pathData, pathIndex, pointIndex) {
-
-                    if (pointIndex >= 0) {
-                        //point
-                        return pathData.name + '，点：' + pointIndex + '/' + pathData.path.length;
-                    }
-
-                    return pathData.name + '，点数量' + pathData.path.length;
-                },
-                renderOptions: {
-
-                    renderAllPointsIfNumberBelow: 100 //绘制路线节点，如不需要可设置为-1
-                }
-            });
-
-            window.pathSimplifierIns = pathSimplifierIns;
-
-            //设置数据
-            pathSimplifierIns.setData([{
-                name: '路线0',
-                path: lineArr
-            }]);
-
-            //巡航器的样式
-            var pathNavigatorStyles = [
-                {
-                    width: 16,
-                    height: 32,
-                    //使用图片
-                    content: PathSimplifier.Render.Canvas.getImageContent('/assets/img/truck8.png', onload, onerror),
-                }
-            ];
-            function onload() {
-                pathSimplifierIns.renderLater();
-            }
-
-            function onerror(e) {
-                alert('图片加载失败！');
-            }
-
-            //对第一条线路（即索引 0）创建一个巡航器
-            navg1 = pathSimplifierIns.createPathNavigator(0, {
-                loop: false, //循环播放
-                speed: 500, //巡航速度，单位千米/小时
-                pathNavigatorStyle: pathNavigatorStyles[0]
-            });
-
-//            navg1.start();
-        });
-    }
-
-    function startPath(){
-        navg1.start();
-    }
-
+//    $(document).ready(function(){
+//        var trs = $("#toolTbody tr");
+//        $("#historyTable").animate({scrollTop:trs[6].offset().top},slow);
+//        showModal();
+//    });
 </script>
 <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 

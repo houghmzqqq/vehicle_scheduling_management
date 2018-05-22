@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -110,6 +111,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         ordersMapper.update(ordersPO);
 
     }
+
+    
 
     @Override
     @Transactional
@@ -344,6 +347,46 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleShVO;
     }
 
+    @Override
+    public String getOrdersEndPoi() throws Exception {
+        List<OrdersPO> ordersPOS = ordersMapper.queryByTypes(0);
+        List<String> pois = new LinkedList<>();
+
+        for(OrdersPO ordersPO : ordersPOS){
+            StringBuilder sb = new StringBuilder();
+            sb.append(ordersPO.getProvince()).append(ordersPO.getCity())
+                    .append(ordersPO.getDetailedAddress());
+            String latAndLon = MapUtil.getLocation(sb.toString());
+            pois.add(latAndLon);
+        }
+
+        JSONArray jsonArray = JSONArray.fromObject(pois);
+
+        return jsonArray.toString();
+    }
+
+    @Override
+    public String getOrdersPath() throws Exception {
+        String pois = getOrdersEndPoi();
+        List<String> paths = new LinkedList<>();
+        JSONArray jsonArray = JSONArray.fromObject(pois);
+
+        List<OrdersPO> ordersPOS = ordersMapper.queryByTypes(0);
+
+        for(OrdersPO ordersPO : ordersPOS){
+            StringBuilder sb = new StringBuilder();
+            sb.append(ordersPO.getProvince()).append(ordersPO.getCity())
+                    .append(ordersPO.getDetailedAddress());
+//            String latAndLon = MapUtil.getLocation(sb.toString());
+            String drivingPath = MapUtil.getDrivingPath(MapUtil.getLocation(sb.toString()));
+            JSONObject pathJson = JSONObject.fromObject(drivingPath);
+            pathJson.accumulate("endPlace",sb.toString());
+            paths.add(pathJson.toString());
+        }
+        JSONArray pathsJson = JSONArray.fromObject(paths);
+        return pathsJson.toString();
+    }
+
     /**
      * @Author: yjf
      * @Description: PO转换为VO
@@ -412,4 +455,5 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         return scheduleVO;
     }
+
 }
