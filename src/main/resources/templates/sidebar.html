@@ -49,10 +49,7 @@
                                         <a th:href="@{/schedule/toApply}">调度申请</a>
                                     </li>
                                     <li>
-                                        <a th:href="@{/schedule/toApply2}">调度申请2</a>
-                                    </li>
-                                    <li>
-                                        <a th:href="@{/schedule/toShList}">调度审批</a>
+                                        <a th:href="@{/schedule/toApply2}">一键申请</a>
                                     </li>
                                     <li>
                                         <a th:href="@{/schedule/toRecordList}">调度记录</a>
@@ -63,68 +60,28 @@
                     </li>
 
                     <li th:if="*{role eq 'role2' || role eq 'superAdmin'}" >
-                        <a th:href="@{/truck/toList}"><i class="fa fa-sitemap"></i> 车辆管理</span></a>
-                        <!--<ul class="nav nav-second-level">-->
-                            <!--<li >-->
-                                <!--<a href="#" th:href="@{/truck/toList}">车辆信息</a>-->
-                            <!--</li>-->
+                        <a th:href="@{/schedule/toShList}"><i class="fa fa-sitemap"></i> 调度审批</span></a>
+                    </li>
 
-                            <!--<li>-->
-                                <!--<a href="#">违章管理<span class="fa arrow"></span></a>-->
-                                <!--<ul class="nav nav-third-level">-->
-                                    <!--<li>-->
-                                        <!--<a href="#">违章登记</a>-->
-                                    <!--</li>-->
-                                    <!--<li>-->
-                                        <!--<a href="#">违章记录</a>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">事故管理<span class="fa arrow"></span></a>-->
-                                <!--<ul class="nav nav-third-level">-->
-                                    <!--<li>-->
-                                        <!--<a href="#">事故登记</a>-->
-                                    <!--</li>-->
-                                    <!--<li>-->
-                                        <!--<a href="#">事故记录</a>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-                        <!--</ul>-->
+                    <li th:if="*{role eq 'role2' || role eq 'superAdmin'}" >
+                        <a th:href="@{/truck/toList}"><i class="fa fa-sitemap"></i> 车辆管理</span></a>
                     </li>
 
                     <li th:if="*{role eq 'role2' || role eq 'superAdmin'} ">
                         <a th:href="@{/driver/toList}"><i class="fa fa-sitemap"></i> 司机管理</span></a>
-                        <!--<ul class="nav nav-second-level">-->
-                            <!--<li>-->
-                                <!--<a th:href="@{/driver/toList}">司机信息</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">排班管理<span class="fa arrow"></span></a>-->
-                                <!--<ul class="nav nav-third-level">-->
-                                    <!--<li>-->
-                                        <!--<a href="#">司机排班</a>-->
-                                    <!--</li>-->
-                                    <!--<li>-->
-                                        <!--<a href="#">班次设置</a>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-                        <!--</ul>-->
                     </li>
 
-                    <li th:if="*{role eq 'role2' || role eq 'superAdmin'}" >
-                        <a href="#"><i class="fa fa-sitemap"></i> 违章管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a th:href="@{/peccancy/toList}">违章记录</a>
-                            </li>
-                            <li>
-                                <a href="#">事故记录</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <!--<li th:if="*{role eq 'role2' || role eq 'superAdmin'}" >-->
+                        <!--<a href="#"><i class="fa fa-sitemap"></i> 违章管理<span class="fa arrow"></span></a>-->
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li>-->
+                                <!--<a th:href="@{/peccancy/toList}">违章记录</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="#">统计分析</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 </ul>
 
             </div>

@@ -1,11 +1,12 @@
 package com.example.vehicle_scheduling_management.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by 叶俊锋 on 2018/4/10.
  */
-public class PeccancyRecordPO {
+public class PeccancyRecordPO implements Serializable{
     private int id;
     private int truckItemId;
     private String plateNumber;

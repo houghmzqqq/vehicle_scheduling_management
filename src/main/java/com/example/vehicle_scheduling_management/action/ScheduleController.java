@@ -76,11 +76,29 @@ public class ScheduleController {
         return "/schedule/schedule-add";
     }
 
+    /**
+     * @Author: yjf
+     * @Description: 跳转到批量生成调度申请页面
+     * @Param: null
+     * @Return: String
+     * @Date: 21:20 2018/5/22
+     */
     @RequestMapping("/toApply2")
     public String yjscSche(){
-
-
         return "/schedule/gaode-map2";
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 一键生成调度申请
+     * @Param: null
+     * @Return: null
+     * @Date: 21:21 2018/5/22
+     */
+    @RequestMapping("/yjsq")
+    @ResponseBody
+    public String yjsq(){
+        return scheduleService.createSchedule();
     }
 
     @RequestMapping("/getPois")

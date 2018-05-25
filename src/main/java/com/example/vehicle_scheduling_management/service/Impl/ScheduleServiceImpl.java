@@ -5,6 +5,7 @@ import com.example.vehicle_scheduling_management.exception.NoTruckItemFindExcept
 import com.example.vehicle_scheduling_management.mapper.*;
 import com.example.vehicle_scheduling_management.pojo.*;
 import com.example.vehicle_scheduling_management.service.ScheduleService;
+import com.example.vehicle_scheduling_management.thread.OrdersPathThread;
 import com.example.vehicle_scheduling_management.util.DateFormatUtil;
 import com.example.vehicle_scheduling_management.util.DivideUtil;
 import com.example.vehicle_scheduling_management.util.MapUtil;
@@ -19,10 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @Author: yjf
@@ -112,7 +113,90 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     }
 
-    
+    @Override
+    public String createSchedule() {
+        int count = 0;
+        int syCount = 0;
+        //1.获取所有带配送的订单
+        List<OrdersPO> ordersPOS = ordersMapper.queryByTypes(0);
+
+        //2.获取所有空闲车辆，按载重分好组
+        Map<String,List<TruckPO>> map = new Hashtable<>();
+        List<TruckPO> truckPOS = new LinkedList<>(truckMapper.queryByStatus(0));
+
+        //3.获取所有空闲司机
+        List<DriverPO> driverPOS = new LinkedList<>(driverMapper.queryByStatus("4"));
+
+        //4.遍历订单
+        int truckIdx = 0;
+        for(OrdersPO ordersPO : ordersPOS){
+            int truckId = -1;
+            int driverId = -1;
+            float weight = ordersPO.getWeight();
+
+            float tempKey = -1.0f; //最终使用的车辆载重量
+            //遍历map中的key值，key值为货车的载重
+            for(Map.Entry<String,List<TruckPO>> entry : map.entrySet()){
+                if(map.size() == 0){
+                    break;
+                }
+                float keyf = Float.parseFloat(entry.getKey());
+                //货车载重大于货物重量
+                if(keyf>=weight){
+                    //该载重的货车处于空闲状态的数量为0
+                    if(entry.getValue() == null  ||  entry.getValue().size() == 0){
+                        continue;
+                    }else if(tempKey != -1.0f && keyf<tempKey){
+                        tempKey = keyf;
+//                        truckId = entry.getValue().remove(0).getId();
+                    }else if(tempKey == -1.0f){
+                        tempKey = keyf;
+                    }
+                }
+            }
+
+            while(truckIdx<truckPOS.size()){
+                TruckPO truckPO = truckPOS.get(truckIdx);
+                truckIdx++;
+                float loads = truckPO.getLoads();
+                String strLoads = String.valueOf(loads);
+
+                if(loads<weight){
+                    if(!map.containsKey(strLoads)  ||  map.get(strLoads) == null){
+                        List<TruckPO> truckPOS1 = new ArrayList<>();
+                        map.put(strLoads,truckPOS1);
+                    }
+                    map.get(strLoads).add(truckPO);
+                }else{
+                    truckId = truckPO.getId();
+                    break;
+                }
+            }
+
+            if(driverPOS.size()!=0){
+                driverId = driverPOS.remove(0).getId();
+                if(truckId == -1 && tempKey!=-1.0f){
+                    truckId = map.get(String.valueOf(tempKey)).remove(0).getId();
+                }
+
+                if(truckId != -1){
+//                    createSchedule(driverId,truckId,ordersPO.getId());
+                    count++;
+                    System.out.println("driverId=" + driverId + ",truckId=" + truckId + ",orderId=" + ordersPO.getId());
+                }
+            }
+
+        }
+
+        syCount = ordersPOS.size()-count;
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("count",count);
+        jsonObject.accumulate("syCount",syCount);
+
+        return jsonObject.toString();
+    }
+
 
     @Override
     @Transactional
@@ -367,22 +451,27 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public String getOrdersPath() throws Exception {
-        String pois = getOrdersEndPoi();
         List<String> paths = new LinkedList<>();
-        JSONArray jsonArray = JSONArray.fromObject(pois);
 
         List<OrdersPO> ordersPOS = ordersMapper.queryByTypes(0);
+
+        //打开线程池
+        ExecutorService exec = Executors.newCachedThreadPool();
 
         for(OrdersPO ordersPO : ordersPOS){
             StringBuilder sb = new StringBuilder();
             sb.append(ordersPO.getProvince()).append(ordersPO.getCity())
                     .append(ordersPO.getDetailedAddress());
-//            String latAndLon = MapUtil.getLocation(sb.toString());
-            String drivingPath = MapUtil.getDrivingPath(MapUtil.getLocation(sb.toString()));
-            JSONObject pathJson = JSONObject.fromObject(drivingPath);
-            pathJson.accumulate("endPlace",sb.toString());
-            paths.add(pathJson.toString());
+
+            //创建一个线程获取路径信息
+            Future<String> rel = exec.submit(new OrdersPathThread(sb.toString()));
+            String pathJson = rel.get();
+
+            paths.add(pathJson);
         }
+        //关闭线程池
+        exec.shutdown();
+
         JSONArray pathsJson = JSONArray.fromObject(paths);
         return pathsJson.toString();
     }

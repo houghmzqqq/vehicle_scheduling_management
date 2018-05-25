@@ -14,13 +14,13 @@ public class RoleConfig {
     private RoleModel model1 = new RoleModel("调度管理", Arrays.asList(
             "/schedule/toApply","/schedule/toAdd","/schedule/getTruckInfo",
             "/schedule/getDriverInfo","/schedule/create","/schedule/toHistory",
-            "/schedule/toRecordList","/schedule/submitSche","/schedule/toShList",
-            "/schedule/shSche","/schedule/shCheck","/schedule/getSteps",
+            "/schedule/toRecordList","/schedule/submitSche","/schedule/getSteps",
             "/schedule/getLsgjList","/schedule/toApply2","/schedule/getPois",
-            "/schedule/getOrdersPath"));
+            "/schedule/getOrdersPath","/schedule/yjsq"));
     private RoleModel model2 = new RoleModel("司机管理", Arrays.asList(
             "/driver/toList","/driver/toEdit","/driver/updateDriver"
-            ,"/driver/delete","/driver/toAdd","/driver/addDriver"));
+            ,"/driver/delete","/driver/toAdd","/driver/addDriver",
+            "/schedule/toShList", "/schedule/shSche","/schedule/shCheck"));
     private RoleModel model3 = new RoleModel("车辆管理", Arrays.asList(
             "/truck/toList","/truck/toEdit","/truck/updateTruck"
             ,"/truck/delete","/truck/toAdd","/truck/addTruck"));

@@ -35,7 +35,7 @@
     </select>
     
     <select id="queryByFilter" resultType="OrdersPO">
-        select * from orders where #{filter}
+        select * from orders
     </select>
 
     <select id="queryByTypes" resultType="OrdersPO">

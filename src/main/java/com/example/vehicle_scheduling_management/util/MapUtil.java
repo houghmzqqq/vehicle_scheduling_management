@@ -16,9 +16,23 @@ import java.util.List;
  */
 public class MapUtil {
 
+    private static ThreadLocal<UrlTool> urlLocal = new ThreadLocal<UrlTool>(){
+        @Override
+        protected UrlTool initialValue() {
+            return new UrlTool();
+        }
+    };
+
     private static UrlTool urlTool;
     public static final String COMPANY_LOCATION = "惠州市惠城区江北东江二路1号富力·丽港中心";
 
+    //通过ThreadLocal获取UrlTool
+    public static UrlTool getUrlTool(){
+        if(urlLocal.get() == null){
+            urlLocal.set(new UrlTool());
+        }
+        return urlLocal.get();
+    }
 
     /**
      * @Author: yjf
@@ -27,10 +41,13 @@ public class MapUtil {
      * @Return: String
      * @Date: 10:40 2018/4/23
      */
-    public synchronized static String getLocation(String keyWords) throws Exception {
+    public static String getLocation(String keyWords) throws Exception {
         String location = "";
-        urlTool = new UrlTool("http://restapi.amap.com/v3/geocode/geo?" +
+        urlTool = getUrlTool();
+        urlTool.set_url("http://restapi.amap.com/v3/geocode/geo?" +
                 "key=a5adf042b0fb331d06dacd542469c1c8&address=" + keyWords);
+//        urlTool = new UrlTool("http://restapi.amap.com/v3/geocode/geo?" +
+//                "key=a5adf042b0fb331d06dacd542469c1c8&address=" + keyWords);
         String msg = urlTool.getResponseMsg();
 
         JSONObject jsonObject = JSONObject.fromObject(msg);
@@ -48,12 +65,15 @@ public class MapUtil {
      * @Return: String
      * @Date: 11:05 2018/5/7
      */
-    public synchronized static String getDirection(String origin, String destination){
+    public static String getDirection(String origin, String destination){
         try {
             String originLoca = getLocation(origin);
             String destinLoca = getLocation(destination);
-            urlTool = new UrlTool("http://restapi.amap.com/v3/direction/driving?key=a5adf042b0fb331d06dacd542469c1c8&" +
+            urlTool = getUrlTool();
+            urlTool.set_url("http://restapi.amap.com/v3/direction/driving?key=a5adf042b0fb331d06dacd542469c1c8&" +
                     "origin=" + originLoca + "&destination=" + destinLoca);
+//            urlTool = new UrlTool("http://restapi.amap.com/v3/direction/driving?key=a5adf042b0fb331d06dacd542469c1c8&" +
+//                    "origin=" + originLoca + "&destination=" + destinLoca);
             String msg = urlTool.getResponseMsg();
 
             JSONObject res = JSONObject.fromObject(msg);
@@ -78,9 +98,12 @@ public class MapUtil {
      * @Return: String
      * @Date: 9:24 2018/5/21
      */
-    public synchronized static String getDrivingPath(String orgin,String destination) throws Exception {
-        urlTool = new UrlTool("http://restapi.amap.com/v3/direction/driving?key=a5adf042b0fb331d06dacd542469c1c8&" +
+    public static String getDrivingPath(String orgin,String destination) throws Exception {
+        urlTool = getUrlTool();
+        urlTool.set_url("http://restapi.amap.com/v3/direction/driving?key=a5adf042b0fb331d06dacd542469c1c8&" +
                 "origin=" + orgin + "&destination=" + destination);
+//        urlTool = new UrlTool("http://restapi.amap.com/v3/direction/driving?key=a5adf042b0fb331d06dacd542469c1c8&" +
+//                "origin=" + orgin + "&destination=" + destination);
         String msg = urlTool.getResponseMsg();
 
         JSONObject res = JSONObject.fromObject(msg);
@@ -121,7 +144,7 @@ public class MapUtil {
      * @Return: String
      * @Date: 9:46 2018/5/21
      */
-    public synchronized static String getDrivingPath(String destination) throws Exception {
+    public static String getDrivingPath(String destination) throws Exception {
         return getDrivingPath(getLocation(COMPANY_LOCATION),destination);
     }
 
@@ -132,7 +155,7 @@ public class MapUtil {
      * @Return: String
      * @Date: 11:05 2018/5/7
      */
-    public synchronized static String getDirection(String destination){
+    public static String getDirection(String destination){
         return getDirection(COMPANY_LOCATION,destination);
     }
 }

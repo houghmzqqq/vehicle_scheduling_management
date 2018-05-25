@@ -1,9 +1,11 @@
 package com.example.vehicle_scheduling_management.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by 叶俊锋 on 2018/4/10.
  */
-public class TruckItemPO {
+public class TruckItemPO implements Serializable{
     private int id;
     private int scheduleId;
     private int truckId;

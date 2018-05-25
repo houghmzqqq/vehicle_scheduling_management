@@ -1,9 +1,11 @@
 package com.example.vehicle_scheduling_management.pojo;
 
+import java.io.Serializable;
+
 /**
  * 用户信息类
  */
-public class UserInfo {
+public class UserInfo implements Serializable{
     private int id;
     private String username;
     private String password;

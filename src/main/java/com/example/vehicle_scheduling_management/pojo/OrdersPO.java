@@ -1,5 +1,6 @@
 package com.example.vehicle_scheduling_management.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @Date: create in 17:28 2018/4/21
  * @modified by:
  */
-public class OrdersPO {
+public class OrdersPO implements Serializable{
 
     private int id;
     private String company;

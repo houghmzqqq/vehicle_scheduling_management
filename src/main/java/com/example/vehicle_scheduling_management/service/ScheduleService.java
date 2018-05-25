@@ -23,6 +23,15 @@ public interface ScheduleService {
      */
     void createSchedule(int driverId,int truckId,int orderId);
 
+    /**
+     * @Author: yjf
+     * @Description: 批量生成调度申请
+     * @Param: null
+     * @Return: String
+     * @Date: 16:06 2018/5/22
+     */
+    String createSchedule();
+
     String getLocalPosition();
 
     /**

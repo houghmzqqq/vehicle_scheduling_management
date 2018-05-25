@@ -33,7 +33,7 @@
     </select>
 
     <select id="queryByStatus" resultType="TruckPO">
-        select * from truck where status=#{status}
+        select * from truck where status=#{status} order by loads
     </select>
 
     <select id="queryByDivide" resultMap="BaseResultMap">

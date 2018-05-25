@@ -80,10 +80,10 @@
         </div>
         <div class="panel-body" id="toolBtn">
             <button class="btn" onclick="checkPaths()">查看路径</button>
-            <button class="btn">一键配载</button>
+            <button class="btn" onclick="yjpz()">一键配载</button>
         </div>
 
-        <div class="panel-body" id="map-window" style="height: 600px;">
+        <div class="panel-body" id="map-window" style="height: 800px;">
 
 
         </div>
@@ -269,6 +269,11 @@
         });
     }
 
+    function yjpz(){
+        $.getJSON("/schedule/yjsq",function(rel){
+           alert("生成"+rel.count+"个调度申请，剩余"+rel.syCount+"个订单。");
+        });
+    }
 </script>
 <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 

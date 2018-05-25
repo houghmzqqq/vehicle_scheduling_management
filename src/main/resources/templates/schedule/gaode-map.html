@@ -79,10 +79,10 @@
                                         <th>操作</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="orderTbody">
                                     <tr name="ordData"
-                                        th:onclick="'javascript:selectOne(\''+${order.detailedAddress}+'\',\''+${order.city}+'\');'"
-                                        class="odd gradeX" data-th-each="order : ${orders}">
+                                        th:onclick="'javascript:selectOne(\''+${order.detailedAddress}+'\',\''+${order.city}+'\',\'' + ${order.id} + '\');'"
+                                        class="odd gradeX" th:id="tr + ${order.id}" data-th-each="order : ${orders}">
                                         <td data-th-text="${order.company}"></td>
                                         <td data-th-text="${order.name}"></td>
                                         <td data-th-text="${order.weight}"></td>
@@ -190,7 +190,10 @@
     //
     //    });
 
-    function selectOne(address, city) {
+    function selectOne(address, city,idx) {
+        $("#orderTbody tr").css("background-color","");
+        $("[id=tr"+idx+"]").css("background-color","rgb(38, 135, 192)");
+
         driving.search([
             {keyword: '惠州市火车南站', city: '惠州'},
             {keyword: address, city: city}

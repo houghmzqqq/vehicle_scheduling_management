@@ -1,12 +1,19 @@
 package com.example.vehicle_scheduling_management.service;
 
+import com.example.vehicle_scheduling_management.mapper.TruckScheduleMapper;
+import com.example.vehicle_scheduling_management.pojo.OrdersPO;
+import com.example.vehicle_scheduling_management.pojo.TruckSchedulePO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Author: yjf
@@ -27,6 +34,8 @@ TruckScheduleTest {
 
     @Autowired
     private ScheduleService service;
+    @Autowired
+    private TruckScheduleMapper scheduleMapper;
 
     @Test
     public void createTest(){
@@ -51,5 +60,25 @@ TruckScheduleTest {
     @Test
     public void test05() throws Exception {
         System.out.println(service.getOrdersPath());
+    }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void test06(){
+        service.createSchedule();
+    }
+
+    /**
+     * @Author: yjf
+     * @Description: 将测试数据写到文件中
+     * @Param: null
+     * @Return: null
+     * @Date: 20:35 2018/5/22
+     */
+    @Test
+    public void test07(){
+        List<TruckSchedulePO> ordersPOS = scheduleMapper.queryByDivide(1,50);
+
     }
 }
